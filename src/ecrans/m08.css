@@ -1,0 +1,229 @@
+/* M08 : mesures, chronologie, comparaison, photos. 1 px Flutter = 1 px CSS. */
+.m08-aide { font-size: 13px; line-height: 1.5; color: var(--text2); }
+/* Mesures : 14 px sous l'en-tête, 18 avant le rappel, 24 avant les lignes (measures_screen.dart). */
+.m08-mesures .m08-intervalle { margin-top: 4px; }
+.m08-mesures .m08-liste-mesures { margin-top: 10px; }
+
+/* Rappel de mesure */
+.m08-rappel { display: grid; gap: 12px; background: var(--raised); border-radius: var(--r-card); padding: 16px; }
+.m08-rappel-tete { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.m08-rappel-tete .kicker { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 1.3px; color: var(--text3); }
+.m08-due { color: var(--accent); font-size: 12px; font-weight: 600; }
+.m08-reste { color: var(--text3); font-size: 12px; font-weight: 600; }
+
+/* Rangée de segments en pilule (_intervalTab, _modeToggle) : pastille de 36 px, zone tactile de 44 px. */
+.m08-segments { display: flex; padding: 4px; border-radius: 100px; background: var(--raised); }
+.m08-segments button { position: relative; isolation: isolate; flex: 1; min-width: 0; height: 44px; margin: -4px 0; padding: 0 6px; container-type: inline-size; display: flex; align-items: center; justify-content: center; gap: 7px;
+  background: transparent; font-size: 13px; font-weight: 600; color: var(--text2); white-space: nowrap; transition: color 180ms var(--ease-out); }
+.m08-segments button::before { content: ""; position: absolute; inset: 4px 0; z-index: -1; border-radius: 100px; background: transparent; transition: background-color 180ms var(--ease-out); }
+.m08-segments button.actif { color: var(--on-ember); }
+.m08-segments button.actif::before { background: var(--ember); }
+/* Libellé trop long (« Personnalisé ») : rétréci pour tenir sur une ligne. */
+.m08-segments button span { font-size: min(13px, calc(100cqi / (var(--n, 1) * .58))); }
+.m08-mode { border: 1px solid var(--border); margin-bottom: 4px; }
+.m08-mode button { margin: -2px 0; }
+.m08-mode button::before { inset: 2px 0; }
+.m08-onglets { display: flex; gap: 6px; }
+.m08-onglets button { flex: 1; min-height: 44px; border-radius: 12px; background: var(--raised2); font-weight: 800; font-size: 14px; color: var(--text2); transition: color 180ms var(--ease-out), background-color 180ms var(--ease-out); }
+.m08-onglets button.actif { background: var(--accent-soft); color: var(--accent); }
+
+/* Liste des dix mesures */
+.m08-liste-mesures { display: grid; gap: 12px; }
+.m08-carte-mesure { width: 100%; display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 16px; background: var(--raised); border: 1px solid var(--border); text-align: left; transition: border-color 180ms var(--ease-out), transform 180ms var(--ease-out); }
+.m08-carte-mesure:active { transform: scale(.985); }
+.m08-carte-texte { flex: 1; min-width: 0; display: grid; gap: 6px; }
+.m08-carte-titre { font-size: 12px; font-weight: 600; letter-spacing: 1px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.m08-carte-valeur { display: flex; align-items: baseline; gap: 4px; line-height: 1.05; }
+.m08-carte-valeur strong { font-size: 26px; font-weight: 700; }
+.m08-carte-valeur small { font-size: 13px; font-weight: 600; color: var(--text2); }
+.m08-carte-valeur em { font-style: normal; font-size: 12.5px; font-weight: 600; margin-left: 6px; }
+.m08-carte-valeur em.haut { color: var(--sage); }
+.m08-carte-valeur em.bas { color: var(--accent); }
+.m08-carte-vide { font-size: 14px; font-weight: 400; color: var(--text3); }
+.m08-carte-plus { color: var(--text3); }
+.m08-etincelle { flex: none; }
+
+/* Lecture de la règle */
+.m08-lecture { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
+.m08-lecture strong { font-size: 54px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; }
+.m08-lecture small { font-size: 18px; font-weight: 700; color: var(--text2); }
+
+/* Règle graduée : trait de 11 px, scroll-snap magnétique */
+.m08-regle-boite { position: relative; height: 88px; overflow: hidden; margin: 0 -4px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.m08-curseur { position: absolute; top: 28px; bottom: 6px; left: 50%; width: 2px; transform: translateX(-50%); background: var(--accent); border-radius: 2px; z-index: 2; pointer-events: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+.m08-regle { position: absolute; inset: 0; display: flex; align-items: flex-end; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; scroll-snap-type: x mandatory; outline: none; }
+.m08-regle::-webkit-scrollbar { display: none; }
+.m08-trait { flex: none; width: 11px; height: 100%; position: relative; scroll-snap-align: center; }
+.m08-trait::before { content: ""; position: absolute; left: 50%; bottom: 10px; width: 1.5px; height: 34px; transform: translateX(-50%); background: var(--border); border-radius: 2px; }
+.m08-trait.demi::before { height: 42px; background: color-mix(in srgb, var(--text3) 45%, transparent); }
+.m08-trait.maj::before { height: 48px; width: 2px; background: var(--text3); }
+.m08-trait em { position: absolute; bottom: 56px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--text3); white-space: nowrap; }
+
+/* Historique dans la feuille */
+.m08-historique { display: grid; gap: 10px; }
+.m08-historique-liste { display: grid; gap: 4px; }
+.m08-historique-liste li { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 6px 0 12px; border-radius: 14px; background: var(--raised2); font-size: 13.5px; }
+.m08-historique-liste span { flex: 1; color: var(--text2); min-width: 0; }
+.m08-historique-liste strong { font-size: 14.5px; }
+.m08-suppr { width: 44px; height: 44px; flex: none; border-radius: 50%; display: grid; place-items: center; color: var(--danger); background: transparent; }
+.m08-suppr .ic { box-sizing: content-box; padding: 8px; border-radius: 50%; border: 1px solid var(--border); }
+
+/* Statistiques des photos */
+.m08-stats { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 8px; }
+.m08-stats div { display: grid; gap: 2px; }
+.m08-stats strong { font-size: 20px; font-weight: 800; }
+.m08-stats small { font-size: 11px; font-weight: 600; color: var(--text2); }
+
+/* Grilles et tuiles de photos */
+.m08-grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.m08-grille.carres { gap: 10px; }
+.m08-tuile { position: relative; aspect-ratio: .74; border-radius: 14px; overflow: hidden; background: var(--raised); border: 1px solid var(--border); padding: 0; display: block; }
+.m08-tuile.carree { aspect-ratio: 1; border-radius: 16px; }
+.m08-tuile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m08-tuile.choisie { box-shadow: 0 0 0 2px var(--accent); border-color: var(--accent); }
+.m08-tuile-date { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 10px 7px; background: linear-gradient(transparent, rgba(0, 0, 0, .45)); color: #fff; font-size: 10.5px; font-weight: 600; text-align: left; }
+.m08-coche { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; color: var(--on-ember); background: rgba(255, 255, 255, .25); border: 1px solid rgba(255, 255, 255, .5); }
+.m08-tuile.choisie .m08-coche { background: var(--ember); border-color: var(--ember); }
+
+/* Groupement par date */
+.m08-groupe { display: grid; gap: 10px; }
+.m08-groupe-titre { font-size: 12px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; color: var(--text3); }
+
+/* Visionneuse plein écran */
+.m08-visionneuse { position: fixed; inset: 0; z-index: 60; background: rgba(10, 10, 12, .92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; animation: voile 200ms var(--ease-out) both; }
+.m08-visionneuse img { max-width: 100%; max-height: 72dvh; border-radius: 18px; }
+.m08-visionneuse p { color: #fff; font-size: 13.5px; font-weight: 600; }
+.m08-visionneuse-fermer { position: absolute; top: calc(var(--safe-t) + 14px); right: 20px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255, 255, 255, .14); color: #fff; display: grid; place-items: center; }
+
+/* Lignes de choix de source */
+.m08-option { width: 100%; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 16px; font-size: 15px; font-weight: 700; color: var(--text); }
+.m08-option .ic { color: var(--accent); }
+
+/* Chronologie, bande de comparaison */
+.m08-hero { display: grid; gap: 12px; }
+.m08-hero-tete { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.m08-hero-tete .kicker { margin: 0; }
+
+/* Chronologie, état vide (_empty, _bodyEmpty) */
+.m08-vide { display: grid; justify-items: center; text-align: center; padding: 26px 22px; border-radius: 22px; background: var(--raised); border: 1px solid var(--border); }
+.m08-vide > .ic { color: var(--text3); margin-bottom: 16px; }
+.m08-fantomes { display: flex; gap: 10px; margin-bottom: 20px; }
+.m08-fantomes span { width: 56px; height: 72px; display: grid; place-items: center; border-radius: 12px; background: var(--raised2); border: 1px solid var(--border); color: var(--text3); }
+.m08-vide-titre { font-size: 18px; font-weight: 700; line-height: 1.25; color: var(--text); margin-bottom: 8px; }
+.m08-vide-texte { font-size: 13px; line-height: 1.5; color: var(--text2); }
+.m08-vide + .m08-intervalle, .m08-bandeau + .m08-intervalle { margin-top: 6px; }
+.m08-fil-photos { margin-top: 10px; }
+
+/* Chronologie, bandeau de comparaison (_heroBand) */
+.m08-bandeau { display: grid; gap: 14px; padding: 16px; border-radius: 22px; background: var(--raised); border: 1px solid var(--border); color: var(--text); }
+.m08-bandeau-seul { display: flex; align-items: center; gap: 16px; padding: 18px; }
+.m08-bandeau-photos { display: flex; align-items: center; }
+.m08-bandeau-photos .m08-vignette { flex: 1; height: 150px; }
+.m08-bandeau-photos > .ic { margin: 0 10px; color: var(--accent); flex: none; }
+.m08-vignette { display: block; flex: none; border-radius: 14px; overflow: hidden; background: var(--raised2); border: 1px solid var(--border); }
+.m08-vignette img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m08-bandeau-bas { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.m08-bandeau-bas strong { font-size: 15px; font-weight: 700; }
+.m08-pilule { display: inline-flex; align-items: center; min-height: 32px; padding: 0 14px; border-radius: 100px; background: var(--ember); color: var(--on-ember); font-size: 12px; font-weight: 700; }
+
+/* Chronologie, journées (_entryRow, _poseTile) */
+.m08-jour-tete { display: flex; align-items: center; gap: 10px; min-height: 22px; }
+.m08-jour-date { font-size: 14px; font-weight: 700; color: var(--text); }
+.m08-jour-num { flex: 1; font-size: 11.5px; font-weight: 600; color: var(--text3); }
+.m08-jour-suppr { width: 44px; height: 44px; margin: -11px -14px -11px 0; display: grid; place-items: center; color: var(--text3); }
+.m08-pose-grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.m08-pose-tuile { position: relative; aspect-ratio: .78; }
+.m08-pose-vide { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border-radius: 14px; background: var(--raised2); border: 1px solid var(--border); color: var(--text3); font-size: 10.5px; font-weight: 600; }
+.m08-pose-voir { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border-radius: 14px; overflow: hidden; background: var(--raised2); border: 1px solid var(--border); }
+.m08-pose-tuile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m08-pose-nom { position: absolute; left: 0; right: 0; bottom: 0; padding: 4px 0; background: rgba(0, 0, 0, .6); color: #fff; font-size: 10px; font-weight: 600; text-align: center; }
+
+/* Chronologie, bouton fixe du bas et feuille des poses */
+.ecran.m08-avec-pied { min-height: 100dvh; display: flex; flex-direction: column; padding-bottom: 0; }
+.m08-pied { position: sticky; bottom: 0; z-index: 5; margin: auto -20px 0; padding: 4px 20px calc(20px + var(--safe-b)); background: linear-gradient(transparent, var(--bg) 12px); }
+.m08-pied .btn { width: 100%; min-height: 52px; gap: 8px; font-size: 15.5px; font-weight: 700; letter-spacing: .2px; }
+.m08-choix-poses { display: grid; gap: 10px; }
+.m08-choix-pose { width: 100%; display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 16px; background: var(--raised2); border: 1px solid var(--border); font-size: 14px; font-weight: 600; color: var(--text); text-align: left; }
+.m08-choix-pose .ic { color: var(--text2); }
+.m08-pose-retirer { position: absolute; top: 0; right: 0; width: 44px; height: 44px; display: grid; place-items: center; color: #fff; }
+.m08-pose-retirer::before { content: ""; position: absolute; width: 24px; height: 24px; border-radius: 50%; background: rgba(0, 0, 0, .55); }
+.m08-pose-retirer .ic { position: relative; }
+
+/* Chronologie, carte musculaire par fenêtre */
+.m08-fenetres { display: grid; gap: 16px; }
+.m08-aide-corps { font-size: 12.5px; font-weight: 500; line-height: 1.4; color: var(--text3); }
+.m08-fenetres .m08-legende { margin-top: 2px; }
+.m08-fenetres .m08-fil { margin-top: 6px; }
+.m08-intervalle { display: grid; gap: 10px; }
+.m08-saisie-jours { width: 100%; text-align: center; font-size: 28px; font-weight: 800; min-height: 64px; }
+.m08-legende { display: flex; align-items: center; gap: 8px; width: 100%; font-size: 10.5px; font-weight: 600; color: var(--text3); }
+.m08-legende-paliers { flex: 1; display: flex; gap: 3px; }
+.m08-legende-paliers i { flex: 1; height: 6px; border-radius: 2px; }
+.m08-fil { display: grid; gap: 0; }
+.m08-fil-ligne { display: grid; grid-template-columns: 34px minmax(0, 1fr); }
+.m08-rail { display: flex; flex-direction: column; align-items: center; }
+.m08-rail-point { width: 11px; height: 11px; margin-top: 5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); flex: none; }
+.m08-rail-tirets { flex: 1; width: 2px; margin: 4px 0; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--border) 45%, var(--accent)) 0 4px, transparent 4px 9px); }
+.m08-rail em { font-style: normal; font-size: 9.5px; font-weight: 700; color: var(--text3); }
+.m08-fenetre { display: grid; gap: 10px; padding-bottom: 22px; }
+.m08-fil-ligne:last-child .m08-fenetre { padding-bottom: 0; }
+.m08-fenetre-tete { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.m08-fenetre-tete .kicker { margin: 0; }
+.m08-fenetre-nb { font-size: 11.5px; font-weight: 600; color: var(--text3); }
+.m08-fenetre-carte { display: grid; justify-items: center; padding: 12px; border-radius: 16px; }
+.m08 .pilule-lien { min-height: 44px; }
+
+/* Comparer */
+.m08-dates { display: flex; gap: 8px; overflow-x: auto; padding: 2px; scrollbar-width: none; -ms-overflow-style: none; }
+.m08-dates::-webkit-scrollbar { display: none; }
+.m08-dates button { flex: none; min-height: 44px; padding: 0 16px; border-radius: 100px; background: var(--raised); border: 1px solid var(--border); font-size: 13.5px; font-weight: 800; color: var(--text2); }
+.m08-dates button.actif { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.m08-ecart-poids { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text2); }
+.m08-ecart-poids strong { font-size: 15px; color: var(--text); }
+.m08-comparer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.m08-photo-carte { position: relative; aspect-ratio: .78; border-radius: 16px; overflow: hidden; background: var(--raised); border: 1px solid var(--border); }
+.m08-photo-carte img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m08-photo-nom { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 999px; background: rgba(0, 0, 0, .5); color: #fff; font-size: 11px; font-weight: 700; }
+.m08-photo-date { position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 10px 8px; background: linear-gradient(transparent, rgba(0, 0, 0, .55)); color: #fff; font-size: 11.5px; font-weight: 700; }
+.m08-zoom { display: grid; gap: 10px; }
+.m08-zoom .m08-photo-carte { aspect-ratio: auto; max-height: 70dvh; }
+.m08-zoom .m08-photo-carte img { object-fit: contain; }
+
+@keyframes voile { from { opacity: 0; } to { opacity: 1; } }
+
+/* Photos libres (moments_screen.dart) : statistiques à gauche en 26 px, tuiles groupées rayon 20, sélection à 0,9. */
+.m08-moments .m08-stats.carte { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: left; padding: 18px 18px 16px; border-radius: 24px; }
+.m08-moments .m08-stats strong { font-size: 26px; font-weight: 800; }
+.m08-moments .m08-stats small { font-size: 9.5px; font-weight: 700; letter-spacing: 1.1px; text-transform: uppercase; color: var(--text3); }
+.m08-moments .m08-tuile { transition: transform 160ms var(--ease-out); -webkit-touch-callout: none; user-select: none; }
+.m08-moments .m08-tuile.choisie { transform: scale(.9); box-shadow: none; border-color: var(--border); }
+.m08-moments .m08-tuile.carree { border-radius: 20px; }
+.m08-moments .m08-grille.carres { gap: 10px; }
+.m08-moments .m08-coche { border: 1.6px solid #fff; background: transparent; color: #000; }
+.m08-moments .m08-tuile.choisie .m08-coche { background: var(--accent); border-color: #fff; }
+.m08-moments .m08-tuile-date { padding: 5px; background: rgba(0, 0, 0, .45); text-align: center; }
+.m08-moments .m08-groupe-titre { font-size: 16px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--text); padding: 2px 6px 0; }
+.m08-vide { display: grid; justify-items: center; gap: 8px; text-align: center; padding: 48px 20px; color: var(--text2); }
+.m08-vide > .ic { color: var(--text3); }
+.m08-vide h2 { font-size: 16px; font-weight: 800; color: var(--text); }
+.m08-vide p { font-size: 13px; line-height: 1.45; max-width: 320px; }
+.m08-fantome { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; margin-top: 8px; padding: 0 20px; border-radius: 100px; background: var(--raised2); color: var(--text); font-size: 13.5px; font-weight: 700; }
+
+/* Comparer (compare_screen.dart) : deux clichés rayon 18 à 10 px d'écart, écart en 18 px, deux rangées de dates. */
+.cmp { display: flex; flex-direction: column; gap: 0; min-height: 100dvh; }
+.cmp-poses { display: flex; width: 100%; margin-top: 6px; }
+.cmp-poses button { flex: 1; min-height: 44px; border-radius: 100px; font-size: 13px; font-weight: 700; color: var(--text2); }
+.cmp-paire { flex: 1; min-height: 280px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.cmp-cliche { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+.cmp-cliche > span { text-align: center; font-size: 11.5px; font-weight: 600; color: var(--text2); }
+.cmp-cadre { flex: 1; min-height: 240px; border-radius: 18px; border: 1px solid var(--border); background: var(--raised2); overflow: hidden; display: grid; place-items: center; color: var(--text3); touch-action: none; }
+.cmp-cadre img { width: 100%; height: 100%; object-fit: cover; transform-origin: center; user-select: none; -webkit-user-drag: none; }
+.cmp-ecart { display: grid; gap: 2px; padding: 14px 0 6px; }
+.cmp-ecart strong { font-size: 18px; font-weight: 700; }
+.cmp-ecart span { font-size: 13px; font-weight: 600; color: var(--accent); }
+.cmp-ecart span.nul { color: var(--text2); }
+.cmp-dates { display: flex; gap: 8px; overflow-x: auto; padding: 4px 0; scrollbar-width: none; }
+.cmp-dates button { flex: none; min-height: 36px; padding: 0 14px; border-radius: 100px; background: var(--raised); color: var(--text3); font-size: 12px; font-weight: 700; position: relative; }
+.cmp-dates button::after { content: ''; position: absolute; inset: -4px 0; }
+.cmp-dates.de button.on { background: color-mix(in srgb, var(--text2) 18%, transparent); color: var(--text2); }
+.cmp-dates.a button.on { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }

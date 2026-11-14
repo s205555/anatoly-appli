@@ -1,0 +1,186 @@
+/* Tablette (768 à 1099 px) et ordinateur (≥ 1100 px). Rien ici n'agit sous 768 px : le téléphone reste la copie de l'original.
+   Mêmes jetons que l'appli (--raised, --r-card, --accent, --brass, --glass) : seules la largeur et la disposition changent. */
+
+.lat { display: none; }
+
+@media (min-width: 768px) {
+  :root { --col: 720px; --col-etroite: 680px; }
+  .ecran { padding-left: 32px; padding-right: 32px; }
+
+  /* Barre du bas gardée, à sa taille de téléphone */
+  .nav-in, .reprise { max-width: 400px; }
+  .toast { max-width: 520px; }
+  .dock { max-width: 560px; }
+
+  /* Feuilles : fenêtres centrées, plus de recul de l'écran derrière */
+  .voile { align-items: center; padding: 32px; }
+  .feuille { max-width: 560px; max-height: min(86dvh, 860px); border-radius: 28px; border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+    padding-bottom: 22px; box-shadow: 0 24px 60px rgba(0,0,0,.45); animation-name: fenetre; }
+  .feuille.pleine { max-height: min(92dvh, 960px); }
+  .feuille .poignee { display: none; }
+  .feuille-titre { margin-top: 8px; }
+  @keyframes fenetre { from { opacity: 0; transform: translateY(24px) scale(.97); } }
+  body.recul .vue, body.recul .vue .voile { transform: none; }
+  body.recul-fixe { background: var(--bg); }
+  body.recul-fixe .vue-in { border-radius: 0; box-shadow: none; }
+
+  /* Survol et focus clavier */
+  a, button, [role="button"], summary { transition-property: color, background-color, border-color, box-shadow, transform, opacity; }
+  :is(a, button, [role="button"], summary, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .feuille:focus-visible { outline: none; }
+}
+
+@media (min-width: 768px) and (hover: hover) {
+  .carte:is(a, button):hover, a.carte:hover { background: color-mix(in srgb, var(--raised) 88%, var(--text)); }
+  .btn:hover { filter: brightness(1.08); }
+  .nav-item:hover { color: var(--text); }
+  .section-tete .voir:hover { background: var(--raised2); }
+}
+
+/* Ordinateur : barre latérale fixe, contenu large */
+@media (min-width: 1100px) {
+  :root { --col: 1160px; --lat: 248px; }
+  .vue.a-lat { padding-left: var(--lat); }
+  .vue.a-lat .nav, .vue.a-lat .bandeau-bas { display: none; }
+  /* L37 : pilule calée sur le bord droit des cartes (plus à cheval sur deux colonnes), contenu dégagé dessous */
+  .vue.a-lat .reprise { left: auto; right: max(40px, calc((100vw - var(--lat) - var(--col)) / 2 + 40px)); width: 400px; margin: 0; bottom: 24px; }
+  .vue.a-lat .bandeau-replie { left: var(--lat); }
+  .vue.a-lat .ecran.avec-nav { padding-bottom: 64px; }
+  body.a-reprise .vue.a-lat .ecran { padding-bottom: 120px; }
+  /* Fenêtre assez haute : la pilule descend dans la barre latérale, au-dessus du lien Profil, et ne couvre plus le contenu */
+  @media (min-height: 760px) {
+    .vue.a-lat .reprise { z-index: 32; left: 16px; right: auto; width: calc(var(--lat) - 32px); bottom: 82px; display: grid; grid-template-columns: minmax(0, 1fr) 40px; gap: 0 10px; padding: 10px 10px 10px 14px; }
+    .vue.a-lat .reprise-temps { grid-column: 1; grid-row: 2; }
+    .vue.a-lat .reprise-play { grid-column: 2; grid-row: 1 / 3; }
+    body.a-reprise .vue.a-lat .ecran { padding-bottom: 64px; }
+    body.a-reprise .lat-liens { padding-bottom: 96px; }
+  }
+  .vue.a-lat .ecran { padding-left: 40px; padding-right: 40px; }
+  body.recul-fixe .vue.a-lat { padding-left: var(--lat); }
+
+  .lat { position: fixed; z-index: 31; top: 0; bottom: 0; left: 0; width: var(--lat); display: flex; flex-direction: column; gap: 6px; padding: 22px 16px 18px;
+    background: color-mix(in srgb, var(--raised) 55%, var(--bg)); border-right: 1px solid color-mix(in srgb, var(--border) 55%, transparent); overflow-y: auto; }
+  .lat-marque { font-size: 22px; font-weight: 800; letter-spacing: -.4px; padding: 6px 12px 14px; color: var(--text); }
+  .lat-play { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; border: 0; border-radius: 100px; cursor: pointer; margin-bottom: 14px;
+    font: inherit; font-size: 15px; font-weight: 800; color: var(--bg); background: linear-gradient(135deg, var(--accent), var(--brass));
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 35%, transparent); transition: transform 200ms var(--ease-back), filter 150ms; user-select: none; }
+  .lat-play:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .lat-play:active { transform: scale(.97); }
+  .lat-liens { display: grid; gap: 2px; }
+  .lat-lien { display: flex; align-items: center; gap: 14px; min-height: 46px; padding: 0 14px; border-radius: 14px; font-size: 15px; font-weight: 700; color: var(--text2); }
+  .lat-lien:hover { color: var(--text); background: color-mix(in srgb, var(--text) 6%, transparent); }
+  .lat-lien[aria-current="page"] { color: var(--text); background: color-mix(in srgb, var(--text) 11%, transparent); }
+  .lat-pied { margin-top: auto; padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--border) 55%, transparent); }
+}
+
+/* Accueil en tableau de bord : séance du jour, semaine et chiffres à gauche, activité à droite */
+@media (min-width: 1100px) {
+  .ecran.accueil { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 16px; /* L37 : gouttière de 16 px comme les rangées */
+    grid-template-areas: "tete tete" "hero act" "sem act" "stats act" "prog prog" "reco reco" "cls nut"; }
+  .accueil > * { margin-top: 0; min-width: 0; }
+  .accueil > .accueil-tete { grid-area: tete; }
+  .accueil > .hero-jour { grid-area: hero; }
+  .accueil > .semaine { grid-area: sem; }
+  .accueil > .section:has(.stats-semaine) { grid-area: stats; }
+  .accueil > .section:has(.carte-activite) { grid-area: act; align-content: start; }
+  .accueil > .section:has(.acc-dossiers) { grid-area: prog; }
+  .accueil > .section:has(.reco-liste) { grid-area: reco; }
+  .accueil > .classeurs:not(.large) { grid-area: cls; align-self: end; }
+  .accueil > .classeurs.large { grid-area: nut; align-self: end; }
+}
+@media (min-width: 1100px) { .accueil .acc-dossiers .rt-dossier { flex-basis: calc(33.333% - 8px); } }
+
+/* Grilles communes tablette et ordinateur */
+@media (min-width: 768px) {
+  .outils-grille { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .rt-grille { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .biblio .liste-ex { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Ordinateur : colonne de lecture confortable par défaut, pleine largeur pour les tableaux de bord et les listes */
+@media (min-width: 1100px) {
+  .ecran { max-width: 760px; }
+  .ecran:is(.accueil, .m04, .biblio, .hist-ecran, .outils-page, .rc-ecran) { max-width: var(--col); }
+  .ecran.rt-ecran { max-width: 960px; }
+  .biblio .liste-ex { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  /* Progrès et profil : cartes réparties sur deux colonnes */
+  /* L37 : une seule gouttière de 16 px (colonnes, rangées, tuiles du haut) pour que les bords tombent juste */
+  .ecran.m04 { display: block; columns: 2; column-gap: 16px; }
+  .ecran.m04 > * { break-inside: avoid; margin: 0 0 16px; }
+  .ecran.m04 > :is(.m04-tete, .m04-duo, .m04-tete + .l26-etapes) { column-span: all; }
+  .ecran.m04 > .m04-duo { gap: 16px; }
+  .pf { max-width: 1000px; }
+}
+
+/* Grilles de cartes à taille de téléphone : médailles, mensurations */
+@media (min-width: 768px) {
+  .rc-grille { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .m08-liste-mesures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .m08-liste-mesures > * { margin: 0; }
+  .pf-contenu { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .pf-contenu > * { margin: 0; min-width: 0; }
+  .pf-contenu > :is(.pf-bloc, :first-child) { grid-column: 1 / -1; }
+  /* Barre et bouton alignés sur la colonne de contenu (520 px) */
+  .onb-barre, .onb-pied { width: 100%; max-width: 520px; margin-inline: auto; padding-left: 0; padding-right: 0; }
+}
+
+@media (min-width: 1100px) {
+  .ecran.hist-ecran, .ecran.rc-ecran { max-width: 960px; }
+  /* Éléments fixes : centrés sur la zone de contenu, pas sur la fenêtre */
+  .vue.a-lat :is(.pf-tete, .stk-ecran) { left: var(--lat); }
+  .vue.a-lat .rt-edit-pied { left: var(--lat); max-width: 760px; padding: 0 40px; }
+  .stk-reglages, .stk-haut { max-width: 760px; }
+
+  /* Fiche exercice : illustration à gauche (suit le défilement), données à droite */
+  .ecran.fiche-ex { max-width: 1120px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 36px; }
+  .fiche-ex > * { grid-column: 2; }
+  .fiche-ex > .exo-actions { grid-column: 1 / -1; }
+  .fiche-ex > .exo-media { grid-column: 1; grid-row: 2 / span 40; position: sticky; top: 24px; align-self: start; }
+  .fiche-ex > .exo-media .cadre-art { height: auto; aspect-ratio: 1.1; }
+}
+
+/* Tablette tactile : cibles d'au moins 44 px */
+@media (min-width: 768px) and (pointer: coarse) {
+  .m11-cal-fleche, .exo-media-btn, .rc-rond { min-width: 44px; min-height: 44px; }
+}
+
+/* L35 : zones tactiles de l'éditeur de programme (les jours des plans de repas ont déjà 44 px par ::after) */
+@media (min-width: 768px) and (pointer: coarse) {
+  .rt-mini-pas button::after { inset: -10px; }
+}
+
+/* Entraîner, étape 1 : silhouette à gauche, titre, choix et « Continuer » à droite, tout visible sans défiler */
+@media (min-width: 1000px) {
+  .ecran:has(> .m07-etape > .m07-corps) { max-width: 1080px; }
+  .m07-etape:has(> .m07-corps) { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: 36px; align-content: start; }
+  .m07-etape:has(> .m07-corps) > * { grid-column: 2; }
+  .m07-etape > .m07-corps { grid-column: 1; grid-row: 1 / span 12; margin-top: 0; align-self: start; }
+  .m07-etape > .m07-corps .sil-corps { max-height: calc(100dvh - 150px); width: auto; max-width: 100%; margin-inline: auto; }
+  .m07-etape:has(> .m07-corps) > .m07-aide { text-align: left; }
+}
+
+/* Profil : pass vide à hauteur de la carte voisine, pile de photos centrée avec son bouton */
+@media (min-width: 768px) {
+  .pf-contenu .pf-pass-vide { aspect-ratio: auto; min-height: 188px; border: 1.5px dashed color-mix(in srgb, var(--text) 18%, transparent); border-radius: 22px; }
+  .pf-contenu .pf-pass-vide .pf-pointilles { display: none; }
+  .pf-photos { max-width: 354px; margin-inline: auto; }
+
+  /* États vides (Comparer, Préparation de repas) : centrés dans l'écran, sans grand vide dessous */
+  .ecran:has(> .gm-prep-vide) { min-height: 100dvh; grid-template-rows: auto auto 1fr; }
+  .ecran > .gm-prep-vide { align-self: center; justify-self: center; max-width: 440px; flex-direction: column; gap: 16px; padding: 32px 28px; text-align: center; margin-bottom: 10vh; }
+  .ecran > .gm-prep-vide p { font-size: 14px; }
+  .ecran.m08:has(> .m08-aide + a.btn:last-child) { min-height: 100dvh; grid-template-rows: auto 1fr auto 1fr; }
+  .ecran.m08 > .m08-aide:has(+ a.btn:last-child) { align-self: end; text-align: center; font-size: 15px; }
+  .ecran.m08 > .m08-aide + a.btn:last-child { justify-self: center; width: auto; min-width: 300px; padding-inline: 32px; align-self: start; }
+}
+
+/* L37 : tuiles Volume et Poids sans courbe (compte neuf) ramenées à leur contenu, sans bande vide réservée */
+@media (min-width: 768px) {
+  .m04-duo .l4-etincelle { display: none; }
+}
+
+/* L37 : profil ordinateur, bannière, avatar et nom sur la même largeur que les cartes (comme sur tablette) ;
+   pass et historique côte à côte de même hauteur */
+@media (min-width: 1100px) { .vue.a-lat .pf-tete-in { max-width: 1000px; } }
+@media (min-width: 768px) { .pf-contenu { align-items: stretch; } }

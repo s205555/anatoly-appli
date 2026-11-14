@@ -1,0 +1,184 @@
+/* Accueil (mission M02). 1 px Flutter = 1 px CSS, référence 390x844.
+   Les tokens viennent de app/statique/anatoly.css ; rien n'est redéfini ici. */
+
+/* En-tête date */
+.acc-h1 { font-size: clamp(22px, 7.7vw, 30px); font-weight: 800; line-height: 1.1; letter-spacing: -.5px; overflow-wrap: anywhere; }
+
+/* Une seule colonne bornée à la largeur de l'écran : sans minmax(0, 1fr), la défilement horizontal des
+   dossiers et des recommandations élargit la colonne et fait déborder toute la page à 320 px. */
+.accueil { grid-template-columns: minmax(0, 1fr); }
+/* Espacements de home_screen.dart : titre de section 30 px puis 14 px avant la carte. */
+.accueil .section { gap: 14px; margin-top: 16px; grid-template-columns: minmax(0, 1fr); }
+.accueil .section-tete .kicker { margin: 0; }
+
+/* Carte du jour (_hero) : seul le titre laisse 96 px à droite pour le coureur. */
+.hero-jour { gap: 0; min-height: 140px; grid-template-columns: minmax(0, 1fr); }
+/* À 320 px, le bouton et le menu « … » ne tiennent pas sur une ligne : le bouton passe à la ligne au lieu de déborder. */
+.hero-label { min-width: 0; flex-wrap: wrap; }
+.hero-actions { display: flex; align-items: stretch; gap: 8px; min-width: 0; }
+.hero-label { display: flex; align-items: center; gap: 7px; }
+.hero-coche { width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; background: var(--ember); color: var(--on-ember); flex: none; }
+.hero-lit { display: inline-flex; color: var(--sage); }
+.hero-jour .hero-titre { margin-top: 9px; padding-right: 96px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hero-ligne { display: flex; align-items: center; gap: 10px; margin-top: 7px; min-width: 0; }
+.hero-ligne .hero-sous { flex: 1; min-width: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.hero-jour .hero-actions { margin-top: 18px; }
+.hero-btn { min-height: 52px; flex: 1 1 auto; min-width: 0; white-space: normal; text-align: center; justify-content: center; }
+.hero-btn.hero-discret { background: var(--raised2); color: var(--text); }
+.hero-plus { width: 52px; height: 52px; min-width: 52px; min-height: 52px; flex: none; }
+.acc-mini { display: block; flex: none; }
+.acc-mini .silhouette-svg, .acc-mini .sil-corps { display: block; width: 100%; height: 100%; }
+
+/* Carte semaine : padding 16/14 de _weekCard, tap sur un jour */
+/* 7 jours de 44 px : il faut 308 px, donc 12 px de marge latérale suffisent dès 375 px. */
+.accueil .semaine { padding: 16px 12px; }
+/* Sous 360 px, les 7 jours se partagent la largeur (zone réduite, seul cas hors 44 px). */
+@media (max-width: 359px) { .accueil .semaine .jour-click { flex: 1 1 0; min-width: 0; } }
+.pastille.repos { background: var(--raised2); color: var(--sage); }
+.jour-click { min-width: 44px; border: 0; background: none; padding: 0; cursor: pointer; display: grid; justify-items: center; gap: 9px; color: inherit; }
+.jour-click.futur { opacity: .5; }
+.jour-click:active .pastille { transform: scale(.9); }
+.pastille { transition: transform 140ms var(--ease-out), background-color 220ms var(--ease-out); }
+
+/* Cette semaine (_weekStats) */
+.accueil .stats-semaine { padding: 18px; border-radius: 22px; }
+.anneau-stat { border: 0; background: none; padding: 0; cursor: pointer; color: inherit; display: grid; justify-items: center; gap: 7px; min-width: 44px; min-height: 44px; }
+.anneau-stat small { font-size: 11px; font-weight: 700; color: var(--text2); white-space: nowrap; }
+
+/* Programmes : dossiers de RoutineFolder, deux par largeur */
+.acc-dossiers .rt-dossier { flex: 0 0 calc(50% - 6px); scroll-snap-align: start; }
+
+/* Activité */
+.carte-activite { border-radius: 22px; padding: 18px 18px 16px; background: var(--raised); }
+
+/* Recommandé (_recCard) : une carte, une tuile d'illustration, le nom dessous. */
+.defile-h.reco-liste { gap: 12px; }
+.reco-carte {
+  flex: 0 0 132px; width: 132px; height: 158px; padding: 9px; scroll-snap-align: start;
+  border-radius: 18px; background: var(--raised);
+  display: flex; flex-direction: column; text-decoration: none; color: inherit;
+}
+.reco-img { height: 88px; flex: none; border-radius: 12px; border: 1px solid var(--border); background: var(--raised2); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.reco-nom { margin-top: 9px; font-size: 12px; font-weight: 600; line-height: 1.25; color: var(--text); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Classeurs Programmes / Outils / Journal et Nutrition (home_folder.dart, 150 px de haut). */
+/* overflow-x: clip rogne l'aperçu de l'aliment qui dépasse à droite (320 px) sans couper les aperçus en hauteur. */
+.classeurs { display: flex; align-items: flex-end; gap: 10px; margin-top: 16px; overflow-x: clip; }
+.classeurs.large { margin-top: -2px; }
+.classeur { container-type: inline-size; position: relative; flex: 1; min-width: 0; height: 150px; display: block; color: var(--text); text-decoration: none; -webkit-tap-highlight-color: transparent; transition: transform 160ms var(--ease-out); }
+.classeur:active { transform: scale(.96); }
+.classeur:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 18px; }
+.classeur > svg { position: absolute; left: 0; display: block; overflow: visible; }
+.classeur-dos { top: 26px; fill: color-mix(in srgb, var(--raised) 55%, var(--bg)); }
+.classeur-face { top: 60px; filter: drop-shadow(0 -6px 8px rgba(0, 0, 0, .5)); }
+.cl-haut { stop-color: color-mix(in srgb, var(--raised) 90%, #fff); }
+.cl-bas { stop-color: color-mix(in srgb, var(--raised) 98%, #fff); }
+.cl-bord { stop-color: rgba(255, 255, 255, .08); }
+.classeur-apercu { position: absolute; left: 10px; right: 10px; top: 22px; height: 66px; pointer-events: none; }
+.classeur-texte { position: absolute; left: 0; right: 0; top: 60px; bottom: 0; padding: 24px 10px 12px 13px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+/* FittedBox scaleDown : le titre rétrécit pour tenir sur une ligne (« Programmes » sur 110 px). */
+.classeur-titre { display: flex; align-items: center; gap: 7px; min-width: 0; font-size: min(15.5px, calc((100cqw - 23px) / 6.4)); font-weight: 800; line-height: 1.2; }
+.classeur-titre > span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.classeur-detail { font-size: 11px; font-weight: 600; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acc-beta { display: inline-flex; align-items: center; gap: 3px; flex: none; padding: 2px 6px 2px 5px; border-radius: 100px; font-size: 8.5px; font-weight: 800; letter-spacing: 1.1px; line-height: 1.1; text-transform: uppercase;
+  color: #D08CF2; background: rgba(208, 140, 242, .16); box-shadow: inset 0 0 0 .8px rgba(208, 140, 242, .5); }
+
+/* Aperçus qui dépassent des classeurs (_Fan, _Sheet, ToolsPeek, NotesPeek, NutritionPeek). */
+.cl-eventail { position: absolute; display: block; }
+.cl-feuille { display: block; width: 100%; height: 100%; padding: 9px 12px 0 9px; border-radius: 9px; background: color-mix(in srgb, var(--c) 88%, #000); box-shadow: 0 2px 6px rgba(0, 0, 0, .18); }
+.cl-feuille i { display: block; height: 3px; margin-bottom: 5px; border-radius: 2px; background: color-mix(in srgb, color-mix(in srgb, var(--c) 55%, #000) 40%, transparent); }
+.cl-feuille i:nth-child(2) { width: 70%; }
+.cl-feuille i:nth-child(3) { width: 45%; }
+.cl-outil { display: flex; justify-content: center; align-items: flex-start; width: 100%; height: 100%; padding-top: 9px; border-radius: 12px; color: var(--c);
+  background: color-mix(in srgb, var(--c) 16%, color-mix(in srgb, var(--raised2) 90%, #fff)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 2px 6px rgba(0, 0, 0, .35); }
+.cl-papier { position: relative; display: block; width: 100%; height: 100%; padding: 13px 9px 0 8px; border-radius: 3px 3px 12px 3px; background: color-mix(in srgb, var(--c) 92%, #000); box-shadow: 0 2px 5px rgba(0, 0, 0, .2); }
+.cl-papier i { display: block; height: 2.5px; margin-bottom: 5px; border-radius: 2px; background: rgba(0, 0, 0, .22); }
+.cl-papier i:nth-child(2) { width: 80%; }
+.cl-papier i:nth-child(3) { width: 50%; }
+.cl-papier b { position: absolute; top: -5px; left: 14px; right: 14px; height: 10px; border-radius: 2px; background: rgba(255, 255, 255, .45); }
+.cl-aliment { position: absolute; display: block; object-fit: contain; max-width: none; }
+
+/* Thème clair : mêmes mélanges que home_folder.dart quand le fond est clair. */
+:root[data-theme="clair"] .classeur-dos { fill: color-mix(in srgb, var(--raised) 40%, var(--bg)); }
+:root[data-theme="clair"] .classeur-face { filter: drop-shadow(0 -6px 8px rgba(0, 0, 0, .12)); }
+:root[data-theme="clair"] .cl-haut { stop-color: var(--raised); }
+:root[data-theme="clair"] .cl-bas { stop-color: color-mix(in srgb, var(--raised) 65%, var(--bg)); }
+:root[data-theme="clair"] .cl-bord { stop-color: var(--border); }
+:root[data-theme="clair"] .cl-feuille, :root[data-theme="clair"] .cl-papier { background: var(--c); }
+:root[data-theme="clair"] .cl-outil { background: color-mix(in srgb, var(--c) 12%, var(--raised2)); box-shadow: 0 2px 6px rgba(0, 0, 0, .1); }
+:root[data-theme="clair"] .acc-beta { color: #9333C4; background: rgba(147, 51, 196, .16); box-shadow: inset 0 0 0 .8px rgba(147, 51, 196, .5); }
+@media (prefers-color-scheme: light) {
+  :root[data-theme="systeme"] .classeur-dos { fill: color-mix(in srgb, var(--raised) 40%, var(--bg)); }
+  :root[data-theme="systeme"] .classeur-face { filter: drop-shadow(0 -6px 8px rgba(0, 0, 0, .12)); }
+  :root[data-theme="systeme"] .cl-haut { stop-color: var(--raised); }
+  :root[data-theme="systeme"] .cl-bas { stop-color: color-mix(in srgb, var(--raised) 65%, var(--bg)); }
+  :root[data-theme="systeme"] .cl-bord { stop-color: var(--border); }
+  :root[data-theme="systeme"] .cl-feuille, :root[data-theme="systeme"] .cl-papier { background: var(--c); }
+  :root[data-theme="systeme"] .cl-outil { background: color-mix(in srgb, var(--c) 12%, var(--raised2)); box-shadow: 0 2px 6px rgba(0, 0, 0, .1); }
+  :root[data-theme="systeme"] .acc-beta { color: #9333C4; background: rgba(147, 51, 196, .16); box-shadow: inset 0 0 0 .8px rgba(147, 51, 196, .5); }
+}
+
+/* Feuille de démarrage : carte du plan du jour */
+.m02-plan-carte {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left;
+  padding: 16px; border-radius: 20px; color: var(--text); cursor: pointer;
+  background: var(--ember-soft); border: 1px solid color-mix(in srgb, var(--ember) 40%, transparent);
+}
+.m02-plan-carte .m02-plan-corps { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.m02-plan-carte .m02-plan-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--brass); }
+.m02-plan-carte .m02-plan-nom { font-size: 18px; font-weight: 700; line-height: 1.15; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m02-plan-carte .m02-plan-sous { font-size: 12.5px; font-weight: 500; color: var(--text2); }
+.m02-plan-jouer {
+  width: 46px; height: 46px; flex: none; border-radius: 50%; display: grid; place-items: center;
+  background: var(--ember); color: var(--on-ember);
+}
+
+/* Feuille de démarrage : ligne de programme */
+.m02-routine-ligne {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; cursor: pointer;
+  padding: 13px 14px; border-radius: 16px; background: var(--raised); color: var(--text);
+}
+.m02-routine-ligne .m02-routine-corps { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.m02-routine-ligne strong { font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m02-routine-ligne small { font-size: 11.5px; font-weight: 500; color: var(--text3); }
+.m02-routine-ligne .ic { color: var(--text2); flex: none; } .m02-routine-ligne { border: 1px solid var(--border); } /* SoftCard */
+
+/* Libellé de section dans une feuille */
+.m02-feuille-label { padding-left: 4px; margin-bottom: -4px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+
+/* start_sheet.dart : titre 21 à gauche, date 12,5, cartes espacées de 8 (10 après le plan du jour, 14 avant « Ou commencer par ») */
+.m02-demarrage .feuille-titre { text-align: start; font-size: 21px; font-weight: 700; margin-bottom: 4px; }
+.m02-demarrage .feuille-sous { text-align: start; font-size: 12.5px; }
+.m02-demarrage .feuille-corps { gap: 8px; padding-top: 14px; }
+.m02-demarrage .m02-feuille-label { margin: 0; }
+.m02-demarrage .m02-plan-carte { margin-bottom: 2px; }
+.m02-demarrage .m02-routine-ligne + .m02-feuille-label { margin-top: 6px; }
+
+/* Feuille objectif hebdomadaire */
+.m02-goal { display: grid; gap: 16px; justify-items: center; }
+.m02-goal-stepper { display: flex; align-items: center; gap: 14px; }
+.m02-goal-stepper button {
+  width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center;
+  background: var(--raised2); color: var(--text); border: 0; cursor: pointer;
+}
+.m02-goal-stepper button:active { transform: scale(.92); }
+/* Le signe − / + de la démo est un texte de 18 px, plus fin qu'une icône gras : icône réduite à 13 px. */
+.m02-goal-stepper button .ic { width: 13px; height: 13px; }
+/* StepperControl : libellé d'au moins 148 px, sur une seule ligne. */
+.m02-goal-valeur { min-width: 148px; text-align: center; font-size: 16px; font-weight: 700; white-space: nowrap; }
+.m02-goal-texte { font-size: 12px; font-weight: 500; line-height: 1.45; color: var(--text2); text-align: center; max-width: none; }
+/* SizedBox de 22 px entre l'aide et le bouton (16 px de gap + 6 px). */
+.m02-goal > .btn.pri { margin-top: 6px; }
+
+/* L03 : accueil, réglages de home_screen.dart (pastille de série, carrousel, « See all ») */
+/* Pastille de série : 56x34, centrée sur la date. */
+.accueil .chip-serie { min-height: 34px; padding: 0 13px; }
+/* La pastille est centrée sur la date (et non calée sur le bas du bloc de titre). */
+.accueil .accueil-tete { align-items: center; }
+/* Carrousel : snap sur le bord de la zone de défilement, donc la marge de 20 px est reportée ici. */
+.accueil .acc-dossiers { scroll-padding-inline: 20px; }
+/* « See all » : pastille 30 px de haut ; la zone tactile reste de 44 px grâce à ::after. */
+.accueil .section-tete .voir { min-height: 30px; padding: 0 12px; border-radius: 100px; }
+
+/* Pastille de raison de repos */
+.jour-click[data-repos] .pastille { background: var(--raised2); color: var(--text2); }

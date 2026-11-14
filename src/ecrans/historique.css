@@ -1,0 +1,68 @@
+/* Historique (lot v6 L06) : page à grand titre et panneau à poignée (SheetPage de GymMane),
+   carte du mois et cartes de séance (history_screen.dart). Chargé après m06.css, il en reprend la main. */
+
+/* ===== Page : barre du haut, grand titre, panneau ===== */
+.hist-ecran { padding-top: 0; padding-bottom: 0; gap: 0; min-height: 100dvh; grid-template-rows: auto auto 1fr; }
+.hist-barre { position: sticky; top: 0; z-index: 6; display: flex; align-items: flex-start; gap: 18px; margin: 0 -20px; padding: calc(var(--safe-t) + 12px) 20px 16px; pointer-events: none; }
+.hist-barre::before { content: ''; position: absolute; inset: 0 0 -24px; z-index: -1; opacity: 0; transition: opacity 200ms var(--ease-out);
+  background: linear-gradient(to bottom, var(--hist-panneau) 0, var(--hist-panneau) calc(100% - 24px), transparent 100%); }
+.hist-barre.arrime::before { opacity: 1; }
+.hist-barre .rond { position: relative; pointer-events: auto; flex: none; }
+.hist-barre .rond::after { content: ''; position: absolute; inset: -5px; }
+.hist-barre-titre { align-self: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px; font-weight: 800; letter-spacing: -.3px;
+  opacity: 0; transform: translateY(8px); transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
+.hist-barre.arrime .hist-barre-titre { opacity: 1; transform: none; }
+.hist-tete { margin-top: 7px; padding-bottom: 36px; }
+.hist-surtitre { margin: 0 0 10px; font-size: 10.5px; line-height: 14px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.hist-tete h1 { margin: 0; font-weight: 800; line-height: 1; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.hist-ecran { --hist-panneau: color-mix(in srgb, var(--bg) 58%, var(--raised) 42%); }
+:root[data-theme="clair"] .hist-ecran { --hist-panneau: var(--raised2); }
+@media (prefers-color-scheme: light) { :root[data-theme="systeme"] .hist-ecran { --hist-panneau: var(--raised2); } }
+.hist-panneau { margin: 0 -20px; border-radius: 32px 32px 0 0; border: 1px solid color-mix(in srgb, var(--text) 6%, transparent); border-bottom: 0; background: var(--hist-panneau); }
+.hist-poignee { display: block; width: 40px; height: 4px; margin: 10px auto 0; border-radius: 2px; background: color-mix(in srgb, var(--text) 14%, transparent); }
+.hist-corps { padding: 20px 20px calc(var(--safe-b) + 40px); }
+
+/* ===== Carte du mois ===== */
+.hist-mois { display: block; padding: 14px 16px 16px; border-radius: 22px; }
+.hist-mois .cal-tete { display: flex; align-items: center; }
+.hist-mois .cal-mois-titre { flex: 1; min-width: 0; margin: 0; text-align: center; font-size: 16px; font-weight: 800; }
+.rond.hist-fleche { position: relative; flex: none; border: 0; background: var(--raised2); color: var(--text); }
+.rond.hist-fleche:disabled { background: var(--raised2); }
+.rond.hist-fleche::after { content: ''; position: absolute; inset: -5px; }
+.hist-mois .hist-stats { margin-top: 16px; gap: 0; align-items: start; }
+.hist-mois .hist-stat { align-content: start; gap: 3px; }
+.hist-mois .hist-stat strong { font-size: 21px; line-height: 1.1; }
+.hist-mois .hist-stat .kicker { line-height: 11px; }
+.hist-mois .hist-delta { line-height: 13px; }
+.hist-mois .hist-sep { margin: 16px 0 12px; }
+.hist-grille { row-gap: 0; justify-items: stretch; }
+.hist-grille .cal-entete { padding: 0 0 6px; text-align: center; line-height: 12px; }
+.hist-cal-jour { position: relative; width: auto; height: 40px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 0; background: transparent; font: inherit; color: var(--text2); cursor: pointer; isolation: auto; }
+.hist-cal-jour::before { content: none; }
+.hist-cal-jour::after { content: ''; position: absolute; inset: -2px 0; }
+.hist-cal-jour > span { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; font-size: 13px; font-weight: 500; }
+.hist-cal-jour.fait { background: transparent; }
+.hist-cal-jour.fait > span { background: var(--accent); color: var(--on-ember); font-weight: 800; }
+.hist-cal-jour.auj > span { box-shadow: inset 0 0 0 1.4px var(--ember); font-weight: 800; }
+.hist-cal-jour.auj:not(.fait) { box-shadow: none; }
+.hist-cal-jour.futur, .hist-cal-jour:disabled { opacity: 1; cursor: default; }
+.hist-cal-jour.futur > span { color: color-mix(in srgb, var(--text3) 50%, transparent); }
+
+/* ===== Liste des séances ===== */
+.hist-pile { margin-top: 22px; }
+.hist-pile.pile-seances { display: grid; gap: 10px; }
+.hist-liste-kicker { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.hist-carte { display: block; width: 100%; padding: 14px 16px 14px 14px; border: 0; border-radius: 20px; background: var(--raised); color: var(--text); font: inherit; text-align: start; cursor: pointer; transition: transform 260ms var(--ease-back); }
+.hist-carte:active { transform: scale(.98); transition-duration: 90ms; }
+.hist-carte-tete { display: flex; align-items: flex-start; gap: 12px; }
+.hist-carte-texte { flex: 1; min-width: 0; display: grid; justify-items: start; }
+.hist-carte-texte > * { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hist-carte-texte strong { font-size: 16px; line-height: 18px; font-weight: 800; }
+.hist-carte-texte small { margin-top: 2px; font-size: 12px; line-height: 14px; font-weight: 600; color: var(--text2); }
+.hist-carte-texte .hist-resume { margin-top: 6px; font-size: 11.5px; line-height: 14px; color: var(--text3); }
+.hist-carte .pastille-recs { flex: none; margin-left: -4px; padding: 4px 8px; gap: 4px; font-size: 11.5px; }
+.hist-carte-sep { display: block; height: 1px; margin: 12px 0 10px; background: var(--border); }
+.hist-carte .hist-lignes { display: block; margin: 0; }
+.hist-carte .hist-ligne { gap: 0; padding-bottom: 6px; line-height: 16px; }
+.hist-carte .hist-ligne .hist-pr, .hist-carte .hist-ligne .top { margin-left: 8px; }
+.hist-carte .hist-plus { display: block; padding-top: 2px; }

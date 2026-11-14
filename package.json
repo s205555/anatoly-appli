@@ -1,0 +1,9 @@
+{
+  "name": "anatoly-front",
+  "private": true,
+  "type": "module",
+  "description": "Application Anatoly (/app/). Construite sur le PC, déposée dans app/statique/app/. Rien ne se construit sur le serveur.",
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": { "preact": "10.26.10", "@preact/signals": "2.11.4" },
+  "devDependencies": { "esbuild": "0.25.12", "@phosphor-icons/core": "2.1.1", "@fontsource-variable/nunito": "5.2.6" }
+}

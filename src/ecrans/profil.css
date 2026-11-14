@@ -1,0 +1,238 @@
+/* Écran Profil : portage 1:1 de GymMane (profile_screen.dart). Tokens de Anatoly uniquement. Préfixe pf-. */
+.pf { max-width: var(--col); margin: 0 auto; padding-top: calc(var(--safe-t) + 254px); }
+.pf button { font-family: inherit; }
+.pf-ressort { flex: 1; }
+.pf-presse { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; text-align: left; transition: transform 260ms var(--ease-back); }
+.pf-presse:active { transform: scale(.97); transition-duration: 90ms; }
+.pf-sonde { position: absolute; visibility: hidden; padding-top: var(--safe-t); }
+
+/* En-tête épinglé : la bannière rétrécit, le nom passe dans la barre. Variables posées par le script au défilement. */
+.pf-tete { --bb: calc(var(--safe-t) + 172px); --sh: 0; --fondu: 1; --disparu: 0; --barre: 0; position: fixed; z-index: 12; top: 0; left: 0; right: 0; height: 0; pointer-events: none; }
+.pf-tete-in { position: relative; width: 100%; max-width: var(--col); margin: 0 auto; height: 0; }
+.pf-banniere { position: absolute; left: 0; right: 0; top: 0; height: var(--bb); padding: 0; border: 0; background: var(--raised); overflow: hidden; opacity: calc(1 - var(--disparu)); pointer-events: auto; display: block; }
+.pf-banniere-img { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.pf-banniere-voile { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 30%, color-mix(in srgb, var(--bg) calc(35% + 65% * var(--sh)), transparent) 72%, var(--bg) 100%); }
+.pf-flou { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--safe-t) + 64px); opacity: var(--barre); pointer-events: none;
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent); }
+.pf-rond { position: absolute; top: calc(var(--safe-t) + 9px); right: 12px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: rgba(0,0,0,.38); color: #fff; pointer-events: auto; }
+/* Flèche sous la bannière (GymMane 72e7265, _GrabberPainter au repos : trait de 32 px qui se plie en chevron quand on tire). */
+.pf-poignee { position: absolute; left: 50%; margin-left: -22px; top: calc(var(--bb) - 9px); width: 44px; height: 18px; overflow: visible; opacity: var(--fondu); }
+.pf-poignee path { fill: none; stroke: color-mix(in srgb, var(--text) 22%, transparent); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.pf-tete-avatar { position: absolute; left: 20px; top: calc(var(--bb) - 68px); opacity: var(--fondu); }
+.pf-modifier { position: absolute; right: 20px; top: calc(var(--bb) - 27px); height: 44px; padding: 0 10px; display: inline-flex; align-items: center; gap: 5px; border: 0; background: transparent; isolation: isolate; color: var(--text2); font-size: 11.5px; font-weight: 700; opacity: var(--fondu); pointer-events: auto; transition: transform 260ms var(--ease-back); }
+.pf-modifier::before { content: ''; position: absolute; inset: 9px 0; z-index: -1; border-radius: 13px; background: color-mix(in srgb, var(--text) 8%, transparent); border: 1px solid color-mix(in srgb, var(--text) 12%, transparent); }
+.pf-modifier:active { transform: scale(.94); transition-duration: 90ms; }
+.pf-tete.replie .pf-modifier { pointer-events: none; }
+.pf-complet { position: absolute; left: 20px; right: 20px; top: calc(var(--bb) + 32px); opacity: var(--fondu); }
+.pf-complet-nom { display: flex; align-items: center; gap: 7px; }
+.pf-complet h1 { font-size: 24px; font-weight: 800; letter-spacing: -.3px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-complet p { margin-top: 2px; font-size: 14px; font-weight: 500; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-compact { position: absolute; left: 72px; right: 72px; top: calc(var(--safe-t) + 9px); height: 38px; display: flex; align-items: center; justify-content: center; gap: 8px; opacity: var(--barre); transform: translateY(calc(8px * (1 - var(--barre)))); pointer-events: none; }
+.pf-compact > span:not(.pf-avatar):not(.pf-badge) { min-width: 0; font-size: 15.5px; font-weight: 800; letter-spacing: -.2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-badge { display: inline-flex; flex: none; }
+.pf-avatar { position: relative; display: inline-block; flex: none; border-radius: 50%; overflow: hidden; background: var(--raised); }
+.pf-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pf-avatar::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--border); }
+
+/* Pastilles de chiffres : 36 de haut, défilement horizontal. */
+.pf-pastilles { display: flex; gap: 8px; height: 36px; margin-top: 6px; padding: 0 20px; overflow-x: auto; scrollbar-width: none; }
+.pf-pastilles::-webkit-scrollbar { display: none; }
+.pf-pastille { flex: none; display: inline-flex; align-items: center; height: 36px; padding: 0 13px; border-radius: 18px; background: var(--raised); }
+.pf-pastille .ic { margin-right: 7px; }
+.pf-pastille strong { font-size: 13.5px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pf-pastille > span { margin-left: 5px; font-size: 13px; font-weight: 500; color: var(--text2); white-space: nowrap; }
+.pf-contenu { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; padding: 26px 20px calc(var(--safe-b) + 110px); }
+
+/* Titres de section et bouton « Tout voir ». */
+.pf-titre { display: flex; align-items: center; padding-left: 2px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.pf-titre-compte { margin-left: 8px; color: var(--text2); font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; }
+.pf-voir { position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; height: 28px; min-width: 44px; padding: 0 12px; border: 0; background: transparent; color: var(--text); font-size: 12px; font-weight: 700; letter-spacing: 0; text-transform: none; transition: transform 260ms var(--ease-back); }
+.pf-voir::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 14px; background: var(--raised2); }
+.pf-voir::after { content: ''; position: absolute; inset: -8px 0; }
+.pf-voir:active { transform: scale(.94); transition-duration: 90ms; }
+.pf-bloc { display: grid; gap: 16px; }
+
+/* Boîte à zone dégradée (_box). */
+.pf-boite { padding: 6px; background: var(--raised); border-radius: 28px; border: 1px solid color-mix(in srgb, var(--text) 5%, transparent); }
+.pf-boite-corps { padding: 14px 12px 8px; border-radius: 22px; background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 50%, #000), color-mix(in srgb, var(--bg) 60%, var(--raised))); }
+:root[data-theme="clair"] .pf-boite-corps { background: linear-gradient(180deg, var(--raised2), var(--bg)); }
+@media (prefers-color-scheme: light) { :root[data-theme="systeme"] .pf-boite-corps { background: linear-gradient(180deg, var(--raised2), var(--bg)); } }
+.pf-boite-pied { display: flex; align-items: center; padding: 10px 4px 4px 12px; min-height: 42px; }
+.pf-boite-pied h2 { font-size: 14px; font-weight: 700; }
+.pf-boite-compte { margin-left: 7px; font-size: 14px; font-weight: 700; color: var(--text3); }
+
+/* Étagère de médailles : 54 de côté, 66 de large, 86 de haut. */
+.pf-etagere { display: flex; justify-content: space-evenly; align-items: flex-start; gap: 12px; height: 82px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.pf-etagere::-webkit-scrollbar { display: none; }
+.pf-medaille { flex: none; width: 66px; height: 100%; justify-content: flex-start; display: flex; flex-direction: column; align-items: center; padding: 0; border: 0; background: none; color: inherit; }
+.pf-medaille-img { position: relative; width: 54px; height: 54px; display: block; }
+.pf-medaille-img .ic-medaille { width: 100%; height: 100%; display: block; object-fit: contain; }
+.pf-neuf { position: absolute; right: 2px; top: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+.pf-medaille-nom { margin-top: 7px; width: 100%; font-size: 9.5px; font-weight: 600; line-height: 1.15; color: var(--text2); text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Photos : quatre cartes inclinées. */
+.pf-photos { position: relative; height: 156px; }
+.pf-cadre { position: absolute; left: calc(var(--i) * min(83.2px, (100% - 104px) / 3)); width: 104px; height: 136px; box-sizing: border-box; padding: 2px; border-radius: 18px; transform: rotate(var(--tour));
+  background: var(--raised2); box-shadow: 0 6px 16px rgba(0,0,0,.4); }
+:root[data-theme="clair"] .pf-cadre { background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.12); }
+@media (prefers-color-scheme: light) { :root[data-theme="systeme"] .pf-cadre { background: #fff; box-shadow: 0 6px 16px rgba(0,0,0,.12); } }
+.pf-cadre img { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; display: block; background: var(--raised2); }
+.pf-cadre.fantome { opacity: .5; }
+.pf-cadre.fantome::after { content: ''; display: block; width: 100%; height: 100%; border-radius: 16px; background: var(--raised); }
+.pf-photos-ajout { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 36px; padding: 0 14px; display: inline-flex; align-items: center; gap: 7px; border-radius: 18px; background: var(--text); color: var(--bg); font-size: 13px; font-weight: 800; white-space: nowrap; box-shadow: 0 0 18px rgba(0,0,0,.35); }
+
+/* Pass salle : carte 1,586, mesures en cqw comme les proportions de GymPassCard. */
+.pf-pass-zone { padding-bottom: 6px; }
+.pf-pass { container-type: inline-size; width: 100%; }
+.pf-pass-carte { position: relative; aspect-ratio: 1.586; border-radius: 5.8cqw; overflow: hidden; background: linear-gradient(135deg, #232327, #141416 55%, #0E0E10); box-shadow: 0 12px 26px rgba(0,0,0,.45); }
+.pf-pass-fond { position: absolute; inset: 0; background: radial-gradient(circle 69.4cqw at -2.5% -7.5%, color-mix(in srgb, var(--teinte) 30%, transparent), color-mix(in srgb, var(--teinte) 6%, transparent) 45%, transparent); }
+.pf-pass-fond svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pf-pass-bord { position: absolute; inset: 0; border-radius: 5.8cqw; border: 1px solid rgba(255,255,255,.09); background: linear-gradient(180deg, rgba(255,255,255,.05), transparent 50%); }
+.pf-pass-contenu { position: absolute; inset: 0; padding: 6.2cqw; display: flex; flex-direction: column; color: #fff; }
+.pf-pass-contenu.carre { flex-direction: row; gap: 4.3cqw; }
+.pf-pass-gauche { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.pf-pass-haut { display: flex; align-items: flex-start; gap: 3.7cqw; }
+.pf-pass-sur { font-size: 2.8cqw; font-weight: 800; letter-spacing: .4cqw; text-transform: uppercase; color: color-mix(in srgb, var(--teinte) 75%, #fff); white-space: nowrap; }
+.pf-pass-nom { margin-top: 1.8cqw; font-size: 5.8cqw; font-weight: 800; line-height: 1.12; letter-spacing: -.2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.pf-pass-contenu.carre .pf-pass-nom { margin-top: 2.2cqw; }
+.pf-pass-qui { display: flex; flex-direction: column; min-width: 0; max-width: 40cqw; }
+.pf-pass-qui small { font-size: 2.4cqw; font-weight: 700; letter-spacing: .4cqw; text-transform: uppercase; color: rgba(255,255,255,.42); }
+.pf-pass-qui strong { margin-top: .8cqw; font-size: 4cqw; font-weight: 700; color: rgba(255,255,255,.9); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-pass-panneau { box-sizing: border-box; background: #fff; border-radius: 3.2cqw; padding: 2.6cqw; display: grid; place-items: stretch; color: #000; }
+.pf-pass-contenu.carre .pf-pass-panneau { flex: none; width: 50.65cqw; height: 50.65cqw; }
+.pf-pass-contenu:not(.carre) .pf-pass-panneau { height: 25cqw; }
+.pf-code-qr { width: 100%; height: 100%; display: block; }
+.pf-code-barres { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: stretch; min-height: 0; }
+.pf-code-barres svg { flex: 1; min-height: 0; width: 100%; display: block; }
+.pf-code-barres > span { margin-top: 6px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: 2.2px; color: #000; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.pf-pass-vide { position: relative; width: 100%; aspect-ratio: 1.586; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 22px; border: 0; background: none; color: var(--text); text-align: center; transition: transform 260ms var(--ease-back); }
+.pf-pass-vide:active { transform: scale(.98); transition-duration: 90ms; }
+.pf-pointilles { position: absolute; inset: 0; width: 100%; height: 100%; color: color-mix(in srgb, var(--text) 18%, transparent); }
+.pf-pass-vide-rond { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--text) 9%, transparent); margin-bottom: 14px; }
+.pf-pass-vide strong { font-size: 15px; font-weight: 800; }
+.pf-pass-vide > span:last-child { margin-top: 4px; font-size: 12.5px; font-weight: 500; line-height: 1.35; color: var(--text2); }
+.pf-carrousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 18px; padding-bottom: 12px; margin-bottom: -12px; }
+.pf-carrousel::-webkit-scrollbar { display: none; }
+.pf-carrousel-page { flex: 0 0 92%; scroll-snap-align: center; padding: 0 5px; box-sizing: border-box; }
+.pf-points { display: flex; justify-content: center; margin-top: 24px; margin-bottom: -12px; }
+.pf-points span { width: 6px; height: 6px; margin: 0 3px; border-radius: 3px; background: color-mix(in srgb, var(--text) 22%, transparent); transition: width 260ms cubic-bezier(.215,.61,.355,1), background-color 260ms; }
+.pf-points span.on { width: 18px; background: var(--text); }
+.pf-vue { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; background: var(--bg); animation: entree 260ms var(--ease-out); cursor: pointer; }
+.pf-vue-in { --cote: min(calc(100vw - 64px), 360px); display: grid; justify-items: center; text-align: center; padding: 0 32px; }
+.pf-vue h2 { font-size: 22px; font-weight: 800; letter-spacing: -.4px; }
+.pf-vue p { margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--text2); }
+.pf-vue-code { box-sizing: border-box; width: var(--cote); margin-top: 22px; padding: 20px; background: #fff; border-radius: 28px; box-shadow: 0 0 60px 4px color-mix(in srgb, var(--teinte) 25%, transparent); }
+.pf-vue-code .pf-code-barres { height: calc(var(--cote) * .5); }
+.pf-vue-code.carre { padding: 22px; }
+.pf-vue-code.carre .pf-code-qr { height: calc(var(--cote) - 44px); }
+.pf-vue .pf-vue-aide { margin-top: 22px; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text3); }
+.pf-liste-passes { display: grid; gap: 18px; padding-bottom: 6px; }
+.pf-liste-pied { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-left: 4px; }
+.pf-prive { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px; font-weight: 500; color: var(--text3); text-align: center; }
+
+/* Année : trois chiffres, douze barres. */
+.pf-stats { display: grid; grid-template-columns: repeat(3, 1fr); }
+.pf-stat { min-width: 0; }
+.pf-stat-val { display: flex; align-items: baseline; white-space: nowrap; }
+.pf-stat-val strong { font-size: 26px; font-weight: 800; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.pf-stat-val span { font-size: 12.5px; font-weight: 600; color: var(--text2); }
+.pf-stat small { display: block; margin-top: 5px; font-size: 9.5px; font-weight: 600; letter-spacing: .9px; text-transform: uppercase; color: var(--text3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-barres { display: flex; align-items: flex-end; gap: 5px; height: 58px; margin-top: 20px; }
+.pf-barre { position: relative; display: flex; align-items: flex-end; flex: 1; min-width: 0; height: 58px; padding: 0; border: 0; background: transparent; }
+.pf-tige { display: block; width: 100%; height: 6px; border-radius: 5px; background: var(--raised2); transition-property: height; transition-timing-function: cubic-bezier(.215,.61,.355,1); }
+.pf-barre.actif .pf-tige { background: var(--text3); }
+.pf-barre.courant .pf-tige { background: var(--ember); }
+.pf-barre:disabled { pointer-events: none; }
+/* Zone tactile élargie : la colonne entière, espaces compris (12 mois tiennent dans la carte, pas 12 × 44 px). */
+.pf-barre::after { content: ''; position: absolute; inset: -8px -3px -16px; }
+.pf-initiales { display: flex; gap: 5px; margin-top: 9px; }
+.pf-initiales span { flex: 1; text-align: center; font-size: 9.5px; font-weight: 600; color: var(--text3); }
+.pf-initiales span.courant { color: var(--text); }
+.pf-meilleur { margin-top: 16px; font-size: 12px; font-weight: 500; color: var(--text3); }
+.pf-meilleur strong { font-weight: 700; color: var(--text2); }
+
+/* Fiche d'une médaille. */
+.pf-fiche { display: flex; flex-direction: column; align-items: center; margin-top: -6px; padding-bottom: 8px; }
+.pf-fiche-medaille { width: 236px; height: 236px; display: grid; place-items: center; touch-action: pan-y; cursor: grab; user-select: none; }
+.pf-fiche-medaille .ic-medaille { width: 86%; height: 86%; object-fit: contain; pointer-events: none; }
+.pf-fiche-aide { margin-top: 8px; font-size: 11.5px; font-weight: 500; color: var(--text3); }
+.pf-fiche-titre { margin-top: 22px; font-size: 21px; font-weight: 800; line-height: 1.2; text-align: center; }
+.pf-fiche-ligne { margin-top: 8px; padding: 0 22px; font-size: 13px; font-weight: 500; line-height: 1.45; color: var(--text2); text-align: center; }
+.pf-fiche-date { margin-top: 18px; font-size: 12.5px; font-weight: 600; color: var(--text3); }
+.pf-fiche-progres { display: grid; justify-items: center; gap: 10px; margin-top: 18px; }
+.pf-fiche-piste { display: block; width: 190px; height: 5px; border-radius: 100px; background: var(--raised2); overflow: hidden; }
+.pf-fiche-piste span { display: block; height: 100%; background: var(--text2); border-radius: 100px; }
+.pf-fiche-progres small { font-size: 12.5px; font-weight: 600; color: var(--text3); }
+
+/* Fiche « Ton profil ». */
+.pf-edition { display: grid; gap: 16px; padding-bottom: 8px; }
+.pf-edit-haut { position: relative; height: 168px; }
+.pf-edit-banniere { position: absolute; left: 0; right: 0; top: 0; height: 120px; border: 0; padding: 0; border-radius: 24px; background: var(--raised2) center / cover no-repeat; }
+.pf-puce { position: absolute; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: rgba(0,0,0,.5); border: 1px solid rgba(255,255,255,.18); color: #fff; }
+.pf-edit-banniere .pf-puce { top: 10px; right: 10px; }
+.pf-edit-photo { position: absolute; left: 14px; top: 74px; padding: 4px; border: 0; border-radius: 50%; background: var(--raised); }
+.pf-edit-photo .pf-puce { right: 0; bottom: 2px; }
+.pf-edit-retirer { position: absolute; left: 118px; right: 0; top: 124px; display: flex; align-items: center; flex-wrap: wrap; column-gap: 8px; color: var(--text3); font-size: 12px; }
+.pf-edit-retirer button { min-height: 44px; padding: 6px 0; border: 0; background: none; color: var(--text2); font-size: 12px; font-weight: 600; }
+.pf-groupe { padding: 0 16px; border-radius: 22px; background: var(--raised2); }
+.pf-groupe > * + * { border-top: 1px solid color-mix(in srgb, var(--text) 6%, transparent); }
+.pf-champ { display: block; padding: 8px 0 0; }
+.pf-etiquette { display: block; margin-bottom: 6px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.pf-etiquette-seule { margin: 2px 0 10px 4px; }
+.pf-saisie { width: 100%; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--text); font: inherit; font-size: 16px; font-weight: 600; outline-offset: 6px; }
+.pf-saisie::placeholder { color: var(--text3); }
+.pf-saisie[aria-invalid="true"] { color: var(--danger); }
+.pf-arobase { display: flex; align-items: center; gap: 3px; }
+.pf-arobase > span { font-size: 16px; font-weight: 700; color: var(--text3); }
+.pf-ligne-ctl { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; }
+.pf-ligne-nom { font-size: 14.5px; font-weight: 600; }
+.pf-badges { display: flex; align-items: center; }
+.pf-badges button { padding: 9px 5px; border: 0; background: none; opacity: .32; display: grid; place-items: center; min-width: 44px; min-height: 44px; transition: opacity 200ms; }
+.pf-badges button.on { opacity: 1; }
+.pf-pas { display: flex; align-items: center; gap: 4px; }
+.pf-pas button { position: relative; width: 44px; height: 44px; border: 0; border-radius: 8px; display: grid; place-items: center; background: color-mix(in srgb, var(--text) 9%, var(--raised2)); color: var(--text); }
+.pf-pas-val { min-width: 64px; text-align: center; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.pf-activites { display: flex; flex-wrap: wrap; gap: 8px; }
+.pf-activites button { min-height: 44px; padding: 0 12px; border: 0; border-radius: 100px; background: var(--raised2); color: var(--text2); font-size: 12px; font-weight: 600; transition: background-color 200ms, color 200ms; }
+.pf-activites button.on { background: var(--text); color: var(--bg); }
+.pf-fait { margin-top: 8px; }
+.pf-erreur { font-size: 12.5px; font-weight: 600; color: var(--danger); }
+.pf-aide { margin: 0; padding: 0 16px 10px; color: var(--text2); }
+.pf-teintes { display: flex; gap: 0; }
+.pf-teintes button { width: 44px; height: 44px; border-radius: 50%; border: 3px solid transparent; background-clip: padding-box; box-shadow: 0 0 0 0 var(--text); }
+.pf-teintes button.on { border-color: var(--raised); box-shadow: 0 0 0 2px var(--text); }
+
+.pf-ligne-ctl .seg button { min-height: 44px; }
+/* Formats du code (Wrap de pastilles de l'original : 12,5 px, braise si choisi). */
+.pf-formats { display: flex; flex-wrap: wrap; gap: 8px; }
+.pf-formats button { min-height: 44px; padding: 0 14px; border: 0; border-radius: 100px; background: var(--raised2); color: var(--text2); font-size: 12.5px; font-weight: 700; transition: background-color 200ms, color 200ms, transform 200ms var(--ease-back); }
+.pf-formats button:active { transform: scale(.94); }
+.pf-formats button.on { background: var(--ember); color: var(--on-ember); }
+
+/* Ajout d'un pass (addGymPass) : quatre lignes de choix. */
+.pf-choix-liste { display: grid; gap: 8px; }
+.pf-choix { display: flex; align-items: center; gap: 13px; width: 100%; padding: 14px; border: 0; border-radius: 18px; background: var(--raised2); color: var(--text); text-align: left; transition: transform 200ms var(--ease-back); }
+.pf-choix:active { transform: scale(.98); transition-duration: 90ms; }
+.pf-choix-rond { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: color-mix(in srgb, var(--text) 9%, transparent); }
+.pf-choix-txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.pf-choix-txt strong { font-size: 14.5px; font-weight: 700; }
+.pf-choix-txt small { font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--text2); }
+.pf-choix > .ic:last-child { flex: none; color: var(--text3); }
+/* Pass enregistré en photo. */
+.pf-code-photo { width: 100%; height: 100%; display: block; object-fit: contain; }
+.pf-vue-code.photo { padding: 14px; }
+.pf-vue-code.photo .pf-code-photo { height: calc(var(--cote) * .66); }
+.pf-photo-pass { aspect-ratio: 1.586; border-radius: 22px; background: var(--raised2); overflow: hidden; }
+.pf-photo-pass img { width: 100%; height: 100%; object-fit: contain; display: block; }
+/* Options de PhotoSourceSheet : 18 px sous la poignée, lignes de 50 px. */
+.pf-options { margin-top: -10px; }
+.pf-options .option { min-height: 50px; padding-block: 0; }
+
+/* Liste des pass (gym_pass_screen.dart) : en-tête « Profil » et +, format en capitales 10,5 px, menu par pass. */
+.pf-liste-tete { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: -4px 0 4px; }
+.pf-liste-tete > span { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.pf-format { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; color: var(--text3); }
+.pf-choix.danger, .pf-choix.danger .pf-choix-rond { color: var(--danger); }
+.pf-saisie-code { text-transform: uppercase; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 1.2px; }
+.pf-presse { -webkit-touch-callout: none; user-select: none; }

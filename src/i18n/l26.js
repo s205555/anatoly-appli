@@ -1,0 +1,108 @@
+// Textes du lot L26 (contrôles absents de l'inventaire v9), repris de app_fr.arb et app_en.arb ; vouvoiement en français.
+import { typo } from '../../../app/src/textes.mjs';
+import { langue } from '../i18n.js';
+
+const fr = {
+  // Feuille d'un jour (progress_screen.dart _DaySheet)
+  exercicesCaps: 'EXERCICES', seriesCaps: 'SÉRIES', volumeCaps: 'VOLUME', tempsCaps: 'TEMPS',
+  toucherCrayon: 'Touchez le crayon pour corriger une entrée ou la corbeille pour la supprimer.',
+  reposRien: 'Jour de repos, rien d’enregistré.',
+  nomSeance: 'Nom de la séance', nommer: 'Nommer', nomSeanceAide: 'ex. : Jambes, Push, Full body',
+  dureeSeance: 'Durée de la séance', copierTexte: 'Copier en texte', copie: 'Copié',
+  supprimerSeance: 'Supprimer la séance', supprimerSeanceTexte: 'Cette séance et toutes ses séries seront retirées de votre historique.',
+  continuer: 'CONTINUER', continuerTexte: 'La séance repasse en cours avec les séries déjà cochées. En la terminant à nouveau, elle sera enregistrée à sa date d’origine.',
+  modifier: 'Modifier', supprimer: 'Supprimer', supprimerCaps: 'SUPPRIMER', annuler: 'Annuler',
+  supprimerEntree: 'Supprimer cette entrée ?', supprimerEntreeTexte: (n) => `« ${n} » sera supprimé de cette journée, ainsi que de vos records et graphiques.`,
+  enregistrerSeance: 'ENREGISTRER UNE SÉANCE', recordPerso: 'Record personnel',
+  series: (n) => `${n} série${n > 1 ? 's' : ''}`, reps: (n) => `${n} rép.`, cotes: (g, d) => `G${g} D${d}`, noteSerie: (n, note) => `Série ${n} · ${note}`,
+  // Correction d'une entrée (showEditLoggedSheet)
+  corrigerAide: 'Corrigez les répétitions ou le poids de n’importe quelle série.', ajouterSerie: '+ AJOUTER UNE SÉRIE', termine: 'TERMINÉ',
+  repsCol: 'RÉPÉTITIONS', repsG: 'RÉP. G', repsD: 'RÉP. D', poidsCol: (u) => `POIDS (${u})`, tempsCol: 'TEMPS', distanceCol: 'DISTANCE', retirerSerie: 'Supprimer la série',
+  diminuer: 'Diminuer', augmenter: 'Augmenter',
+  // Bilan sommeil et énergie (check_in.dart)
+  checkInTitre: 'Comment étiez-vous ?', sommeil: 'Sommeil', energie: 'Énergie', facultatif: 'Facultatif',
+  niveaux: ['', 'Nul', 'Faible', 'Correct', 'Bien', 'Top'],
+  // Séance enregistrée après coup (session_screen.dart _manualBar)
+  enregistrement: 'ENREGISTREMENT', heureDebut: 'Heure de début', duree: 'Durée', ajouterDuree: 'Ajouter la durée',
+  // Notes d'exercice pendant la séance (workout_notes.dart)
+  noteAjouter: 'Note épinglée : siège, prise, machine…', notesTitre: 'Notes de l’exercice', noteChaque: 'À chaque fois', noteProchaine: 'La prochaine fois',
+  noteChaqueAide: 'S’affiche à chaque fois. Idéal pour le réglage du siège ou de la poulie.', noteProchaineAide: 'S’affiche la prochaine fois seulement, puis disparaît.',
+  noteDerniere: (d) => `De la dernière fois · ${d}`, noteIndice: 'Siège au trou 2, poulie à 19…', nouvelleNote: 'Nouvelle note', modifierNote: 'Modifier la note',
+  minuteurRepos: 'Minuteur de repos', toucherChanger: 'TOUCHEZ POUR CHANGER', glisserPasser: 'Faites glisser le minuteur sur le côté pour passer le repos.', passerRepos: 'Passer le repos',
+  // Calendrier d'un complément (nutrition/cards.dart _SupplementEditor)
+  suppQuand: 'Quand', suppTousJours: 'Tous les jours', suppCertains: 'Certains jours', suppChaqueX: 'Tous les X jours', suppTousLes: 'Tous les',
+  suppJoursFin: (n) => (n > 1 ? 'jours' : 'jour'), suppChaqueN: (n) => (n > 1 ? `Tous les ${n} jours` : 'Tous les jours'),
+  suppRappel: 'Me le rappeler', suppDebut: 'Début', suppFin: 'Fin', aujourdhui: 'Aujourd’hui', demain: 'Demain', choisirDate: 'Choisir une date',
+  jamais: 'Jamais', dansSemaine: 'Dans 1 semaine', dansMois: 'Dans 1 mois', aPartirDu: (d) => `à partir du ${d}`, jusquAu: (d) => `jusqu’au ${d}`,
+  suppRienAujourdhui: 'Rien à prendre aujourd’hui.', suppAutresJours: 'Autres jours', heures: 'Heures', minutes: 'Minutes',
+  compteEau: 'Compte dans l’eau', compteEauAide: 'Pour les shakes faits à l’eau : l’ajouter compte aussi dans votre eau', eauParPortion: 'Eau par portion',
+  zones: { Chest: 'Pectoraux', Back: 'Dos', Legs: 'Jambes', Shoulders: 'Épaules', Arms: 'Bras', Core: 'Ceinture abdominale' }, tousCourt: 'Tous',
+  photosSeance: 'Photos de la séance', photosAjouter: 'Ajouter des photos', photosAide: 'Elles restent aussi dans Vos photos.', partagerPhoto: 'Partager sur une photo',
+  insightCharge: (p) => `${p} % de séries de plus que d’habitude. Surveillez votre récupération.`, insightMuscle: (m, j) => `${m} : ${j} jours sans travail.`,
+  insightPousse: (a, b) => `Vous poussez plus que vous ne tirez : ${a} séries contre ${b} en quatre semaines.`,
+  insightTire: (a, b) => `Vous tirez plus que vous ne poussez : ${a} séries contre ${b} en quatre semaines.`,
+  insightProgres: (n, p) => `${n} : ${p} % plus fort que le mois dernier.`,
+  echelleAucune: 'Aucune pour le moment. Touchez pour en créer une.', echelleEtape: (n, t) => `Étape ${n} sur ${t}`, ensuite: (n) => `Ensuite : ${n}`,
+  detourage: 'Détourage…', detourer: 'Détourer', photoEntiere: 'Photo entière', retoucher: 'Retoucher le détourage', detourerMain: 'Détourer à la main',
+  retoucherAide: 'Glissez pour effacer ou remettre. Touchez une zone pour la retirer ou la remettre en entier. Pincez pour zoomer.',
+  effacer: 'Effacer', remettre: 'Remettre', defaire: 'Annuler', revenirAuto: 'Revenir à l’automatique', pinceau: (n) => `Pinceau ${n}`,
+  rienEnregistre: 'Rien de noté pour l’instant',
+  preparez: 'Préparez-vous', commencerTout: 'Touchez pour commencer tout de suite',
+  seanceLegere: 'Séance légère', seanceLegereAide: 'Enregistrée dans votre historique et vos stats, mais sans changer vos prochaines cibles.',
+  seanceLegereNote: 'Ne compte pas pour la progression', seanceLegereOff: 'Désactiver',
+  remplacants: 'Remplaçants', remplacantsAide: 'Au cas où la machine est prise', remplacantsChoix: (n) => `Choisissez-en jusqu’à ${n}. Si la machine est prise, échangez en un geste.`,
+  nouveauGroupe: 'Nouveau groupe', nomGroupeAide: 'Push / Pull / Jambes, 5×5…',
+  enregistrerCaps: 'ENREGISTRER', supprimerNote: 'Supprimer la note', supprimerNoteTexte: 'La note et toutes ses pièces jointes seront définitivement supprimées.',
+};
+
+const en = {
+  exercicesCaps: 'EXERCISES', seriesCaps: 'SETS', volumeCaps: 'VOLUME', tempsCaps: 'TIME',
+  toucherCrayon: 'Tap the pencil to fix an entry, or the bin to remove it.',
+  reposRien: 'Rest day, nothing logged.',
+  nomSeance: 'Workout name', nommer: 'Name it', nomSeanceAide: 'e.g. Legs, Push, Full body',
+  dureeSeance: 'Workout length', copierTexte: 'Copy as text', copie: 'Copied',
+  supprimerSeance: 'Delete workout', supprimerSeanceTexte: 'This workout and all its sets will be removed from your history.',
+  continuer: 'CONTINUE', continuerTexte: 'The workout goes back to being in progress, with its sets already ticked. Finishing it again saves it on its original day.',
+  modifier: 'Edit', supprimer: 'Delete', supprimerCaps: 'DELETE', annuler: 'Cancel',
+  supprimerEntree: 'Delete this entry?', supprimerEntreeTexte: (n) => `"${n}" will be removed from this day, and from your records and charts.`,
+  enregistrerSeance: 'LOG A WORKOUT', recordPerso: 'Personal record',
+  series: (n) => `${n} set${n === 1 ? '' : 's'}`, reps: (n) => `${n} rep${n === 1 ? '' : 's'}`, cotes: (g, d) => `L${g} R${d}`, noteSerie: (n, note) => `Set ${n} · ${note}`,
+  corrigerAide: 'Fix the reps or the weight of any set.', ajouterSerie: '+ ADD SET', termine: 'DONE',
+  repsCol: 'REPS', repsG: 'REPS L', repsD: 'REPS R', poidsCol: (u) => `WEIGHT (${u})`, tempsCol: 'TIME', distanceCol: 'DISTANCE', retirerSerie: 'Remove set',
+  diminuer: 'Decrease', augmenter: 'Increase',
+  checkInTitre: 'How did you show up?', sommeil: 'Sleep', energie: 'Energy', facultatif: 'Optional',
+  niveaux: ['', 'Awful', 'Poor', 'Okay', 'Good', 'Great'],
+  enregistrement: 'LOGGING', heureDebut: 'Start time', duree: 'Duration', ajouterDuree: 'Add duration',
+  noteAjouter: 'Pinned note: seat, grip, machine…', notesTitre: 'Exercise notes', noteChaque: 'Every time', noteProchaine: 'Next time',
+  noteChaqueAide: 'Shows each time you do this exercise. Good for seat or pulley settings.', noteProchaineAide: 'Shows the next time only, then goes away.',
+  noteDerniere: (d) => `From last time · ${d}`, noteIndice: 'Seat in hole 2, pulley at 19…', nouvelleNote: 'New note', modifierNote: 'Edit note',
+  minuteurRepos: 'Rest timer', toucherChanger: 'TAP TO CHANGE', glisserPasser: 'Swipe the timer sideways to skip the rest.', passerRepos: 'Skip rest',
+  suppQuand: 'When', suppTousJours: 'Every day', suppCertains: 'Some days', suppChaqueX: 'Every X days', suppTousLes: 'Every',
+  suppJoursFin: (n) => (n > 1 ? 'days' : 'day'), suppChaqueN: (n) => (n > 1 ? `Every ${n} days` : 'Every day'),
+  suppRappel: 'Remind me', suppDebut: 'Starts', suppFin: 'Ends', aujourdhui: 'Today', demain: 'Tomorrow', choisirDate: 'Pick a date',
+  jamais: 'Never', dansSemaine: 'In 1 week', dansMois: 'In 1 month', aPartirDu: (d) => `from ${d}`, jusquAu: (d) => `until ${d}`,
+  suppRienAujourdhui: 'Nothing to take today.', suppAutresJours: 'Other days', heures: 'Hours', minutes: 'Minutes',
+  compteEau: 'Counts toward water', compteEauAide: 'For shakes made with water: logging it adds to your water too', eauParPortion: 'Water per serving',
+  zones: { Chest: 'Chest', Back: 'Back', Legs: 'Legs', Shoulders: 'Shoulders', Arms: 'Arms', Core: 'Core' }, tousCourt: 'All',
+  photosSeance: 'Workout photos', photosAjouter: 'Add photos', photosAide: 'They\u2019re also kept in Your photos.', partagerPhoto: 'Share on a photo',
+  insightCharge: (p) => `${p} % more sets than your usual week. Watch your recovery.`, insightMuscle: (m, j) => `${m}: ${j} days untouched.`,
+  insightPousse: (a, b) => `You push more than you pull: ${a} sets against ${b} in four weeks.`,
+  insightTire: (a, b) => `You pull more than you push: ${a} sets against ${b} in four weeks.`,
+  insightProgres: (n, p) => `${n}: ${p} % stronger than last month.`,
+  echelleAucune: 'None yet. Tap to build one.', echelleEtape: (n, t) => `Step ${n} of ${t}`, ensuite: (n) => `Next: ${n}`,
+  detourage: 'Cutting out…', detourer: 'Cut out', photoEntiere: 'Whole photo', retoucher: 'Touch up cutout', detourerMain: 'Cut out by hand',
+  retoucherAide: 'Drag to erase or restore. Tap an area to remove or bring it back whole. Pinch to zoom.',
+  effacer: 'Erase', remettre: 'Restore', defaire: 'Undo', revenirAuto: 'Back to automatic', pinceau: (n) => `Brush ${n}`,
+  rienEnregistre: 'Nothing logged yet',
+  preparez: 'Get ready', commencerTout: 'Tap to start now',
+  seanceLegere: 'Light session', seanceLegereAide: 'Saved in your history and stats, but it won\u2019t change your next targets.',
+  seanceLegereNote: 'Doesn\u2019t count for progression', seanceLegereOff: 'Turn off',
+  remplacants: 'Backups', remplacantsAide: 'In case the machine is taken', remplacantsChoix: (n) => `Pick up to ${n}. If the machine is taken, swap in one tap.`,
+  nouveauGroupe: 'New group', nomGroupeAide: 'Push / Pull / Legs, 5×5…',
+  enregistrerCaps: 'SAVE', supprimerNote: 'Delete note', supprimerNoteTexte: 'The note and anything attached to it go for good.',
+};
+
+const traduire = (o) => (typeof o === 'string' ? typo(o) : typeof o === 'function' ? (...a) => typo(o(...a)) : Array.isArray(o) ? o.map(traduire)
+  : o && typeof o === 'object' ? Object.fromEntries(Object.entries(o).map(([k, v]) => [k, traduire(v)])) : o);
+const FR = traduire(fr);
+export const L26 = () => (langue === 'en' ? en : FR);

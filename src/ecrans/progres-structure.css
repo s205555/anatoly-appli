@@ -1,0 +1,100 @@
+/* Progrès, structure (lot L04) : graphiques, tuiles de totaux, feuilles Poids, Rapport et Partager.
+   Mesures de progress_screen.dart, charts.dart, report_sheet.dart, share_sheet.dart et share_cards.dart. */
+
+/* Graphiques à échelle droite (ChartScale) */
+.l4-etincelle { margin-top: 12px; }
+.l4-echelle { display: flex; align-items: stretch; }
+.l4-trace { flex: 1; min-width: 0; position: relative; }
+.l4-trace svg, .l4-valeurs svg { display: block; overflow: visible; }
+.l4-axe { display: grid; flex: none; font-weight: 600; line-height: 1; color: var(--text3); font-variant-numeric: tabular-nums; }
+.l4-axe span { grid-area: 1 / 1; align-self: start; justify-self: end; transform: translateY(-50%); white-space: nowrap; }
+.l4-valeurs { width: 100%; }
+.l4-v-val { font-size: 10.5px; font-weight: 800; fill: var(--text2); }
+.l4-v-lib { font-size: 10.5px; font-weight: 700; fill: var(--text3); }
+
+/* Quatre tuiles de totaux, deux par ligne (_totals) */
+.l4-totaux { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* Contenu des feuilles : espacements de l'original, pas la grille à 14 px de .feuille-corps */
+.l4-pile { display: block; min-width: 0; }
+.l4-centre { display: flex; justify-content: center; }
+.l4-vide { padding: 18px 0; text-align: center; font-size: 13px; color: var(--text2); }
+.l4-bouton { width: 100%; min-height: 52px; }
+.l4-kicker { margin: 22px 0 10px 4px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.l4-carte-bord { border-radius: 22px; background: var(--raised); border: 1px solid var(--border); }
+
+/* Feuille Poids */
+.l4-poids-chiffre { display: flex; justify-content: center; align-items: baseline; gap: 6px; margin-top: 2px; line-height: 1.1; }
+.l4-poids-chiffre b { font-size: 46px; font-weight: 800; letter-spacing: -.5px; font-variant-numeric: tabular-nums; }
+.l4-poids-chiffre small { font-size: 17px; font-weight: 700; color: var(--text2); }
+.l4-poids-variation { margin-top: 4px; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text2); }
+.l4-outil { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 0 12px 0 16px; border-radius: 20px; background: var(--raised); }
+.l4-outil > span { font-size: 14.5px; font-weight: 500; }
+.l4-rythme { display: block; width: 100%; padding: 16px 16px 14px; border-radius: 22px; background: var(--raised); border: 1px solid var(--border); color: var(--text); font: inherit; text-align: left; cursor: pointer; transition: transform 160ms ease; }
+.l4-rythme:active { transform: scale(.98); }
+.l4-rythme-tete { display: flex; align-items: flex-end; gap: 8px; }
+.l4-rythme-tete b { font-size: 22px; font-weight: 800; line-height: 1.15; }
+.l4-rythme-tete small { padding-bottom: 3px; font-size: 12.5px; font-weight: 700; color: var(--text2); }
+.l4-rythme-tete .ic { margin-left: auto; align-self: center; color: var(--text3); }
+.l4-rythme-piste { position: relative; display: block; height: 16px; margin-top: 14px; }
+.l4-rythme-piste i { position: absolute; display: block; }
+.l4-rythme-piste .fond { left: 0; right: 0; top: 5px; height: 6px; border-radius: 3px; background: var(--raised2); }
+.l4-rythme-piste .couloir { top: 5px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--sage) 45%, transparent); }
+.l4-rythme-piste .zero { left: calc(50% - .75px); top: 2px; width: 1.5px; height: 12px; background: color-mix(in srgb, var(--text3) 50%, transparent); }
+.l4-rythme-piste .curseur { top: 0; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; border: 3px solid var(--raised); transition: left 520ms cubic-bezier(.33, 1, .68, 1); }
+.l4-rythme-etat { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.l4-rythme-etat i { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+.l4-rythme-etat b { flex: 1; min-width: 0; font-size: 13px; font-weight: 700; }
+.l4-rythme-etat small { font-size: 12px; font-weight: 600; color: var(--text3); }
+.l4-rythme-base { display: block; margin-top: 4px; font-size: 11.5px; line-height: 1.4; color: var(--text3); }
+.l4-semaines { margin-top: 10px; padding: 6px 16px; }
+.l4-semaine { display: flex; align-items: center; padding: 8px 0; }
+.l4-semaine span { flex: 1; min-width: 0; font-size: 12.5px; color: var(--text2); }
+.l4-semaine b { font-size: 13.5px; font-weight: 800; white-space: nowrap; }
+.l4-semaine small { width: 74px; flex: none; text-align: right; font-size: 12px; font-weight: 700; color: var(--text3); white-space: nowrap; }
+.l4-historique { padding-left: 16px; }
+.l4-pesee { display: flex; align-items: center; min-height: 44px; }
+.l4-pesee span { flex: 1; min-width: 0; font-size: 12.5px; color: var(--text2); }
+.l4-pesee b { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
+.l4-pesee button { flex: none; display: grid; place-items: center; width: 46px; min-height: 44px; padding: 0; border: 0; background: none; color: var(--text3); cursor: pointer; }
+
+/* Feuille Rapport : ligne des dates avec calendrier */
+.l4-plage { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 44px; margin-top: 8px; padding: 6px 0; border: 0; background: none; color: var(--text); font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; }
+.l4-plage span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.l4-plage .ic { flex: none; color: var(--text2); }
+
+/* Feuille Partager : titre à gauche, sélecteur, aperçu de la carte */
+.feuille:has(.l4-partage) .feuille-titre { text-align: left; font-size: 20px; padding: 0 2px; }
+.l4-seg-partage { display: flex; width: max-content; max-width: 100%; }
+.l4-seg-partage button { padding: 8px 14px; font-size: 12.5px; }
+.l4-carte-apercu { margin-top: 16px; display: flex; justify-content: center; }
+.l4-carte-apercu canvas { display: block; width: 100%; max-width: 340px; height: auto; aspect-ratio: 340 / 425; }
+.l4-hors-ecran { position: fixed; left: -10000px; top: 0; width: 250px; pointer-events: none; }
+.l4-partage-aide { margin: 10px 0 6px; text-align: center; font-size: 11.5px; font-weight: 500; line-height: 1.4; color: var(--text3); }
+.l4-partage .l4-bouton { margin-top: 6px; }
+
+/* L26 : carte Équilibre de force (progress_screen.dart _BalanceCard). */
+.l26-info { width: 44px; height: 44px; margin: -12px -12px -12px 0; border: 0; background: none; color: var(--text2); display: grid; place-items: center; cursor: pointer; }
+.l26-eq-titre { margin: 8px 0 0; font-size: 15px; font-weight: 700; line-height: 1.3; color: var(--text); }
+.l26-eq-aide { margin: 6px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--text2); }
+.l26-eq-lignes { margin-top: 14px; display: grid; gap: 12px; }
+.l26-eq-tete { display: flex; align-items: baseline; gap: 8px; }
+.l26-eq-tete span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 600; color: var(--text); }
+.l26-eq-tete b { font-size: 12px; font-weight: 700; }
+.l26-eq-barre { position: relative; height: 12px; margin-top: 6px; }
+.l26-eq-barre::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 4px; border-radius: 2px; background: var(--raised2); }
+.l26-eq-barre::after { content: ""; position: absolute; left: calc(50% - 1px); top: 0; width: 2px; height: 12px; background: color-mix(in srgb, var(--text3) 60%, transparent); }
+.l26-eq-barre i { position: absolute; top: 4px; height: 4px; border-radius: 2px; transition: width .52s var(--ease-out), left .52s var(--ease-out); }
+.l26-eq-bornes { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: var(--text3); }
+
+/* L26 : carte « Renseignez ces éléments » (progress_screen.dart _setupCard). */
+.l26-etapes { background: var(--raised); border: 1px solid var(--border); border-radius: 22px; padding: 16px 18px 8px; }
+.l26-etapes-titre { margin: 0; font-size: 15.5px; font-weight: 700; color: var(--text); }
+.l26-etapes-aide { margin: 4px 0 0; font-size: 12px; font-weight: 500; line-height: 1.4; color: var(--text3); }
+.l26-etapes ul { list-style: none; margin: 14px 0 0; padding: 0; }
+.l26-etape { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 44px; margin: -6px 0 -1px; padding: 0; border: 0; background: none; text-align: left; font: inherit; font-size: 13px; font-weight: 500; color: var(--text); cursor: pointer; }
+.l26-etape span { flex: 1; }
+.l26-etape > svg:first-child { color: var(--text3); }
+.l26-etape.fait { color: var(--text3); cursor: default; }
+.l26-etape.fait > svg:first-child { color: var(--sage); }
+.l26-etape > svg:last-child:not(:first-child) { color: var(--text3); }

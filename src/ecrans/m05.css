@@ -1,0 +1,148 @@
+/* Bibliothèque et fiche exercice : géométrie reprise de GymMane (1 px Flutter = 1 px CSS). */
+
+/* ---------- En-tête collant de la bibliothèque ---------- */
+.biblio-tete { position: sticky; top: 0; z-index: 8; margin: calc(-1 * (var(--safe-t) + 14px)) -20px 0; padding: calc(var(--safe-t) + 14px) 20px 8px; background: var(--bg); display: grid; gap: 10px; }
+.biblio-ligne { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.biblio-titre { flex: 1; min-width: 0; transform-origin: left center; transition: transform 220ms var(--ease-out); }
+.biblio-titre h1 { font-size: 22px; font-weight: 800; letter-spacing: -.4px; line-height: 1.15; }
+.biblio-titre p { margin-top: 4px; font-size: 13px; font-weight: 500; color: var(--text2); transition: opacity 160ms; }
+.biblio-actions { display: flex; align-items: center; gap: 8px; flex: none; align-self: flex-start; }
+.biblio-loupe, .biblio-filtre { position: relative; }
+/* Bouton « + » de 40 px, zone tactile de 44 px */
+.biblio-plus { position: relative; }
+.biblio-plus::after { content: ''; position: absolute; inset: -2px; }
+/* Comme GymMane : loupe et bouton Filtres n'existent que lorsque l'en-tête est replié (la recherche et la pastille Filtres prennent le relais en haut de page). */
+.biblio .biblio-loupe, .biblio .biblio-filtre { display: none; }
+.biblio.plie .biblio-loupe, .biblio.plie .biblio-filtre { display: grid; }
+.badge-filtre { position: absolute; right: -2px; top: -2px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 100px; background: var(--ember); color: var(--on-ember); font-size: 10px; font-weight: 800; display: grid; place-items: center; line-height: 1; }
+.biblio-recherche { overflow: hidden; max-height: 48px; transition: max-height 220ms var(--ease-out), opacity 160ms; }
+.biblio-puces { min-height: 44px; overflow: hidden; transition: max-height 220ms var(--ease-out), opacity 160ms; max-height: 60px; }
+.biblio.plie .biblio-titre { transform: scale(.8); }
+.biblio.plie .biblio-titre p { opacity: 0; height: 0; margin: 0; }
+.biblio.plie .biblio-recherche { max-height: 0; opacity: 0; }
+/* Page en haut : recherche placée à 64 px du haut du titre, comme GymMane (mesure sur la capture) */
+.biblio:not(.plie) .biblio-recherche { margin-top: 7px; }
+.biblio.plie .biblio-puces { max-height: 0; min-height: 0; opacity: 0; pointer-events: none; }
+/* Cibles tactiles de 44 px (pastilles, étoiles) */
+/* Pastilles de 28 px comme GymMane ; la zone tactile reste de 44 px (extension invisible de 8 px de chaque côté). */
+.filtre-puces .puce, .biblio .tout-voir { min-height: 44px; }
+.biblio .puce { min-height: 28px; position: relative; }
+.biblio .puce::after { content: ''; position: absolute; inset: -8px 0; }
+.biblio .puces, .biblio-puces { align-items: center; }
+.biblio .puces { padding: 8px 20px; }
+.biblio:not(.plie) .biblio-puces { margin-top: -8px; }
+.biblio-nb { font-size: 10.5px; font-weight: 700; color: var(--text2); letter-spacing: 1.3px; margin-left: 3.6px; }
+
+/* Pastille de filtre actif : libellé + croix */
+.puce-actif { display: inline-flex; align-items: center; gap: 6px; }
+.puce-actif .ic { opacity: .8; }
+.puce.texte { background: transparent; color: var(--accent); padding: 0 6px; }
+
+/* ---------- Feuille des zones ---------- */
+.zone-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.zone-carte { min-height: 92px; padding: 10px 12px 10px 10px; border-radius: 18px; background: var(--raised2); display: grid; align-content: center; justify-items: start; gap: 4px; text-align: left; color: var(--text); transition: transform 260ms var(--ease-back); }
+.zone-carte:active { transform: scale(.96); transition-duration: 90ms; }
+.zone-carte[aria-pressed="true"] { box-shadow: inset 0 0 0 1.5px var(--text); }
+.zone-carte b { font-size: 13px; font-weight: 700; line-height: 1.2; }
+.zone-carte small { font-size: 11px; font-weight: 500; color: var(--text2); }
+
+/* ---------- Feuille des filtres ---------- */
+.filtre-groupe { display: grid; gap: 10px; margin-top: 18px; }
+.filtre-groupe:first-of-type { margin-top: 4px; }
+.filtre-puces { display: flex; flex-wrap: wrap; gap: 8px; }
+.filtre-puces .puce { padding: 0 14px; min-height: 44px; font-size: 13px; }
+
+/* Ligne d'exercice : étoile des favoris. Comme GymMane (ExerciseTile) : nom et détail sur une ligne, ligne de 70 px (9 + 52 + 9). */
+div.ligne-ex { gap: 0; }
+.ligne-ex { padding: 9px 6px 9px 12px; }
+.liste-ex .ligne-ex-texte strong, .liste-ex .ligne-ex-texte small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ligne-ex-lien { display: flex; flex: 1; align-items: center; gap: 13px; min-width: 0; color: inherit; text-decoration: none; }
+.ligne-ex-fav { width: 44px; height: 44px; flex: none; display: grid; place-items: center; border: 0; background: none; border-radius: 12px; color: var(--text3); transition: transform 260ms var(--ease-back); }
+.ligne-ex-fav[aria-pressed="true"] { color: var(--accent); }
+.ligne-ex-fav:active { transform: scale(.9); transition-duration: 90ms; }
+
+/* ---------- Fiche exercice ---------- */
+.exo-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.exo-actions-droite { display: flex; align-items: center; gap: 10px; }
+.exo-media { display: block; margin: 0 0 18px; }
+.exo-media .cadre-art { width: 100%; height: 220px; display: grid; place-items: center; border-radius: 22px; background: var(--raised2); overflow: hidden; }
+.exo-nom { font-size: 26px; font-weight: 800; line-height: 1.1; letter-spacing: -.3px; overflow-wrap: anywhere; }
+.exo-niveau { font-size: 13px; font-weight: 500; margin-top: 4px; }
+.rond.fav { color: var(--accent); }
+.exo-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 18px 0; }
+.exo-meta div { min-width: 0; }
+.exo-meta strong { display: block; font-size: 14.5px; font-weight: 600; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.exo-meta .kicker { font-size: 10.5px; letter-spacing: 1.4px; margin-bottom: 6px; }
+
+.record-carte { background: var(--raised); border-radius: 20px; padding: 18px; display: grid; gap: 12px; }
+.record-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.record-val { font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: -.6px; }
+.record-val small { font-size: 13px; font-weight: 700; color: var(--text2); margin-left: 4px; }
+.record-detail { font-size: 12px; font-weight: 500; color: var(--text2); text-align: right; }
+.record-cellules { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.record-cellules div { min-width: 0; display: grid; gap: 3px; }
+.record-cellules b { font-size: 17px; font-weight: 700; line-height: 1.15; }
+.record-cellules small { font-size: 11.5px; color: var(--text3); }
+/* Libellés « BEST SET » et « BEST WORKOUT » : capitales espacées, comme GymMane */
+.record-cellules > div > small:first-child { font-size: 10.5px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: var(--text2); }
+.record-carte .courbe { width: 100%; display: block; }
+
+.prochaine-carte { background: var(--raised); border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; box-shadow: inset 0 0 0 1px transparent; }
+.prochaine-carte.monte { box-shadow: inset 0 0 0 1px var(--ember); }
+.prochaine-tete { display: flex; align-items: center; gap: 6px; }
+.prochaine-carte b { font-size: 20px; font-weight: 800; line-height: 1.15; }
+.prochaine-carte.monte b { color: var(--ember); }
+.prochaine-aide { font-size: 11.5px; font-weight: 500; color: var(--text3); line-height: 1.3; }
+
+.histo-ligne { display: flex; align-items: center; gap: 12px; padding: 13px 16px; }
+.histo-ligne + .histo-ligne { box-shadow: inset 0 1px 0 var(--sep); }
+.histo-ligne > span:first-child { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.histo-ligne strong { font-size: 14.5px; font-weight: 600; }
+.histo-ligne small { font-size: 12px; font-weight: 500; color: var(--text2); }
+.histo-ligne .droite { text-align: right; flex: none; }
+.histo-ligne .droite strong { font-size: 17px; font-weight: 700; }
+.tout-voir { position: relative; font-size: 12px; font-weight: 700; background: var(--raised); border-radius: 14px; min-height: 28px; padding: 0 12px; display: inline-flex; align-items: center; border: 0; color: var(--text); }
+
+.histo-feuille { display: grid; gap: 14px; }
+.histo-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.histo-grande { font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: -.6px; }
+.histo-grande small { font-size: 14px; font-weight: 700; color: var(--text2); }
+.delta { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 100px; font-size: 11.5px; font-weight: 700; }
+.delta.haut { background: var(--sage-soft); color: var(--sage); }
+.delta.bas { background: var(--accent-soft); color: var(--accent); }
+.histo-liste { background: var(--raised); border-radius: 20px; overflow: hidden; }
+.plus-lignes { justify-self: center; min-height: 44px; padding: 9px 16px; border-radius: 100px; background: var(--raised2); border: 0; color: var(--text); font-size: 12.5px; font-weight: 700; font-family: inherit; }
+
+.art-cadre { border-radius: 15px; overflow: hidden; background: var(--raised2); display: grid; place-items: center; flex: none; }
+
+.tout-voir::after { content: ''; position: absolute; inset: -8px -6px; }
+.histo-feuille .seg button { min-height: 44px; }
+
+/* Ligne Notes de la fiche (comme GymMane : carte, pastille, titre, compte, chevron) */
+.ligne-note { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 13px 16px; border-radius: 20px; background: var(--raised); color: var(--text); text-decoration: none; margin-top: 24px; }
+.ligne-note-texte { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.ligne-note-texte strong { font-size: 14.5px; font-weight: 500; }
+.ligne-note-texte small { font-size: 11.5px; font-weight: 500; color: var(--text2); }
+.ligne-note > .ic:last-child { color: var(--text3); }
+.pastille-ic.on { background: var(--accent-soft); color: var(--accent); }
+.section + .ligne-note { margin-top: 24px; }
+
+/* Rangée « Avancé » du formulaire d'exercice */
+.ligne-avance { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 16px; border-radius: 16px; background: var(--raised2); color: var(--text); font-size: 14.5px; font-weight: 700; text-align: left; }
+.ligne-avance span { flex: 1; }
+.ligne-avance .ic:last-child { color: var(--text3); transition: transform 220ms var(--ease-out); }
+.ligne-avance .ic.ouvert { transform: rotate(180deg); }
+
+/* Records au-dessus de l'historique (GymMane, exercise_history_sheet : _records) */
+.histo-records { background: var(--raised2); border-radius: 16px; padding: 14px 16px; display: grid; gap: 10px; }
+.histo-records > .kicker { font-size: 10.5px; letter-spacing: 1.4px; }
+.histo-record-val { margin: -2px 0 0; font-size: 22px; font-weight: 800; line-height: 1.15; overflow-wrap: anywhere; }
+.histo-echelle { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; }
+.histo-echelle div { min-width: 0; display: grid; }
+.histo-echelle b { font-size: 20px; font-weight: 800; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.histo-echelle span { margin-top: 5px; font-size: 12px; font-weight: 600; color: var(--text2); white-space: nowrap; }
+.histo-echelle small { margin-top: 2px; font-size: 11px; font-weight: 500; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.histo-meilleure { display: flex; align-items: baseline; gap: 10px; margin-top: 4px; }
+.histo-meilleure span { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.histo-meilleure b { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
+.histo-meilleure small { font-size: 11.5px; font-weight: 500; color: var(--text3); white-space: nowrap; }

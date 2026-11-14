@@ -1,0 +1,36 @@
+/* L32 : retouches au 1:1 sur le Dart de GymMane. Fichier à nous ; dépend des classes des écrans visés. */
+
+/* Liste des exercices (exercises_screen.dart, _row et en-tête de groupe) : titre 10,5 px espacé de 1,3,
+   8 px sous le titre, 4 px entre nom et détail, étoile à 6 + 10 px du bord droit (zone de 44 px gardée). */
+.groupe-ex { gap: 8px; }
+.groupe-ex .kicker { font-size: 10.5px; letter-spacing: 1.3px; }
+.groupe-ex .ligne-ex-texte { gap: 4px; }
+.groupe-ex .ligne-ex-fav { margin-right: -3px; }
+
+/* Éditeur de programme (routine_edit_screen.dart, _chosenRow et _chosenCard) : entre deux cartes liées en superset,
+   la marge de 4 px appartient à la carte (margin) et non à la ligne, pour que la barre cuivre reste continue. */
+.rt-exo-ligne.suite { padding-bottom: 0; }
+.rt-exo-ligne.suite .rt-exo { margin-bottom: 4px; }
+/* Barre du bas : Enregistrer et Commencer en 2/5 et 3/5 de la largeur moins 10 px, rembourrages hors calcul (Expanded flex 2 et 3). */
+.rt-edit-sauver, .rt-edit-pied .btn.pri { padding-inline: 0; }
+
+/* Nutrition, carte du jour (nutrition/cards.dart, _HeroCard) : les nombres sont des RollingText, une boîte de
+   taille × hauteur (1,2 par défaut) où le glyphe garde sa place naturelle en haut (paragraphe coupé en bas, TextHeightBehavior serré). */
+.gm .gm-hero b { display: block; line-height: 1.364; overflow: visible; }
+.gm .gm-cote b { height: 26.4px; }
+.gm .gm-anneau-centre b { height: 39.1px; }
+.gm .gm-macro-val b { height: 18px; }
+.gm .gm-macro-val small, .gm .gm-anneau-centre small, .gm .gm-cote small, .gm .gm-macro-nom { line-height: 1.364; }
+
+/* Onglets des repas (nutrition/meals.dart, _MealTabs) : 22 px sous les dossiers (la marge négative de la zone tactile
+   en retirait 12) ; onglets inactifs en 16 px gras, couleur tertiaire (écrasés par « .gm button { font: inherit } »). */
+.gm .gm-onglets.m22 { margin-top: 10px; }
+.gm .gm-onglet:not(.on) { font-size: 16px; font-weight: 700; color: var(--text3); }
+/* Hauteurs de ligne relevées sur la capture de l'original (Flutter web) : ligne des grammes 19 px, ligne du nom 16 px.
+   Écarts 7 / 7 / 20 et rembourrages 16 / 18 du Dart inchangés. */
+.gm .gm-macro-val { height: 19px; }
+.gm .gm-macro-nom { height: 16px; }
+/* Boîtes des onglets à 1,15 × la taille comme sur la capture (24 px actif, 18 px inactif, bas alignés) ;
+   zone tactile : 12 px de rembourrage de chaque côté plus 1 px de zone invisible, soit 44 px au moins. */
+.gm .gm-onglet { line-height: 1.15; min-height: 0; }
+.gm .gm-onglet::after { inset: -1px 0; }

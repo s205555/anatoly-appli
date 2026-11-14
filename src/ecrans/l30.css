@@ -1,0 +1,107 @@
+/* L30 : retouches 1:1 à 390 px (audit v11). Chargé en dernier. Valeurs tirées du Dart d'origine. */
+
+/* RoundAction (ui_kit.dart) : 36 px dessinés ; la zone tactile reste de 44 px grâce à ::before, invisible. */
+.rond.zone44 { position: relative; }
+.rond.zone44::before { content: ""; position: absolute; inset: calc((var(--rt, 36px) - 44px) / 2); border-radius: 50%; }
+
+/* ScreenHeader : bouton 36, écart 12, titre 20 px w800 (ScreenTitle, interlettrage nul), sous-titre 12,5 px w500. */
+.en-tete { grid-template-columns: 36px 1fr auto; }
+.en-tete h1 { font-size: 20px; letter-spacing: 0; line-height: 1.15; }
+.en-tete-titre .muted { font-size: 12.5px; font-weight: 500; margin-top: 2px; }
+/* titleSize propres à certains écrans : routines_screen 22, ai_plan_screen 22, tools_screen 22, tool_detail_screen 21, about_screen 18. */
+.rt-ecran .en-tete h1, .outils-page .en-tete h1 { font-size: 22px; }
+.outil-page .en-tete h1 { font-size: 21px; }
+.ap-ecran .en-tete h1 { font-size: 18px; }
+
+/* Chronologie, état vide (timeline_screen.dart _empty) : padding 26/22, titre 18 w700, texte 13 ; la règle générique .m08-vide p l'écrasait. */
+.m08-vide:has(.m08-fantomes) { padding: 26px 22px; gap: 0; }
+.m08-vide .m08-vide-titre { font-size: 18px; font-weight: 700; line-height: 1.25; margin-bottom: 8px; max-width: none; color: var(--text); }
+.m08-vide .m08-vide-texte { font-size: 13px; font-weight: 400; line-height: 1.5; max-width: none; }
+
+/* Barre du bas (app_shell.dart _NavBar) : icônes de 58 px réparties entre 14 px de marge, ▶ de 48 px au centre.
+   Pastille liquide : 10 px du haut et du bas (48 px de haut), largeur 58 + 0,4 × écart, décalée de 0,2 × écart. */
+.nav-in { display: flex; justify-content: space-between; padding: 0 14px; }
+.nav-liquide { --g: calc((100% - 308px) / 4); --s: clamp(0, calc(var(--i) - 2), 1); top: 10px; height: 48px; width: calc(58px + var(--g) * .4);
+  left: calc(14px + (var(--i) - var(--s)) * 58px + var(--s) * 48px + (var(--i) - .2) * var(--g)); }
+
+/* La feuille reçoit le focus à l'ouverture quand elle n'a pas de champ : pas d'anneau sur la feuille elle-même. */
+.feuille:focus { outline: none; }
+
+/* Feuille Démarrer (start_sheet.dart) : carte du jour 16 px, lignes SoftCard 13/14 px, titre 14,5 w600 + 2 + 11,5. */
+.m02-routine-ligne strong, .m02-routine-ligne small { line-height: 1.15; }
+.m02-plan-carte .m02-plan-corps { gap: 0; }
+.m02-plan-carte .m02-plan-kicker { line-height: 1.15; margin-bottom: 6px; }
+.m02-plan-carte .m02-plan-sous { line-height: 1.15; margin-top: 2px; }
+
+/* Feuilles Ajouter / Changer d'exercice (session_screen.dart showAddToSessionSheet, swap) : sans poignée, 18 px en haut, 82 % de l'écran au plus. */
+.feuille:has(.sx-gauche) { padding-top: 18px; max-height: 82dvh; }
+.feuille:has(.sx-gauche) > .poignee { display: none; }
+
+/* SegToggle (ui_kit.dart) : options de largeur égale (IntrinsicWidth + Expanded), 3 px autour, hauteur = texte × 1,15 + 2 × vPad.
+   Rendu à la taille d'origine ; ::after garde 44 px de zone tactile. */
+.m04-seg { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+.m04-seg button { min-height: 0; min-width: 0; line-height: 1.15; padding: 5px 10px; }
+.m04-seg button::after { inset: -11px 0; }
+.m04-seg.grand button { padding: 7px 14px; }
+.m04-seg.grand button::after { inset: -8px 0; }
+.m04-seg.l4-seg-partage button { padding: 8px 14px; font-size: 12.5px; }
+.m04-seg.l4-seg-partage button::after { inset: -7px 0; }
+.rt-seg { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+.gm-seg { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; }
+.gm-seg button { line-height: 1.15; }
+.gm-seg.petit button::after { inset: -11px 0; }
+
+/* Cartes Échauffement / Cardio (train_screen.dart _kindCard) : titre 15 et texte 12 à hauteur de ligne Flutter. */
+.m07-kind strong { line-height: 1.15; }
+
+/* Feuilles d'aliment (food.dart _NumberField / _TextInput) : le champ ne déborde plus de sa case (unités kcal / g visibles),
+   pleine largeur, hauteurs Flutter (libellé 9,5 et valeur 19 à 1,15). */
+.gm-champ { grid-template-columns: minmax(0, 1fr); justify-self: stretch; }
+/* .texte du site (anatoly.css : marge auto, 760 px) centrait et rétrécissait le champ Nom. */
+.gm-champ.texte { margin: 0; max-width: none; }
+.gm-champ small { line-height: 1.15; }
+.gm-champ input { line-height: 1.15; height: auto; }
+/* _kicker (nutrition_screen.dart) n'a pas de retrait dans les feuilles. */
+.feuille .gm-kicker { padding-left: 0; }
+/* _catPicker (Clip.none) : la rangée de catégories file jusqu'au bord de la feuille ; le corps garde sa largeur de contenu. */
+.feuille:has(.gm-pastilles) .feuille-corps { margin-right: -20px; padding-right: 22px; }
+.feuille .gm-pastilles { margin-right: -22px; padding-right: 22px; }
+
+/* Tailles d'origine plus petites que 44 px : rendu à la taille d'origine, ::before invisible pour garder 44 px de zone tactile. */
+.filtre-puces .puce, .m11-pilule { position: relative; }
+.filtre-puces .puce::before, .m11-pilule::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 44px; transform: translateY(-50%); }
+/* Pill (ui_kit.dart) : 13 px, 8 px en haut et en bas. */
+.filtre-puces .puce { min-height: 0; padding: 8px 14px; line-height: 1.15; }
+/* « Note on this day » (note_kit.dart) : 12 px, 8/14. */
+.m11-pilule { min-height: 0; line-height: 1.15; }
+/* Rapport : GhostButton de 46 px pour l'export CSV, icône 16 couleur braise. */
+.btn.large.l4-bouton:not(.pri) { min-height: 46px; font-size: 13.5px; }
+.btn.large.l4-bouton:not(.pri) .ic { color: var(--ember); }
+/* Ligne « Repos après cette série » (session_screen.dart) : pilule 12,5 px à 8/12 (30 px), ligne de 42 px. */
+button.sx-repos-pilule { min-height: 0; line-height: 1.15; }
+button.sx-repos-pilule::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 44px; transform: translateY(-50%); }
+.sx-repos-texte strong, .sx-repos-texte small { line-height: 1.15; }
+
+/* Feuille Circuit (circuit_screen.dart _setting + StepperControl) : ligne 8/8/8/16, boutons de 30 px fond bgRaised2 (fondus dans la ligne),
+   écart 14, valeur 16 px w700 sur 34 px ; ::before garde 44 px de zone tactile. */
+.rt-reglage { min-height: 0; padding: 8px 8px 8px 16px; }
+.rt-pas { gap: 14px; }
+.rt-pas button { width: 30px; height: 30px; border-radius: 8px; background: var(--raised2); font-size: 18px; font-weight: 500; line-height: 1; position: relative; }
+.rt-pas button::before { content: ""; position: absolute; inset: -7px; }
+.rt-pas output { min-width: 34px; font-size: 16px; }
+.rt-reglage > em { line-height: 1.15; }
+/* Import de programmes (plan_import_sheet.dart) : champ sans poignée de redimensionnement. Police gardée à 16 px (règle des champs). */
+.rt-zone { resize: none; }
+
+/* Médailles (awards_screen.dart, sheet_page.dart) : boutons ronds de 36, médaille de 74 px pleine, nom 14 w700. */
+.rc-rond { width: 36px !important; height: 36px !important; }
+.rc-rond::after { inset: -4px; }
+.rc-medaille .ic-medaille { width: 100%; height: 100%; }
+.rc-nom { font-weight: 700; line-height: 1.15; }
+.rc-date { line-height: 1.15; }
+
+/* Carte Régularité (progress_screen.dart _consistency) : rangée de titre de 12 px puis 14 px avant la grille ;
+   le bouton des teintes garde 44 px de zone tactile par ::before. */
+.m04-teintes { min-height: 0; height: 12px; position: relative; }
+.m04-teintes::before { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 44px; transform: translateY(-50%); }
+.m04-teintes .ic { margin-left: 4px; width: 11px; height: 11px; }

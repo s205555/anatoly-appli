@@ -1,0 +1,76 @@
+/* M07 Entraîner : portage 1:1 de GymMane train_screen.dart. 1px Flutter = 1px CSS. */
+
+.m07-etape { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.m07-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); }
+.m07-focus { font-size: 28px; font-weight: 800; letter-spacing: -.3px; line-height: 1.12; }
+
+/* Carte silhouette */
+.m07-corps { margin-top: 15px; padding: 14px; background: var(--raised); border-radius: 24px; }
+.sil-corps { display: block; width: 100%; height: auto; }
+.sil-zone { transition: fill 160ms ease, opacity 160ms ease; }
+.sil-selection .sil-muscle:hover .sil-zone { fill: color-mix(in srgb, var(--ember) 65%, var(--raised2)); }
+.sil-selection .sil-muscle[aria-pressed="true"] .sil-zone { fill: var(--ember); }
+.sil-hit { fill: transparent; }
+
+.m07-aide { margin-top: 2px; text-align: center; font-size: 12px; font-weight: 500; color: var(--text3); line-height: 1.4; }
+.m07-puces { margin-top: 9px; display: flex; flex-wrap: wrap; gap: 8px; min-height: 38px; align-items: center; }
+.m07-puce { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 100px; background: var(--ember-soft); font-size: 13px; font-weight: 600; color: var(--ember); }
+.m07-puce button { display: grid; place-items: center; color: var(--ember); }
+
+.m07-or { margin-top: 20px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.m07-kinds { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.m07-kind { padding: 16px; border-radius: 20px; background: var(--raised); text-align: left; color: var(--text); min-height: 44px; }
+.m07-kind-ic { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.m07-kind strong { display: block; margin-top: 14px; font-size: 15px; font-weight: 700; }
+.m07-kind small { display: block; margin-top: 3px; font-size: 12px; font-weight: 500; color: var(--text2); line-height: 1.3; }
+
+/* Étape 2 */
+.m07-revue-tete { display: flex; align-items: center; gap: 10px; }
+.m07-retour { width: 44px; height: 44px; margin: -10px 0 -10px -10px; display: grid; place-items: center; color: var(--text2); }
+.m07-revue-titre { display: grid; gap: 2px; }
+.m07-revue-titre h2 { font-size: 22px; font-weight: 800; letter-spacing: -.3px; }
+
+.m07-recherche { display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 16px; border-radius: 100px; background: var(--raised); color: var(--text2); }
+.m07-recherche input { flex: 1; min-width: 0; height: 100%; border: 0; background: none; font-size: 14px; font-weight: 500; color: var(--text); }
+.m07-recherche input::placeholder { color: var(--text2); }
+.m07-recherche input:focus { outline: none; }
+.m07-recherche:focus-within { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.m07-recherche button { display: grid; place-items: center; color: var(--text2); }
+.m07-outils { display: flex; gap: 10px; }
+.m07-outil { width: 48px; height: 48px; flex: none; border-radius: 14px; display: grid; place-items: center; background: var(--raised); border: 1px solid var(--border); color: var(--text3); }
+.m07-outil.actif { background: var(--ember-soft); border-color: color-mix(in srgb, var(--ember) 30%, transparent); color: var(--ember); }
+.m07-outil.neuf { background: var(--ember-soft); border-color: transparent; color: var(--ember); }
+
+.m07-engins { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -20px; padding: 0 20px 2px; }
+.m07-engins::-webkit-scrollbar { display: none; }
+.m07-engin { flex: none; padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; background: var(--raised2); color: var(--text2); }
+.m07-engin.on { background: var(--ember); color: var(--on-ember); }
+
+.m07-compte { font-size: 12px; font-weight: 500; color: var(--text3); }
+.m07-liste { display: grid; gap: 10px; }
+.m07-section { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); padding-left: 2px; }
+
+.m07-ligne { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 16px; background: var(--raised); border: 1px solid var(--border); text-align: left; color: var(--text); width: 100%; transition: border-color 160ms ease; }
+.m07-ligne.choisi { border-color: var(--ember); }
+.m07-ligne .vignette { flex: none; width: 44px; height: 44px; border-radius: 12px; overflow: hidden; }
+.m07-ligne-texte { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.m07-ligne-texte strong { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m07-ligne-texte small { font-size: 12px; font-weight: 500; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m07-coche { width: 26px; height: 26px; flex: none; border-radius: 50%; border: 2px solid var(--text3); display: grid; place-items: center; color: var(--on-ember); }
+.m07-coche.ok { background: var(--ember); border-color: var(--ember); }
+
+.m07-vide { padding: 32px 8px; text-align: center; display: grid; gap: 10px; justify-items: center; }
+.m07-vide strong { font-size: 15px; font-weight: 600; }
+.m07-vide small { font-size: 13px; font-weight: 500; color: var(--text2); line-height: 1.4; }
+.m07-vide a { font-size: 13px; font-weight: 600; color: var(--accent); min-height: 44px; display: inline-flex; align-items: center; }
+
+/* Continuer : casse normale, inactif en gris foncé (PrimaryButton de GymMane : bgRaised2 / textTertiary). */
+.m07-continuer { margin-top: 14px; width: 100%; min-height: 52px; font-size: 15.5px; letter-spacing: .2px; }
+.m07-continuer:disabled { opacity: 1; background: var(--raised2); color: var(--text3); }
+
+.m07-barre { position: sticky; bottom: calc(10px + var(--safe-b)); margin-top: 6px; display: flex; }
+.m07-barre .btn { flex: 1; min-height: 52px; }
+
+/* En-tête de l'écran Entraîner : bouton X rond à gauche, titre centré (train_screen.dart). */
+.m07-tete { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 12px; min-height: 48px; }
+.m07-tete h1 { font-size: 18px; font-weight: 800; text-align: center; overflow-wrap: anywhere; }

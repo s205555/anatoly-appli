@@ -1,0 +1,330 @@
+/* M04 Progres : reprend la geometrie de GymMane (1 px Flutter = 1 px CSS).
+   Cartes 22, pilules 100, cases 3, barres 7, padding carte (18,16). */
+
+.ecran.m04 { gap: 12px; grid-template-columns: minmax(0, 1fr); padding: calc(var(--safe-t) + 12px) 20px calc(var(--safe-b) + 110px); max-width: var(--col); }
+/* L37 : séance en cours, la pilule « Reprendre » s'ajoute à la barre du bas, la dernière carte doit rester lisible */
+body.a-reprise .ecran.m04 { padding-bottom: calc(var(--safe-b) + 128px + 68px); }
+
+/* En-tete : titre 30/800 et pilule d'actions 40 de haut */
+.m04-tete { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-height: 40px; margin-bottom: 8px; }
+.m04-tete h1 { flex: 1 1 auto; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m04-actions { flex: none; display: flex; align-items: stretch; height: 46px; border-radius: 100px; background: var(--raised); border: 1px solid color-mix(in srgb, var(--border) 60%, transparent); overflow: hidden; }
+.m04-actions > a, .m04-actions > button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; min-width: 44px; justify-content: center; padding: 0 12px; font-size: 13px; font-weight: 700; color: var(--text); background: none; border: 0; cursor: pointer; }
+.m04-actions > :first-child { padding-left: 14px; }
+.m04-actions > :last-child { padding-right: 16px; }
+.m04-actions .ico { color: var(--text2); }
+.m04-actions .ico-accent { color: var(--accent); flex: none; }
+.m04-actions .sep { width: 1px; height: 18px; align-self: center; background: var(--border); flex: none; }
+.m04-actions .press:active { transform: scale(.92); }
+
+/* Tuiles */
+.m04-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: stretch; }
+.m04-tuile { display: flex; flex-direction: column; padding: 16px 18px; border-radius: 22px; background: var(--raised); color: var(--text); text-align: left; border: 0; font: inherit; min-width: 0; }
+button.m04-tuile { cursor: pointer; }
+.m04-tuile-tete { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 14px; container-type: inline-size; }
+.m04-tuile .kicker { flex: 0 1 auto; min-width: 0; font-size: clamp(9px, 7.6cqw, 10.5px); font-weight: 700; letter-spacing: 1.4px; color: var(--text3); white-space: nowrap; }
+/* Étiquette trop longue pour la tuile (320 px) : elle passe sur deux lignes au lieu d'être rognée. */
+@media (max-width: 359px) { .m04-tuile .kicker { white-space: normal; overflow-wrap: anywhere; line-height: 1.2; } }
+.m04-valeur { display: flex; align-items: baseline; gap: 5px; margin-top: 10px; font-size: 28px; font-weight: 800; line-height: 1.15; letter-spacing: -.3px; white-space: nowrap; }
+.m04-valeur small { font-size: 13px; font-weight: 500; color: var(--text2); }
+.m04-note { margin-top: 4px; font-size: 11.5px; font-weight: 500; color: var(--text3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m04-delta { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; flex: none; }
+.m04-delta.haut { color: var(--sage); }
+.m04-delta.bas { color: var(--accent); }
+.m04-etincelle { display: block; width: 100%; height: 40px; margin-top: 12px; }
+
+/* Carte nue */
+.m04-carte { background: var(--raised); border-radius: 22px; padding: 16px 18px 18px; }
+.m04-carte.pleine { padding: 18px; }
+/* SoftCard de l'original : bordure 1 px + marge 20 px, la carte musculaire en dépend (largeur des figures). */
+.m04-carte.m04-muscles { padding: 21px; }
+.m04-tete-carte { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.m04-tete-carte .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; color: var(--text3); }
+.m04-sous { margin-top: 6px; font-size: 13px; font-weight: 500; color: var(--text2); }
+
+/* Teintes de chaleur (pastilles + feuille) */
+.m04-teintes { display: inline-flex; align-items: center; gap: 3px; min-height: 44px; padding: 0 2px; background: none; border: 0; cursor: pointer; }
+.m04-teintes i { width: 9px; height: 9px; border-radius: 3px; display: block; }
+.m04-teintes .ic { margin-left: 4px; color: var(--text3); }
+
+/* Heatmap 7 lignes, ecart 4, case rayon 3 (charts.dart:Heatmap, HeatmapYear : cellule 13 px, jours à gauche) */
+.m04-hm-douze, .m04-hm-annee { margin-top: 14px; }
+.m04-hm-grille { display: grid; grid-template-rows: 16px repeat(7, auto); gap: 4px; }
+.m04-hm-grille.grand { grid-template-rows: 16px repeat(7, 13px); width: max-content; padding-left: 18px; }
+.m04-hm-grille button { position: relative; padding: 0; border: 0; border-radius: 3px; background: var(--heat-empty); aspect-ratio: 1; display: block; width: 100%; min-width: 0; cursor: pointer; }
+.m04-hm-grille.grand button { width: 13px; height: 13px; }
+/* Zone cliquable portée à 44 px par pseudo-élément : la cellule visible reste petite (donnée de carte de chaleur). */
+.m04-hm-grille button::after { content: ''; position: absolute; inset: -14px; }
+.m04-hm-grille.grand button::after { inset: -16px; }
+.m04-hm-grille .n1 { background: var(--heat-1); }
+.m04-hm-grille .n2 { background: var(--heat-2); }
+.m04-hm-grille .n3 { background: var(--heat-3); }
+.m04-hm-grille .n4 { background: var(--heat-4); }
+.m04-hm-grille .futur { background: transparent; cursor: default; }
+.m04-hm-mois, .m04-hm-jour { font-size: 9px; font-weight: 600; color: var(--text3); line-height: 16px; white-space: nowrap; overflow: visible; }
+.m04-hm-mois.an { font-weight: 800; color: var(--text2); }
+.m04-hm-jour { display: flex; align-items: center; line-height: 1; }
+.m04-hm-annee { display: flex; align-items: flex-start; }
+.m04-hm-jours { flex: none; width: 16px; padding-top: 20px; display: grid; grid-template-rows: repeat(7, 13px); gap: 4px; font-size: 9px; font-weight: 600; color: var(--text3); }
+.m04-hm-jours span { display: flex; align-items: center; }
+.m04-hm-defile { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%); mask-image: linear-gradient(90deg, transparent 0, #000 8%); }
+.m04-hm-defile::-webkit-scrollbar { display: none; }
+
+/* Feuille Couleur de chaleur */
+.m04-teinte-ligne { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 50px; padding: 14px 16px; border-radius: 16px; border: 1.4px solid transparent; background: var(--raised2); color: var(--text); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left; }
+.m04-teinte-ligne.actif { border-color: var(--text); }
+.pile:has(> .m04-teinte-ligne) { gap: 11px; }
+.m04-teinte-nuances { display: inline-flex; gap: 6px; }
+.m04-teinte-nuances i { width: 20px; height: 20px; border-radius: 6px; display: block; }
+.m04-teinte-ligne .nom { flex: 1; }
+
+.m04-heat-pied { display: flex; align-items: center; gap: 7px; margin-top: 14px; font-size: 12.5px; font-weight: 600; color: var(--text); }
+.m04-heat-pied .ic { color: var(--accent); flex: none; }
+.m04-heat-pied .droite { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--text3); text-align: right; }
+
+/* Segment (pilule, curseur) */
+.m04-seg { display: inline-flex; padding: 3px; border-radius: 100px; background: var(--raised2); max-width: 100%; overflow-x: clip; }
+.m04-seg::-webkit-scrollbar { display: none; }
+.m04-seg button { flex: none; min-width: 44px; padding: 5px 10px; border-radius: 100px; border: 0; background: none; color: var(--text2); font: inherit; font-size: 11px; font-weight: 600; cursor: pointer; min-height: 44px; }
+.m04-seg button { position: relative; }
+.m04-seg button::after { content: ''; position: absolute; inset: -9px -2px; }
+.m04-seg button[aria-pressed="true"] { background: var(--ember); color: var(--on-ember); }
+.m04-seg.grand button { padding: 7px 14px; font-size: 12px; }
+/* Sous 360 px, les trois segments tiennent sur une ligne sans être rognés. */
+@media (max-width: 359px) { .m04-seg button { padding: 5px 6px; } }
+.m04-seg-centre { display: flex; justify-content: center; }
+
+/* Carte muscles */
+.m04-silhouettes { margin-top: 16px; }
+.m04-seg-gauche { margin-top: 10px; }
+.m04-silhouettes .silhouette-svg { min-width: 0; }
+.m04-silhouettes svg { display: block; width: 100%; height: auto; }
+.m04-legende { display: flex; align-items: center; gap: 3px; margin-top: 16px; font-size: 11px; color: var(--text3); }
+.m04-legende span { flex: none; }
+.m04-legende i { height: 7px; border-radius: 2px; flex: 1; display: block; }
+.m04-legende span:first-child { margin-right: 5px; }
+.m04-legende span:last-child { margin-left: 5px; }
+.m04-lecture { display: flex; align-items: center; gap: 8px; min-height: 36px; margin-top: 14px; font-size: 13px; color: var(--text2); }
+.m04-lecture .point { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.m04-lecture b { color: var(--text); font-weight: 600; }
+/* Récupération : anneau global et lecture par muscle */
+.m04-recup-globale { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+.m04-anneau { width: 46px; height: 46px; flex: none; }
+.m04-recup-texte { flex: 1; min-width: 0; }
+.m04-recup-texte b { display: block; font-size: 15px; font-weight: 700; color: var(--text); }
+.m04-recup-texte span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; font-size: 12px; color: var(--text2); }
+.m04-lecture-recup { display: block; }
+.m04-recup-tete { display: flex; align-items: center; gap: 8px; }
+.m04-recup-tete b { font-size: 15px; font-weight: 700; }
+.m04-pastille { flex: none; padding: 3px 8px; border-radius: 100px; font-size: 11px; font-weight: 700; }
+.m04-recup-pct { margin-left: auto; font-size: 20px; font-weight: 800; color: var(--text); line-height: 1; }
+.m04-jauge-recup { position: relative; height: 14px; margin-top: 10px; }
+.m04-jauge-recup .zone { position: absolute; top: 3px; height: 8px; border-radius: 4px; display: block; }
+.m04-jauge-recup .zone-fatigue { left: 0; width: 50%; background: color-mix(in srgb, #E5674C 28%, transparent); }
+.m04-jauge-recup .zone-milieu { left: calc(50% + 2px); width: calc(30% - 2px); background: color-mix(in srgb, #E0B15A 28%, transparent); }
+.m04-jauge-recup .zone-pret { left: calc(80% + 2px); width: calc(20% - 2px); background: color-mix(in srgb, #8FA377 28%, transparent); }
+.m04-jauge-recup .curseur { position: absolute; top: 0; width: 14px; height: 14px; box-sizing: border-box; border: 2.5px solid var(--raised); border-radius: 50%; }
+.m04-recup-quand { margin-top: 10px; font-size: 12.5px; color: var(--text2); }
+.m04-recup-indice { font-size: 13px; color: var(--text2); }
+.m04-liste-tete { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 44px; margin-top: 10px; padding: 0; border: 0; border-top: 1px solid var(--border); background: none; color: var(--text); font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.m04-liste-tete .ic { color: var(--text3); transition: transform 200ms var(--ease-out); }
+.m04-liste-tete[aria-expanded="true"] .ic { transform: rotate(180deg); }
+.m04-liste { display: grid; gap: 2px; padding-bottom: 4px; }
+.m04-liste button { display: flex; align-items: center; gap: 10px; padding: 7px 0; border: 0; background: none; color: var(--text); font: inherit; font-size: 14px; font-weight: 600; text-align: left; cursor: pointer; }
+.m04-liste button.actif { font-weight: 800; }
+.m04-liste .point { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.m04-liste .nom { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m04-liste .jauge { width: 64px; height: 5px; border-radius: 100px; background: var(--raised2); overflow: hidden; flex: none; }
+.m04-liste .jauge i { display: block; height: 100%; border-radius: 100px; }
+.m04-liste .nb { width: 44px; text-align: right; font-size: 16px; font-weight: 800; flex: none; }
+
+/* Radar */
+.m04-radar { display: block; width: 100%; max-width: 340px; margin: 10px auto 0; overflow: visible; }
+.m04-radar .grille { fill: none; stroke: var(--border); stroke-width: .8; opacity: .9; }
+.m04-radar .rayon { stroke: var(--border); stroke-width: .8; }
+.m04-radar .forme { fill: color-mix(in srgb, var(--accent) 22%, transparent); stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.m04-radar .axe-zone { cursor: pointer; outline: none; }
+.m04-radar .axe-zone:focus-visible .axe { fill: var(--accent); }
+.m04-radar .axe { font-size: 10.5px; pointer-events: none; font-weight: 600; fill: var(--text3); cursor: pointer; }
+.m04-radar .axe.actif { fill: var(--text); font-weight: 800; }
+.m04-radar-lecture { margin-top: 6px; text-align: center; font-size: 13px; font-weight: 600; color: var(--text2); min-height: 18px; }
+
+/* Cette semaine : barres */
+.m04-barres { display: flex; align-items: flex-end; gap: 8px; height: 92px; margin-top: 18px; }
+.m04-barres > div { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%; }
+.m04-barres .nb { font-size: 11px; font-weight: 700; color: var(--text2); line-height: 1; }
+.m04-barres .nb.auj { color: var(--text); }
+.m04-barres i { width: 100%; border-radius: 7px; background: color-mix(in srgb, var(--text) 32%, transparent); }
+.m04-barres i.zero { background: var(--raised2); }
+.m04-barres i.auj { background: var(--text); }
+.m04-jours { display: flex; gap: 8px; margin-top: 10px; }
+.m04-jours span { flex: 1; text-align: center; font-size: 11px; font-weight: 500; color: var(--text3); }
+.m04-jours span.auj { color: var(--text); font-weight: 700; }
+.m04-indice { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.m04-indice + .m04-indice { margin-top: 10px; }
+.m04-indice .rond-ic { width: 30px; height: 30px; border-radius: 50%; background: color-mix(in srgb, var(--text) 7%, transparent); display: grid; place-items: center; color: var(--text2); flex: none; }
+.m04-indice .rond-ic.haut { color: var(--sage); }
+.m04-indice p { margin: 0; font-size: 13px; font-weight: 600; line-height: 1.35; color: var(--text); }
+
+/* Force 1RM */
+.m04-exo-tete { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+.m04-vignette { width: 40px; height: 40px; border-radius: 11px; overflow: hidden; background: var(--raised2); flex: none; }
+.m04-vignette img, .m04-vignette svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m04-vignette.grande { width: 44px; height: 44px; border-radius: 12px; }
+.m04-exo-tete strong { flex: 1; min-width: 0; font-size: 15px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m04-change { width: 44px; height: 44px; border-radius: 50%; background: var(--raised2); border: 0; color: var(--text2); display: grid; place-items: center; flex: none; cursor: pointer; position: relative; }
+.m04-change::after { content: ""; position: absolute; inset: -7px; }
+.m04-force-valeur { display: flex; align-items: flex-end; gap: 10px; margin-top: 16px; }
+.m04-force-valeur b { font-size: 34px; font-weight: 800; line-height: 1.1; }
+.m04-force-valeur small { font-size: 15px; font-weight: 700; color: var(--text2); margin-left: 3px; }
+.m04-pastille-delta { margin-left: auto; margin-bottom: 6px; display: inline-flex; align-items: center; gap: 4px; padding: 5px 9px; border-radius: 100px; font-size: 11.5px; font-weight: 700; }
+.m04-pastille-delta.haut { background: var(--sage-soft); color: var(--sage); }
+.m04-pastille-delta.bas { background: var(--accent-soft); color: var(--accent); }
+.m04-relative { margin-top: 10px; }
+.m04-relative-ligne { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--text2); }
+.m04-relative-ligne b { color: var(--brass); font-size: 12px; font-weight: 700; }
+.m04-relative-barres { display: flex; gap: 3px; margin-top: 7px; }
+.m04-relative-barres i { flex: 1; height: 4px; border-radius: 2px; background: var(--raised2); overflow: hidden; display: block; }
+.m04-relative-barres i span { display: block; height: 100%; background: var(--brass); }
+.m04-tendance { display: block; width: 100%; margin-top: 12px; }
+.m04-tendance-pied { display: flex; gap: 8px; margin-top: 8px; font-size: 11px; font-weight: 600; color: var(--text3); }
+.m04-tendance-pied span:nth-child(2) { margin: 0 auto; }
+
+/* Records */
+.m04-record { display: flex; align-items: center; gap: 13px; padding: 11px 0; }
+.m04-record + .m04-record { border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent); }
+.m04-record .rang { position: relative; flex: none; }
+.m04-medaille { position: absolute; right: -4px; top: -4px; width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--raised); display: grid; place-items: center; font-size: 9px; font-weight: 800; color: var(--raised); }
+.m04-medaille.or { background: var(--brass); }
+.m04-medaille.argent { background: var(--text2); }
+.m04-medaille.bronze { background: var(--accent); }
+.m04-record .txt { flex: 1; min-width: 0; }
+.m04-record .txt strong { display: block; font-size: 14px; font-weight: 600; line-height: 1.25; }
+.m04-record .txt small { display: block; margin-top: 3px; font-size: 11.5px; font-weight: 500; color: var(--text3); }
+.m04-record .val { flex: none; font-size: 19px; font-weight: 800; }
+.m04-plus { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; border: 0; background: none; color: var(--text2); font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+.m04-plus .ic { transition: transform 240ms var(--ease-out); }
+.m04-plus[aria-expanded="true"] .ic { transform: rotate(180deg); }
+
+/* Mesures */
+.m04-mesures { display: grid; }
+.m04-mesure { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; border-top: 1px solid color-mix(in srgb, var(--border) 55%, transparent); }
+.m04-mesure:first-child { border-top: 0; }
+.m04-mesure strong { font-size: 14px; font-weight: 600; }
+.m04-mesure small { display: block; font-size: 11.5px; font-weight: 500; color: var(--text3); margin-top: 1px; }
+.m04-mesure b { font-size: 15px; font-weight: 800; white-space: nowrap; }
+.m04-non { font-size: 12.5px; font-weight: 500; color: var(--text3); }
+
+/* Bilan du mois */
+.m04-mois-grille { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.m04-mois-grille div { padding: 10px 12px; border-radius: 14px; background: var(--raised2); }
+.m04-mois-grille b { display: block; font-size: 17px; font-weight: 800; }
+.m04-mois-grille span { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: .4px; color: var(--text2); }
+.m04-mois-note { margin-top: 10px; font-size: 12.5px; font-weight: 600; color: var(--text2); }
+
+/* Check-in */
+.m04-checkin-ligne { display: flex; align-items: center; gap: 7px; margin-top: 12px; }
+.m04-checkin-ligne:first-of-type { margin-top: 12px; }
+.m04-checkin-ligne .ic { color: var(--text2); flex: none; }
+.m04-checkin-ligne strong { font-size: 13px; font-weight: 700; }
+.m04-checkin-ligne small { margin-left: auto; font-size: 12px; font-weight: 600; color: var(--text3); }
+.m04-checkin-ligne small.actif { color: var(--sage); }
+.m04-checkin-barres { display: flex; gap: 6px; margin-top: 8px; }
+.m04-checkin-barres button { position: relative; flex: 1; padding: 6px 0; border: 0; background: none; cursor: pointer; }
+.m04-checkin-barres button::after { content: ''; position: absolute; inset: -11px 0; }
+.m04-checkin-barres i { display: block; height: 10px; border-radius: 5px; background: var(--raised2); transition: background-color 200ms var(--ease-out); }
+.m04-checkin-barres.energie i.on { background: var(--brass); }
+.m04-checkin-barres.sommeil i.on { background: var(--sage); }
+
+/* Feuilles M04 */
+.m04-feuille-seg { display: flex; justify-content: center; margin: 2px 0 4px; }
+.m04-poids-tete { display: flex; justify-content: center; align-items: baseline; gap: 6px; }
+.m04-poids-tete b { font-size: 46px; font-weight: 800; line-height: 1.1; }
+.m04-poids-tete small { font-size: 17px; font-weight: 700; color: var(--text2); }
+.m04-variation { text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text2); margin-top: 4px; }
+.m04-outil { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 20px; background: var(--raised2); }
+.m04-outil > span { font-size: 14.5px; font-weight: 500; }
+.m04-outil b, .m04-objectif-btn { min-height: 44px; padding: 0 4px; display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; color: var(--accent); font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+.m04-objectif-note { text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text2); }
+.m04-objectif-note.atteint { color: var(--sage); }
+.m04-surtitre { margin: 22px 0 10px 4px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+
+/* Rythme */
+.m04-rythme { width: 100%; padding: 16px; border-radius: 22px; background: var(--raised); border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.m04-rythme-tete { display: flex; align-items: flex-end; gap: 8px; }
+.m04-rythme-tete b { font-size: 22px; font-weight: 800; }
+.m04-rythme-tete small { font-size: 12.5px; font-weight: 700; color: var(--text2); padding-bottom: 3px; }
+.m04-rythme-tete .ic { margin-left: auto; color: var(--text3); align-self: center; }
+.m04-rythme-piste { position: relative; height: 16px; margin-top: 14px; }
+.m04-rythme-piste .fond { position: absolute; left: 0; right: 0; top: 5px; height: 6px; border-radius: 3px; background: var(--raised2); }
+.m04-rythme-piste .zone { position: absolute; top: 5px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--sage) 45%, transparent); }
+.m04-rythme-piste .zero { position: absolute; left: 50%; top: 2px; width: 1.5px; height: 12px; margin-left: -.75px; background: color-mix(in srgb, var(--text3) 50%, transparent); }
+.m04-rythme-piste .point { position: absolute; top: 0; width: 16px; height: 16px; margin-left: -8px; border-radius: 50%; border: 3px solid var(--raised); }
+.m04-rythme-etat { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.m04-rythme-etat .point { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.m04-rythme-etat strong { flex: 1; font-size: 13px; font-weight: 700; }
+.m04-rythme-etat small { font-size: 12px; font-weight: 600; color: var(--text3); }
+.m04-rythme-base { margin-top: 4px; font-size: 11.5px; color: var(--text3); }
+
+/* Graphique hebdo */
+.m04-graphe { padding: 16px 12px 10px; border-radius: 22px; background: var(--raised); }
+.m04-semaines { padding: 6px 16px; border-radius: 22px; background: var(--raised); }
+.m04-semaine { display: flex; align-items: center; gap: 8px; padding: 8px 0; }
+.m04-semaine span { flex: 1; font-size: 12.5px; color: var(--text2); }
+.m04-semaine b { font-size: 13.5px; font-weight: 800; }
+.m04-semaine small { width: 74px; text-align: right; font-size: 12px; font-weight: 700; color: var(--text3); }
+.m04-historique { padding: 2px 0 2px 16px; border-radius: 22px; background: var(--raised); }
+.m04-historique .m04-mesure { min-height: 54px; padding-right: 0; }
+.m04-historique .m04-mesure b { font-size: 13.5px; font-weight: 700; }
+.m04-suppr { width: 46px; height: 42px; display: grid; place-items: center; border: 0; background: none; color: var(--text3); cursor: pointer; flex: none; }
+
+/* Regle (saisie du poids) */
+.m04-regle { position: relative; height: 86px; overflow: hidden; border-radius: 16px; background: var(--raised2); }
+.m04-regle-defile { position: absolute; inset: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; scroll-snap-type: x mandatory; }
+.m04-regle-defile::-webkit-scrollbar { display: none; }
+.m04-regle-piste { display: flex; align-items: flex-end; height: 100%; }
+.m04-regle-piste > span { flex: none; width: 11px; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 3px; scroll-snap-align: center; }
+.m04-regle-piste i { width: 1px; height: 9px; background: var(--text3); opacity: .55; display: block; }
+.m04-regle-piste span.maj i { height: 18px; opacity: 1; }
+.m04-regle-piste b { font-size: 10px; font-weight: 600; color: var(--text3); }
+.m04-regle-curseur { position: absolute; left: 50%; top: 6px; width: 2px; height: 46px; margin-left: -1px; border-radius: 2px; background: var(--accent); pointer-events: none; }
+.m04-regle-site { position: absolute; left: 0; right: 0; bottom: 6px; text-align: center; font-size: 11px; font-weight: 600; color: var(--text2); pointer-events: none; }
+
+/* Rapport / partage */
+.m04-rap-stats { display: flex; gap: 8px; }
+.m04-rap-stats > div { flex: 1; min-width: 0; padding: 10px 12px; border-radius: 14px; background: var(--raised2); }
+.m04-rap-stats small { display: block; font-size: 10px; font-weight: 700; letter-spacing: .4px; color: var(--text2); text-transform: uppercase; }
+.m04-rap-stats b { display: block; margin-top: 3px; font-size: 17px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m04-rap-date { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; font-size: 17px; font-weight: 800; }
+.m04-rap-date .ic { color: var(--text2); }
+.m04-rap-ligne { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; font-size: 13px; font-weight: 600; line-height: 1.3; }
+.m04-rap-ligne .ic { color: var(--text2); flex: none; margin-top: 1px; }
+.m04-rap-vide { padding: 18px 0; text-align: center; font-size: 13px; color: var(--text2); }
+.m04-rap-actions { display: grid; gap: 10px; margin-top: 20px; }
+.m04-insigne { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 100px; background: color-mix(in srgb, var(--brass) 16%, transparent); color: var(--brass); font-size: 11px; font-weight: 700; }
+
+/* Sous 430 px la barre d'actions ne laisse plus la place au titre : ses libellés passent en icônes */
+@media (max-width: 430px) {
+  .m04-actions .m04-lib { display: none; }
+  .m04-actions > :first-child { padding-left: 12px; }
+}
+
+/* Petit ecran : les tuiles gardent 2 colonnes (comme GymMane) */
+@media (max-width: 360px) {
+  .m04-tete h1 { font-size: 26px; }
+  .m04-actions > a, .m04-actions > button { padding: 0 9px; font-size: 12px; }
+  .m04-tuile { padding: 14px; }
+  .m04-valeur { font-size: 25px; }
+}
+
+.calm-motion .m04-seg button, .calm-motion .m04-checkin-barres i { transition: none; }
+/* Figures du radar (MuscleFigurePainter) : peau claire sur fond sombre, plus foncée en thème clair ; autres muscles 22 % vers la carte. */
+.m04-radar { --peau: #E4E1DC; }
+:root[data-theme="clair"] .m04-radar { --peau: #B9B1A8; }
+@media (prefers-color-scheme: light) { :root[data-theme="systeme"] .m04-radar { --peau: #B9B1A8; } }
+.m04-radar .fig-peau { fill: var(--peau); }
+.m04-radar .fig-reste { fill: color-mix(in srgb, var(--peau) 78%, var(--raised)); }
+.m04-radar .fig-on { fill: var(--accent); }
+.m04-radar .axe-zone .fig-muscle { transition: transform 220ms var(--ease-back, ease); transform-box: fill-box; transform-origin: center; }
+.m04-radar .axe-zone[aria-pressed="true"] .fig-muscle { transform: scale(1.14); }
+.m04-radar .axe-zone:focus-visible .fig-on { fill: var(--text); }

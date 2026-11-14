@@ -1,0 +1,152 @@
+/* M14 : premier lancement, imports, exports, sauvegardes.
+   Tailles reprises de docs/design-gymmane.md (onboarding 30/800, corps 13.5/500, bienvenue 44/800). */
+
+.onb { min-height: 100dvh; height: 100dvh; display: flex; flex-direction: column; background: var(--bg); }
+.onb-barre { display: flex; align-items: center; gap: 12px; padding: calc(16px + var(--safe-t)) 16px 0 24px; }
+.onb-segments { flex: 1; display: flex; }
+.onb-segments span { flex: 1; height: 3px; border-radius: 3px; margin-right: 6px; background: var(--raised2); transition: background-color 280ms var(--ease-out); }
+.onb-segments span:last-child { margin-right: 0; }
+.onb-segments span.fait { background: var(--text); }
+.onb-passer { font-size: 12.5px; font-weight: 600; color: var(--text3); min-height: 44px; padding: 0 8px; flex: none; }
+.onb-passer:disabled { opacity: .5; }
+
+.onb-corps { flex: 1; min-height: 0; position: relative; overflow: hidden; touch-action: pan-y; animation: onb-monte 340ms var(--ease-out) both; }
+/* Piste des pages (PageView) : 340 ms en easeOutCubic comme _go, sans transition pendant que le doigt tire. */
+.onb-piste { display: flex; height: 100%; transition: transform 340ms cubic-bezier(.33,1,.68,1); will-change: transform; }
+.onb-piste.tire { transition: none; }
+.onb-page { flex: 0 0 100%; min-width: 0; box-sizing: border-box; height: 100%; padding: 20px; overflow-y: auto; overscroll-behavior: contain; }
+@keyframes onb-monte { from { opacity: 0; transform: translateY(10px); } }
+.onb-etape { max-width: 520px; margin: 0 auto; display: grid; gap: 10px; min-height: calc(100dvh - 220px); align-content: center; }
+.onb-hero { height: clamp(120px, 30vh, 250px); display: grid; place-items: center; gap: 6px; }
+.onb-hero-bienvenue { height: clamp(120px, 26vh, 196px); }
+.onb-embleme { width: 104px; height: 104px; border-radius: 50%; background: var(--raised); color: var(--accent); display: grid; place-items: center; box-shadow: inset 0 0 0 1.5px var(--border); }
+.onb-kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); text-align: center; }
+.onb-titre { font-size: 30px; font-weight: 800; line-height: 1.12; text-align: center; }
+.onb-page:first-child .onb-titre { font-size: 44px; }
+.onb-why { font-size: 13.5px; font-weight: 500; line-height: 1.45; color: var(--text2); text-align: center; }
+.onb-suivant { width: 100%; min-height: 56px; }
+
+.onb-promesses { display: grid; gap: 14px; margin-top: 16px; }
+.onb-promesse { display: flex; align-items: flex-start; gap: 14px; font-size: 14.5px; line-height: 1.5; }
+.onb-promesse-ic { width: 38px; height: 38px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; flex: none; }
+.onb-promesse strong { display: block; font-weight: 800; }
+.onb-promesse small { display: block; font-size: 12.5px; font-weight: 500; color: var(--text2); }
+
+.onb-groupe { background: var(--raised); border-radius: 20px; overflow: hidden; }
+.onb-ligne { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 58px; padding: 8px 16px; text-align: left; color: var(--text); }
+.onb-ligne + .onb-ligne { border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent); }
+.onb-ligne-label { flex: 1; font-size: 12.5px; font-weight: 700; letter-spacing: .6px; color: var(--text2); text-transform: uppercase; }
+.onb-valeur-droite { display: inline-flex; align-items: center; gap: 4px; }
+.onb-valeur-droite strong { font-size: 15.5px; font-weight: 700; }
+.onb-valeur-droite .ic { color: var(--text3); }
+.onb-champ { flex: 1; min-width: 0; font-size: 17px; font-weight: 700; background: transparent; border: 0; outline: 0; padding: 20px 0; color: var(--text); }
+.onb-champ::placeholder { color: var(--text3); font-weight: 600; }
+.onb-fichier { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.onb-cliquable { position: relative; cursor: pointer; font-size: 15.5px; font-weight: 700; }
+.onb-cliquable .ic { color: var(--accent); }
+.onb-erreur { padding: 0 16px 12px; font-size: 12.5px; color: var(--danger); }
+
+.onb-avatar { width: 104px; height: 104px; border-radius: 50%; background: var(--raised); box-shadow: inset 0 0 0 1.5px var(--border); display: grid; place-items: center; color: var(--text3); font-size: 40px; font-weight: 800; transition: background-color 260ms var(--ease-out), color 260ms var(--ease-out); }
+.onb-avatar.plein { background: var(--ember); color: var(--on-ember); }
+.onb-photo { position: relative; color: var(--text3); }
+.onb-photo img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.onb-photo-badge { position: absolute; right: 0; bottom: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: var(--on-ember); display: grid; place-items: center; box-shadow: 0 0 0 3px var(--bg); }
+
+.onb-chiffre { font-size: 64px; font-weight: 800; line-height: 1; }
+.onb-chiffre-unite { font-size: 22px; font-weight: 800; color: var(--ember); }
+.onb-unites { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.onb-unite { position: relative; min-height: 118px; border-radius: 20px; padding: 16px 14px; background: var(--raised); box-shadow: inset 0 0 0 1px var(--border); display: grid; justify-items: start; gap: 4px; text-align: left; }
+.onb-unite.choisie { box-shadow: inset 0 0 0 1.6px var(--ember); }
+.onb-unite strong { font-size: 30px; font-weight: 800; }
+.onb-unite.choisie strong { color: var(--ember); }
+.onb-unite small { font-size: 11.5px; font-weight: 600; color: var(--text3); }
+.onb-unite-coche { position: absolute; top: 14px; right: 14px; color: var(--ember); opacity: 0; transition: opacity 200ms; }
+.onb-unite.choisie .onb-unite-coche { opacity: 1; }
+
+.onb-sexe { justify-content: space-between; }
+.onb-seg { display: inline-flex; background: var(--raised2); border-radius: 100px; padding: 3px; }
+.onb-seg button { min-height: 40px; padding: 0 16px; border-radius: 100px; font-size: 13px; font-weight: 700; color: var(--text2); }
+.onb-seg button.fait { background: var(--ember); color: var(--on-ember); }
+/* Silhouette selon le sexe : hauteur du héros, largeur au rapport du cadre (238 / 468), fondu et 0,94 à 1 en 360 ms. */
+.onb-corps-boite { display: block; height: inherit; overflow: hidden; aspect-ratio: 238 / 468; animation: onb-corps 360ms cubic-bezier(.33,1,.68,1) both; }
+.onb-corps-svg { display: block; width: 100%; height: 100%; }
+@keyframes onb-corps { from { opacity: 0; transform: scale(.94); } }
+
+.onb-objectif { font-size: 56px; font-weight: 800; line-height: 1; display: grid; justify-items: center; gap: 4px; }
+.onb-objectif small { font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text3); }
+.onb-anneau { display: flex; gap: 8px; justify-content: center; background: var(--raised); border-radius: 100px; padding: 8px; }
+.onb-anneau button { width: 36px; height: 36px; border-radius: 50%; font-size: 13.5px; font-weight: 800; background: var(--raised2); color: var(--text3); transition: background-color 220ms var(--ease-out), color 220ms; }
+.onb-anneau button.fait { background: var(--ember); color: var(--on-ember); }
+.onb-objectif-texte { font-size: 13px; font-weight: 700; color: var(--text2); text-align: center; }
+
+.onb-lieux { display: flex; gap: 10px; }
+.onb-lieu { width: 64px; height: 64px; border-radius: 20px; background: var(--raised); color: var(--text2); display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--border); transition: background-color 240ms var(--ease-out), color 240ms; }
+.onb-lieu.choisi { background: var(--ember); color: var(--on-ember); }
+.onb-lieux-compte { display: grid; justify-items: center; }
+.onb-lieux-compte strong { font-size: 26px; font-weight: 800; }
+.onb-lieux-compte small { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text3); }
+.onb-lieu-ligne { gap: 14px; }
+.onb-lieu-ligne.choisi .onb-ligne-ic, .onb-lieu-ligne.choisi .onb-ligne-nom { color: var(--ember); }
+.onb-lieu-ligne > .ic:last-child { color: var(--text3); opacity: .35; }
+.onb-lieu-ligne.choisi > .ic:last-child { color: var(--ember); opacity: 1; }
+.onb-ligne-ic { display: inline-flex; color: var(--text2); }
+.onb-ligne-nom { flex: 1; font-size: 14.5px; font-weight: 800; }
+.onb-ligne-nom small { display: block; font-size: 12px; font-weight: 500; color: var(--text2); }
+.onb-pilules { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px 16px; }
+.onb-pilules button { min-height: 36px; padding: 8px 14px; border-radius: 100px; font-size: 12.5px; font-weight: 700; background: var(--raised2); color: var(--text2); }
+.onb-pilules button.fait { background: var(--ember); color: var(--on-ember); }
+
+.onb-pied { display: flex; align-items: center; gap: 12px; padding: 8px 24px calc(22px + var(--safe-b)); position: sticky; bottom: 0; background: linear-gradient(180deg, transparent, var(--bg) 30%); }
+.onb-retour { width: 56px; height: 56px; flex: none; border-radius: 50%; background: var(--raised); color: var(--text2); display: grid; place-items: center; }
+.onb-edit { display: grid; gap: 12px; }
+.onb-edit .cellule { min-height: 56px; font-size: 22px; font-weight: 800; text-align: center; border-radius: 14px; background: var(--raised2); }
+
+@media (max-height: 700px) {
+  .onb-titre { font-size: 26px; }
+  .onb-page:first-child .onb-titre { font-size: 36px; }
+  .onb-hero { height: 110px; }
+}
+
+/* Écran Données */
+.don-titre { font-size: 26px; font-weight: 800; letter-spacing: -.4px; }
+.don-soustitre { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.don-import, .don-export, .don-strava, .don-restauration { display: grid; gap: 12px; }
+.don-depot { position: relative; display: flex; align-items: center; gap: 12px; min-height: 72px; padding: 14px 16px; border-radius: 16px;
+  border: 1.5px dashed var(--border); color: var(--text2); font-size: 13.5px; font-weight: 700; cursor: pointer; }
+.don-depot .ic { color: var(--accent); }
+.don-depot span { overflow-wrap: anywhere; }
+.don-format { font-size: 12.5px; font-weight: 600; color: var(--text2); }
+.don-unite { display: grid; gap: 8px; }
+.don-erreur { font-size: 12.5px; font-weight: 600; color: var(--danger); }
+.don-apercu { display: grid; gap: 12px; }
+.don-apercu h3 { font-size: 14px; font-weight: 800; }
+.don-comptes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.don-comptes span { display: grid; justify-items: center; gap: 2px; padding: 10px 6px; border-radius: 14px; background: var(--raised2); text-align: center; }
+.don-comptes strong { font-size: 19px; font-weight: 800; }
+.don-comptes small { font-size: 11px; font-weight: 600; color: var(--text2); line-height: 1.2; }
+.don-nonresolus h4 { font-size: 12.5px; font-weight: 800; margin-bottom: 4px; }
+.don-nonresolus ul { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--text2); }
+.don-actions { display: flex; gap: 10px; }
+.don-actions .btn { flex: 1; }
+.don-ligne { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--sep); text-align: left; width: 100%; }
+.don-ligne:first-of-type { border-top: 0; padding-top: 0; }
+.don-ligne strong { display: block; font-size: 14px; font-weight: 800; }
+.don-ligne small { display: block; font-size: 12px; font-weight: 500; color: var(--text2); line-height: 1.35; margin-top: 2px; }
+.don-ligne-bouton .ic { color: var(--accent); flex: none; }
+.don-strava-liste { display: grid; }
+.don-avertissement { font-size: 12.5px; font-weight: 700; color: var(--danger); }
+.don-depot-zone { display: grid; gap: 8px; }
+
+/* L27 : textes alignés à gauche comme _step (padding 4), libellé d'étape, héros « Bonjour », anneau de la semaine. */
+.onb-etape > .onb-kicker, .onb-etape > .onb-titre, .onb-etape > .onb-why, .onb-etape-n { text-align: left; padding: 0 4px; }
+.onb-etape-n { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); margin-top: 12px; }
+.onb-bonjour { text-align: center; font-size: 26px; font-weight: 800; transition: opacity 260ms var(--ease-out); overflow-wrap: anywhere; }
+.onb-bonjour.vide { opacity: .35; }
+.onb-objectif-ring { position: relative; display: grid; place-items: center; width: clamp(120px, 30vh, 250px); height: clamp(120px, 30vh, 250px); }
+.onb-anneau-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.onb-anneau-svg path { stroke: var(--raised2); transition: stroke 420ms var(--ease-out); }
+.onb-anneau-svg path.on { stroke: var(--ember); }
+.onb-objectif-ring .onb-objectif { position: relative; }
+.onb-materiel { font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); padding: 12px 16px 0; }
+.onb-coureur { height: 100%; max-height: 196px; width: auto; opacity: .9; }
+.onb-pilules button { min-height: 44px; }

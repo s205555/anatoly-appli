@@ -1,0 +1,113 @@
+/* M10 : nutrition, plans de repas et meal prep. Classes préfixées m10-, tokens Anatoly uniquement. */
+
+/* Cibles tactiles : les petits boutons de la maison font 36 px, il en faut 44 ici. */
+.m10 .btn.petit, .m10 .puce, .m10 .m10-chip, .m10 .seg button { min-height: 44px; }
+.m10 .btn.petit, .m10 .puce, .m10 .m10-chip { min-width: 44px; }
+
+/* ==== Bande de semaine ===== */
+.m10-semaine { display: flex; justify-content: space-between; gap: 4px; padding: 2px 0 6px; }
+.m10-jour { display: grid; justify-items: center; gap: 3px; min-width: 34px; }
+.m10-jour button { position: relative; width: 34px; height: 34px; border-radius: 50%; background: var(--raised); color: var(--text); font-size: 10.5px; font-weight: 700; display: grid; place-items: center; }
+/* Cercle de 34 px comme GymMane, zone de touche portée à 44 px. */
+.m10-jour button::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; }
+.m10-jour.plein button { background: var(--ember); color: var(--on-ember); }
+.m10-jour.vec-plan button { box-shadow: inset 0 0 0 1.5px var(--accent); }
+.m10-jour-nom { max-width: 46px; font-size: 9px; font-weight: 600; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ==== Carte du jour ===== */
+.m10-carte-jour { display: flex; align-items: center; gap: 12px; background: var(--raised); border-radius: var(--r-card); padding: 14px 16px; }
+.m10-carte-jour .ic { color: var(--ember); flex: none; }
+.m10-carte-jour > span { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.m10-carte-jour strong { font-size: 15px; font-weight: 800; }
+.m10-carte-jour small { font-size: 12px; font-weight: 600; color: var(--text2); }
+.m10-carte-jour .btn { flex: none; }
+
+/* ==== Dossiers de plans ===== */
+.m10-folder .dossier-dos { display: flex; align-items: center; justify-content: center; gap: 5px; }
+.m10-folder .dossier-dos::before, .m10-folder .dossier-dos::after { display: none; }
+.m10-sticker { width: 42px; height: 42px; border-radius: 13px; object-fit: cover; background: var(--raised2); box-shadow: 0 2px 6px rgba(0, 0, 0, .35); }
+.m10-sticker.n1 { transform: rotate(-8deg); }
+.m10-sticker.n2 { transform: translateY(2px); }
+.m10-sticker.n3 { transform: rotate(8deg); }
+
+/* ==== Éditeur de plan ===== */
+.m10-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.m10-stat { background: var(--raised2); border-radius: 14px; padding: 10px 6px; text-align: center; display: grid; gap: 3px; }
+.m10-stat strong { font-size: 15px; font-weight: 800; }
+.m10-stat small { font-size: 10px; font-weight: 700; color: var(--text2); display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+.m10-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.m10-stat.k { color: var(--ember); }
+.m10-stat.p { color: var(--accent); }
+.m10-stat.c { color: var(--brass); }
+.m10-stat.f { color: var(--sage); }
+
+.m10-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.m10-chip { min-height: 44px; min-width: 44px; padding: 0 14px; border-radius: 100px; background: var(--raised2); font-size: 13px; font-weight: 700; color: var(--text); }
+.m10-chip.on { background: var(--ember-soft); color: var(--accent); }
+
+.m10-repas { display: grid; gap: 6px; padding: 12px; background: var(--raised2); border-radius: 18px; }
+.m10-repas-tete { display: flex; align-items: center; gap: 8px; min-height: 30px; }
+.m10-repas-tete > .ic { color: var(--text2); flex: none; }
+.m10-repas-tete strong { font-size: 13.5px; font-weight: 800; flex: 1; }
+.m10-repas-tete small { font-size: 11.5px; font-weight: 700; color: var(--text2); }
+.m10-repas-tete button { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; color: var(--text2); background: var(--raised); }
+.m10-repas-tete button::after { content: ''; position: absolute; inset: -7px; }
+.m10-repas-tete button:disabled { opacity: .35; }
+
+.m10-element { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.m10-element img { width: 36px; height: 36px; border-radius: 12px; object-fit: cover; background: var(--raised); flex: none; }
+.m10-element > span { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.m10-element strong { font-size: 13.5px; font-weight: 700; overflow-wrap: anywhere; }
+.m10-element small { font-size: 11px; font-weight: 500; color: var(--text2); }
+.m10-element > button { width: 44px; height: 44px; display: grid; place-items: center; color: var(--text3); flex: none; }
+
+.m10-ajouter { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 6px 0 14px; border-radius: 14px; border: 1.5px dashed var(--border); color: var(--text2); font-size: 13px; font-weight: 700; width: 100%; }
+.m10-ajouter .ic { color: var(--accent); }
+
+/* ==== Palette d'aliments ===== */
+.m10-favoris { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 4px; scrollbar-width: none; }
+.m10-favoris::-webkit-scrollbar { display: none; }
+.m10-favori { position: relative; flex: none; }
+.m10-favori img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; background: var(--raised2); display: block; }
+.m10-favori button { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--ember); color: var(--on-ember); display: grid; place-items: center; box-shadow: 0 2px 6px var(--ember-shadow); }
+
+.m10-ligne-aliment { display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 6px 4px; }
+.m10-ligne-tap { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; min-height: 44px; text-align: left; }
+.m10-ligne-aliment img { width: 40px; height: 40px; border-radius: 14px; object-fit: cover; background: var(--raised2); flex: none; }
+.m10-ligne-aliment > span, .m10-ligne-tap > span { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.m10-ligne-aliment strong, .m10-ligne-tap strong { font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+.m10-ligne-aliment small, .m10-ligne-tap small { font-size: 11.5px; font-weight: 500; color: var(--text2); }
+.m10-ligne-aliment .fav { width: 44px; height: 44px; display: grid; place-items: center; flex: none; color: var(--text3); }
+.m10-ligne-aliment .fav.on { color: var(--ember); }
+.m10-plat-ic { width: 40px; height: 40px; border-radius: 14px; background: var(--raised2); color: var(--text2); display: grid; place-items: center; flex: none; }
+
+/* ==== Quantité ===== */
+.m10-quantite { display: grid; gap: 14px; justify-items: center; }
+.m10-quantite img { width: 96px; height: 96px; border-radius: 32px; object-fit: cover; background: var(--raised2); }
+.m10-quantite .stepper output { min-width: 44px; font-size: 20px; }
+.m10-quantite .cellule { max-width: 160px; text-align: center; font-size: 18px; font-weight: 800; }
+.m10-quantite .stepper button { width: 44px; height: 44px; }
+
+.m10-valeurs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.m10-valeur { min-height: 44px; padding: 0 16px; border-radius: 100px; background: var(--raised2); font-size: 13px; font-weight: 700; color: var(--text); }
+.m10-valeur.on { background: var(--ember-soft); color: var(--accent); }
+
+/* ==== Étagère de fournées ===== */
+.m10-etagere { display: flex; gap: 12px; overflow-x: auto; margin: 0 -20px; padding: 2px 20px 8px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.m10-etagere::-webkit-scrollbar { display: none; }
+.m10-fournee { flex: 0 0 200px; scroll-snap-align: start; display: grid; gap: 6px; height: 150px; padding: 12px; border-radius: 24px; background: var(--raised); text-align: left; }
+.m10-fournee.seule { flex: 1 0 100%; }
+.m10-fournee-plat { width: 46px; height: 46px; border-radius: 16px; object-fit: cover; background: var(--raised2); }
+.m10-fournee strong { font-size: 15px; font-weight: 800; overflow-wrap: anywhere; }
+.m10-fournee small { font-size: 11.5px; font-weight: 600; color: var(--text2); }
+.m10-fournee .m10-barre { margin-top: auto; }
+.m10-barre { height: 6px; border-radius: 3px; background: var(--raised2); overflow: hidden; display: block; }
+.m10-barre i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+
+/* ==== Journal d'une fournée ===== */
+.m10-plat { width: 128px; height: 128px; border-radius: 42px; object-fit: cover; background: var(--raised2); justify-self: center; }
+.m10-journal-info { text-align: center; display: grid; gap: 3px; }
+.m10-journal-info strong { font-size: 17px; font-weight: 800; }
+.m10-journal-info small { font-size: 12.5px; font-weight: 600; color: var(--text2); }
+.m10-journal-info .fini { color: var(--sage); }
+.m10-pesee { display: grid; gap: 10px; padding: 10px 14px; background: var(--raised2); border-radius: 16px; }

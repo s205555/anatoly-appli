@@ -1,0 +1,29 @@
+/* L31 : écarts Paperclip (ANA-85) vérifiés contre le Dart d'origine. Chargé après l30.css. */
+
+/* OptionGroup / _OptionRow (ui_kit.dart) : ligne de 50 px au moins, rien en haut et en bas sans détail, 11 px avec ;
+   libellé 14,5 à 1,15 (w600, w800 choisi), détail 12 à 1,3 ; séparateur de 1 px couleur border, retiré de 16 px de chaque côté. */
+.option { position: relative; min-height: 50px; padding: 0 16px; border-top-color: transparent; }
+.option:not(:first-child) { min-height: 51px; }
+.option:not(:first-child)::before { content: ""; position: absolute; top: -1px; left: 16px; right: 16px; height: 1px; background: var(--border); pointer-events: none; }
+.option:has(small) { padding-block: 11px; }
+.option strong { line-height: 1.15; }
+.option small { line-height: 1.3; }
+
+/* _weekCard / _weekDay (home_screen.dart) : SoftCard borderColor transparent (le bord de 1 px compte quand même) puis 14 px
+   à gauche et à droite, 16 px en haut et en bas, soit 15 et 17 ; colonnes de 32 px réparties (spaceBetween), lettre 10 px
+   à 1,15 puis 9 px puis pastille 32. Original relevé : colonnes à x = 35, 83 ... 323. La zone tactile garde 44 px (::after invisible). */
+.accueil .semaine { padding: 17px 15px; }
+.jour-click { min-width: 32px; position: relative; }
+.jour-click::after { content: ""; position: absolute; inset: 0 -6px; }
+.jour-lettre { line-height: 1.15; }
+
+/* liftedRow (ui_kit.dart) : ligne soulevée au glisser, échelle 1,03, ombre noire 35 %, flou 18, décalage 8, easeOutCubic.
+   L'échelle des lignes de programme est posée par poigneeReordre (le glisser écrit déjà transform).
+   Avant L31, .rt-exo.souleve ne visait rien : la classe est posée sur .rt-exo-ligne. */
+.rt-etape, .rt-exo { transition: box-shadow 250ms cubic-bezier(.33, 1, .68, 1); }
+.sx-apercu-ligne { transition: transform 250ms cubic-bezier(.33, 1, .68, 1), box-shadow 250ms cubic-bezier(.33, 1, .68, 1); }
+.rt-etape.souleve, .rt-exo-ligne.souleve > .rt-exo, .sx-apercu-ligne.leve { box-shadow: 0 8px 18px rgba(0, 0, 0, .35); }
+.sx-apercu-ligne.leve { transform: scale(1.03); }
+
+/* AppSheet : 28 px sous le contenu (sheet_page.dart, sheetPad bottom = 28). */
+.feuille { padding-bottom: calc(28px + var(--safe-b)); }

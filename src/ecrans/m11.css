@@ -1,0 +1,258 @@
+/* Journal M11, porté de GymMane (note_kit.dart, note_folder.dart, notes_screen.dart).
+   1 px Flutter = 1 px CSS. Tailles, rayons, couleurs et espacements identiques. */
+
+/* ---------- Type de note ---------- */
+.m11-kind { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; font-weight: 600; letter-spacing: 1px; color: var(--k); }
+.m11-kind .ic { flex: none; }
+.m11-pin { color: var(--accent); }
+
+.m11-kinds { display: flex; gap: 8px; }
+.m11-kind-tuile { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px;
+  border-radius: 18px; background: var(--raised); color: var(--text2); font-size: 11.5px; font-weight: 600; line-height: 13px; border: 0; }
+.m11-kind-tuile .ic { color: var(--text3); }
+.m11-kind-tuile.on .ic { color: var(--k); }
+.m11-kind-tuile.on { background: color-mix(in srgb, var(--k) 16%, transparent); color: var(--k); }
+
+/* ---------- Filtres ---------- */
+.m11-filtres { display: flex; gap: 8px; overflow-x: auto; padding: 2px 4px 6px; scrollbar-width: none; }
+.m11-filtres::-webkit-scrollbar { display: none; }
+.m11-filtre { flex: none; min-height: 44px; padding: 8px 14px; border-radius: 100px; background: var(--raised); border: 1px solid var(--border);
+  color: var(--text2); font-size: 12.5px; font-weight: 600; }
+.m11-filtre.on { background: color-mix(in srgb, var(--k) 16%, transparent); border-color: var(--k); color: var(--k); }
+
+/* ---------- Cartes de notes (NoteCard) ---------- */
+.m11-note { position: relative; display: block; margin-bottom: 10px; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: transform .12s; }
+.m11-note:active { transform: scale(.98); }
+.m11-note-dessous { position: absolute; left: 12px; right: 12px; top: 12px; bottom: 0; border-radius: 20px;
+  background: color-mix(in srgb, var(--raised) 70%, #000); }
+.m11-note-carte { position: relative; display: block; margin-bottom: 5px; overflow: hidden; border-radius: 22px; padding: 14px 16px;
+  background: radial-gradient(circle 190px at 0 0, color-mix(in srgb, var(--k) 13%, transparent), transparent) , var(--raised);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .28); }
+:root[data-theme="light"] .m11-note-carte { box-shadow: 0 3px 10px rgba(0, 0, 0, .06); }
+.m11-note-carte > .m11-note-titre { margin-top: 10px; }
+.m11-oreille { position: absolute; top: 0; right: 0; width: 24px; height: 24px; display: block; z-index: 1;
+  }
+.m11-oreille::before { content: ''; position: absolute; inset: 0; background: var(--bg); clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.m11-oreille i { position: absolute; inset: 0; display: block; filter: drop-shadow(-2px 2.5px 3px rgba(0, 0, 0, .45)); }
+.m11-oreille i::before { content: ''; position: absolute; inset: 0; clip-path: polygon(0 0, 0 19px, 5px 24px, 100% 24px);
+  background: linear-gradient(to bottom left, color-mix(in srgb, color-mix(in srgb, var(--raised) 78%, var(--k)) 72%, #000),
+    color-mix(in srgb, var(--raised) 78%, var(--k)) 55%, color-mix(in srgb, color-mix(in srgb, var(--raised) 78%, var(--k)) 88%, #fff)); }
+.m11-oreille i::after { content: ''; position: absolute; inset: 0; clip-path: polygon(0 0, 0 19px, 5px 24px, 100% 24px);
+  background: linear-gradient(to top right, transparent calc(50% - .5px), rgba(255, 255, 255, .1) 50%, transparent calc(50% + .5px)); }
+.m11-note-tete { display: flex; align-items: center; gap: 10px; padding-right: 20px; }
+.m11-note-vignette { flex: none; display: block; width: 44px; height: 44px; }
+.m11-note-vignette .art-cadre { border-radius: 12px; }
+.m11-note-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.m11-note-type { display: flex; align-items: center; gap: 5px; min-width: 0; color: var(--k); font-size: 10px; font-weight: 800; letter-spacing: 1.2px; }
+.m11-note-type .ic { flex: none; }
+.m11-note-type > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m11-note-type .m11-pin { margin-left: 1px; }
+.m11-note-ex { font-size: 12px; font-weight: 600; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m11-note-jour { font-size: 11.5px; font-weight: 600; color: var(--text3); }
+.m11-note-titre { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 16px; font-weight: 800;
+  letter-spacing: -.2px; line-height: 1.25; color: var(--text); overflow-wrap: anywhere; }
+.m11-note-corps { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4px;
+  font-size: 13.5px; font-weight: 500; line-height: 1.4; color: var(--text2); white-space: pre-line; overflow-wrap: anywhere; }
+.m11-note-carte > .m11-photos { margin-top: 12px; }
+.m11-note-pied { display: flex; align-items: center; margin-top: 12px; }
+.m11-note-pied .spacer { flex: 1; }
+.m11-dossier-vide { display: flex; align-items: center; gap: 10px; width: 100%; height: 46px; padding: 0 14px; margin-bottom: 0;
+  border: 1.2px solid var(--border); border-radius: 16px; background: transparent; color: var(--text2); font-size: 13.5px; font-weight: 700; text-align: left; }
+.m11-dossier-vide > span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m11-dossier-vide .ic { flex: none; }
+.m11-dossier-vide-plus { color: var(--text3); }
+
+.m11-folder-pill { max-width: 100%; min-width: 0; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px 4px 8px;
+  background: color-mix(in srgb, var(--text) 6%, transparent); border-radius: 100px; font-size: 11.5px; font-weight: 700;
+  color: var(--text2); }
+.m11-folder-pill i { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+/* ---------- Photos ---------- */
+.m11-photos { display: flex; }
+.m11-photos.un { display: block; }
+.m11-photo { position: relative; display: grid; place-items: center; overflow: hidden; background: var(--raised2);
+  border-radius: 14px; border: 0; padding: 0; }
+.m11-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.m11-photo .ic { color: var(--text2); }
+.m11-photos.un .m11-photo { width: 100%; height: 160px; }
+.m11-photos.deux { gap: 6px; }
+.m11-photos.deux .m11-photo { flex: 1; height: 130px; }
+.m11-photos.trois { gap: 6px; }
+.m11-photos.trois .m11-photo.grand { width: 62%; height: 160px; }
+.m11-photos-col { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.m11-photos-col .m11-photo { flex: 1; }
+.m11-photo-plus { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0, 0, 0, .55);
+  color: #fff; font-size: 16px; font-weight: 800; }
+
+/* ---------- Visionneuse ---------- */
+.m11-visionneuse { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, .95); display: flex; align-items: center;
+  justify-content: center; padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
+.m11-visionneuse-tete { position: absolute; top: 12px; left: 0; right: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 16px; }
+.m11-visionneuse-x { width: 44px; height: 44px; border-radius: 50%; background: var(--raised2); display: grid; place-items: center;
+  color: var(--text); border: 0; }
+.m11-visionneuse-nb { font-size: 13px; font-weight: 700; color: var(--text2); }
+.m11-visionneuse-media { max-width: 100%; max-height: 100%; object-fit: contain; }
+.m11-visionneuse-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%;
+  background: var(--raised2); display: grid; place-items: center; color: var(--text); border: 0; z-index: 1; }
+.m11-visionneuse-nav.g { left: 12px; }
+.m11-visionneuse-nav.d { right: 12px; }
+
+/* ---------- Calendrier ---------- */
+.m11-cal { padding: 14px 12px 10px; border-radius: 22px; border: 1px solid var(--border); }
+/* Flèches du mois : 34 px comme l'original, zone tactile portée à 44 px. */
+.m11-cal-fleche { position: relative; width: 34px; height: 34px; flex: none; border-radius: 50%; border: 0; background: var(--raised2); color: var(--text); display: grid; place-items: center; }
+.m11-cal-fleche::after { content: ""; position: absolute; inset: -5px; }
+.m11-cal-tete { display: flex; align-items: center; justify-content: space-between; }
+.m11-cal-mois { font-size: 15px; font-weight: 700; color: var(--text); }
+.m11-cal-grille { display: grid; grid-template-columns: repeat(7, 1fr); margin-top: 14px; }
+.m11-cal-entete { font-size: 10.5px; font-weight: 600; letter-spacing: 1px; text-align: center; color: var(--text3); padding-bottom: 8px; }
+.m11-cal-cell { height: 46px; margin: 1.5px; border-radius: 13px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 4px; background: transparent; border: 1px solid transparent; }
+.m11-cal-cell.on { background: var(--ember-soft); border-color: var(--ember); }
+.m11-cal-num { font-size: 13.5px; font-weight: 500; color: var(--text2); line-height: 1; }
+.m11-cal-cell.on .m11-cal-num { font-weight: 700; color: var(--text); }
+.m11-cal-cell.auj .m11-cal-num { font-weight: 700; color: var(--ember); }
+.m11-cal-points { display: flex; gap: 3px; height: 5px; }
+.m11-cal-points i { width: 5px; height: 5px; border-radius: 50%; display: block; }
+
+/* ---------- Jour sélectionné ---------- */
+.m11-jour { display: flex; align-items: center; gap: 12px; }
+.m11-jour-texte { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.m11-jour-texte .kicker { font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; color: var(--text3); }
+.m11-jour-date { font-size: 12px; font-weight: 500; color: var(--text3); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.m11-pilule { flex: none; min-height: 44px; padding: 8px 14px; border-radius: 100px; background: var(--raised); color: var(--text);
+  font-size: 12px; font-weight: 700; border: 1px solid var(--border); }
+.m11-vide-jour { display: flex; align-items: center; gap: 14px; padding: 26px 20px;
+  background: color-mix(in srgb, var(--raised) 50%, transparent); border-radius: 18px; color: var(--text2);
+  font-size: 13px; font-weight: 500; line-height: 1.4; }
+.m11-vide-jour .ic { flex: none; color: var(--text3); }
+
+/* ---------- Liste groupée ---------- */
+.m11-liste { display: flex; flex-direction: column; }
+.m11-groupe-jour { display: flex; align-items: flex-end; gap: 12px; padding: 14px 0 12px; }
+.m11-groupe-jour:first-child { padding-top: 0; }
+.m11-groupe-jour > span:first-child { font-size: 12.5px; font-weight: 700; letter-spacing: .4px; color: var(--text); }
+.m11-groupe-jour > span:nth-child(2) { font-size: 11.5px; font-weight: 500; color: var(--text3); }
+.m11-groupe-jour i { flex: 1; height: 1px; background: var(--border); margin-bottom: 6px; }
+
+/* ---------- Dossiers ---------- */
+.m11-section { display: grid; gap: 10px; }
+.m11-dossiers { display: flex; gap: 10px; overflow-x: auto; padding: 2px 4px 8px; scrollbar-width: none; }
+.m11-dossiers::-webkit-scrollbar { display: none; }
+.m11-dossier { position: relative; flex: none; width: 152px; height: 174px; }
+.m11-dossier-bouton { position: absolute; inset: 0; display: block; text-align: left; border: 0; }
+.m11-dossier-onglet { position: absolute; left: 0; top: 0; width: 58px; height: 36px; display: block;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--teinte) 75%, #fff), var(--teinte)); border-radius: 12px 12px 0 0; }
+.m11-dossier-dos { position: absolute; left: 0; right: 0; top: 16px; bottom: 0; display: block; background: var(--teinte);
+  border-radius: 16px 16px 22px 22px; }
+.m11-dossier-papier { position: absolute; left: 14px; right: 8px; top: 20px; height: 62px; display: flex; padding: 8px 10px 0;
+  background: #EDE9E4; border-radius: 9px; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); transform: rotate(-1.5deg); }
+.m11-dossier-papier img { width: 100%; height: 52px; object-fit: cover; border-radius: 6px; }
+.m11-dossier-papier i { display: block; height: 2.5px; border-radius: 2px; background: rgba(42, 38, 35, .16); margin-bottom: 4px; }
+.m11-dossier-papier i:first-child { width: 70%; }
+.m11-dossier-papier i:last-child { width: 45%; }
+.m11-dossier-face { position: absolute; left: 4px; right: 4px; top: 64px; bottom: 0; display: flex; flex-direction: column;
+  justify-content: space-between; padding: 10px 12px 10px 6px; border-radius: 18px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--teinte) 85%, #fff) 0%, var(--teinte) 35%,
+    color-mix(in srgb, var(--teinte) 88%, #000) 100%); box-shadow: 0 -3px 12px rgba(0, 0, 0, .36); }
+.m11-dossier-face strong { font-size: 15px; font-weight: 800; line-height: 1.15; color: var(--text); display: -webkit-box;
+  -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.m11-dossier-face small { font-size: 11.5px; font-weight: 600; color: var(--text2); white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; }
+.m11-dossier-menu { position: absolute; top: 66px; right: 4px; width: 44px; height: 44px; display: grid; place-items: center;
+  color: var(--text2); border: 0; }
+.m11-dossier-neuf { flex: none; width: 152px; height: 174px; margin-top: 14px; border: 1.5px dashed var(--border);
+  border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  color: var(--text2); font-size: 12.5px; font-weight: 700; text-align: center; padding: 0 10px; background: transparent; }
+.m11-dossier-neuf-rond { width: 38px; height: 38px; border-radius: 50%; background: var(--raised); display: grid; place-items: center;
+  color: var(--text); }
+
+.m11-pastilles { display: flex; gap: 12px; flex-wrap: wrap; }
+.m11-pastille { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 2px solid transparent; padding: 0; background: transparent; }
+.m11-pastille span { width: 32px; height: 32px; border-radius: 50%; background: var(--c); display: block; }
+.m11-pastille.on { border-color: var(--text); }
+
+/* ---------- Détail ---------- */
+.m11-detail-tete { display: flex; align-items: center; gap: 8px; }
+.m11-detail-tete .m11-kind { font-size: 11px; font-weight: 800; letter-spacing: 1.3px; }
+.m11-detail-tete .m11-kind .ic { width: 15px; height: 15px; }
+.m11-detail-tete .m11-note-jour { margin-left: auto; }
+.m11-detail-titre { display: block; font-size: 22px; font-weight: 800; letter-spacing: -.5px; line-height: 1.2;
+  color: var(--text); margin-top: 14px; }
+.m11-detail-corps { font-size: 15px; font-weight: 500; line-height: 1.55; color: var(--text2); margin-top: 10px; }
+.m11-detail-ex { display: flex; align-items: center; gap: 12px; margin-top: 18px; min-height: 44px; padding: 8px; background: var(--raised2);
+  border-radius: 16px; color: var(--text); font-size: 14px; font-weight: 700; }
+.m11-detail-ex .ic { color: var(--text2); flex: none; }
+.m11-detail-ex span { flex: 1; }
+.m11-detail-ex .chevron { color: var(--text3); }
+.m11-detail-corps + .m11-photos, .m11-detail-ex + .m11-photos { margin-top: 18px; }
+.m11-detail-tete + .m11-folder-pill { margin-top: 16px; }
+
+/* ---------- Éditeur ---------- */
+.m11-editeur { display: block; margin-top: -3px; }
+.m11-etiquette { display: block; margin-bottom: 10px; font-size: 11px; font-weight: 700; line-height: 13px; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.m11-etiquette.gros { margin-top: 22px; }
+.m11-zone-texte { background: var(--raised); border-radius: 16px; padding: 6px 16px; }
+.m11-texte { display: block; width: 100%; min-height: 86px; max-height: 260px; resize: none; border: 0; outline: 0; background: transparent; padding: 8px 0 0;
+  color: var(--text); font: inherit; font-size: 16px; font-weight: 500; line-height: 1.45; caret-color: var(--accent); field-sizing: content; }
+.m11-texte::placeholder { color: var(--text3); }
+.m11-zone-texte small { display: block; text-align: right; padding: 2px 0 6px; font-size: 11px; font-weight: 500; color: var(--text3); }
+.m11-lignes { position: relative; margin-top: 14px; background: var(--raised); border-radius: 20px; overflow: hidden; }
+.m11-ligne { display: flex; align-items: center; gap: 14px; width: 100%; height: 54px; padding: 0 16px; border: 0; background: transparent; color: var(--text); text-align: left; cursor: pointer; }
+.m11-ligne > .ic { color: var(--text2); flex: none; }
+.m11-ligne-nom { flex: 0 1 auto; min-width: 0; max-width: calc((100% - 66px) / 2); font-size: 14.5px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Flexible(libellé) + Expanded(valeur) de l'original : la valeur prend la moitié de la place libre. */
+.m11-ligne-val { flex: 0 0 calc((100% - 66px) / 2); min-width: 0; margin-left: -2px; text-align: right; font-size: 13px; font-weight: 600; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.m11-ligne-val.att { color: var(--text3); }
+.m11-ligne > .m11-ligne-fin { color: var(--text3); margin-left: -8px; }
+.m11-ligne-x { display: grid; place-items: center; width: 44px; height: 44px; margin: 0 -14px 0 -8px; color: var(--text3); }
+.m11-ligne-sep { height: 1px; margin: 0 16px; background: var(--border); }
+.m11-date-cache { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.m11-medias { display: flex; flex-wrap: wrap; gap: 10px; }
+.m11-media-vignette { position: relative; width: 74px; height: 74px; }
+.m11-media-ouvrir { width: 74px; height: 74px; display: grid; place-items: center; overflow: hidden; padding: 0; border: 0; border-radius: 18px; background: var(--raised); color: var(--text2); }
+.m11-media-ouvrir img { width: 100%; height: 100%; object-fit: cover; }
+.m11-media-retirer { position: absolute; top: -18px; right: -18px; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%;
+  border: 0; background: radial-gradient(circle at center, var(--raised2) 0 12px, transparent 12.5px); color: var(--text); }
+.m11-joindre { width: 74px; height: 74px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 0;
+  border-radius: 18px; background: var(--raised); color: var(--text2); font-size: 10.5px; font-weight: 500; }
+.m11-joindre span { color: var(--text3); }
+.m11-enregistrer { display: block; width: 100%; height: 52px; margin-top: 28px; border: 0; border-radius: 100px; font-size: 15.5px; font-weight: 700; letter-spacing: .2px;
+  background: var(--muted-fill); color: var(--text3); }
+.m11-enregistrer.ok { background: var(--ember); color: var(--on-ember); }
+.m11-liste-choix { display: grid; gap: 2px; }
+.m11-liste-choix button { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 10px 16px;
+  border-radius: 16px; font-size: 14.5px; font-weight: 600; color: var(--text); text-align: left; border: 0; }
+.m11-liste-choix button.on { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent); }
+
+@media (max-width: 400px) {
+  .grille2 { grid-template-columns: 1fr; }
+}
+
+/* Feuille « Exercice lié » : champ de recherche puis liste qui défile (SearchField de GymMane). */
+.m11-exo-liste { margin-top: 12px; }
+.m11-exo-aucun { margin: 0; padding: 14px 16px; }
+
+/* Mise en page de l'écran : une colonne bornée à la largeur de l'écran, sans débordement à 320 px. */
+.ecran-borne { grid-template-columns: minmax(0, 1fr); }
+/* Lien « Tout voir » et liens de section : zone tactile de 44 px de haut (le lien visible reste plus petit). */
+.section-tete .voir { min-height: 44px; }
+/* Historique : quatre statistiques sur deux colonnes sous 360 px. */
+.hist-stat { min-width: 0; }
+.hist-stat strong { overflow-wrap: anywhere; }
+@media (max-width: 359px) { .hist-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Chronologie : chaque intervalle garde 44 px de large, le libellé personnalisé passe à la ligne. */
+.m08-onglets button { min-width: 44px; overflow-wrap: anywhere; }
+/* Cartes de l'écran bornées à la largeur disponible : un bouton ou une pastille n'élargit plus la carte. */
+.ecran-borne .carte { grid-template-columns: minmax(0, 1fr); }
+.ecran-borne .m08-hero-tete { flex-wrap: wrap; }
+/* Calendrier d'historique : marges réduites pour que 7 jours de 44 px tiennent dès 375 px. */
+.hist-mois { padding-inline: 12px; }
+@media (max-width: 359px) {
+  /* Sous 360 px, les 7 jours se partagent la largeur (zone réduite, seul cas hors 44 px). */
+  .hist-mois .cal-grille { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .hist-cal-jour { width: 100%; min-width: 0; }
+  .m08-onglets button { min-width: 0; padding: 0 2px; }
+}

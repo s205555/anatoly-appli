@@ -1,0 +1,121 @@
+/* Outils : grille des dix calculatrices et pages de calcul (tools_screen.dart, tool_detail_screen.dart, ui_kit.dart). */
+
+/* Grille : en-tête titre 22, sous-titre 12.5, 22 px avant la grille. */
+.outils-page .en-tete-titre .muted { font-size: 12.5px; font-weight: 500; }
+.outils-grille { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 8px; }
+.outil-carte { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 12px 14px 16px; aspect-ratio: 1.12; min-height: 0; text-align: left;
+  background: var(--raised); border: 0; border-radius: 20px; color: var(--text); transition: transform 180ms var(--ease-back), background-color 160ms; }
+.outil-carte:active { transform: scale(.96); transition-duration: 110ms; }
+.outil-carte:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.outil-art { flex: none; width: 64px; height: 54px; }
+.outil-nom { margin-top: auto; font-size: 14.5px; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Hauteur fixe de 31 px comme l'original : le titre reste à la même place qu'il y ait une ou deux lignes. */
+.outil-desc { margin-top: 2px; height: 31px; font-size: 11.5px; font-weight: 500; line-height: 1.3; color: var(--text2);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* Page de calcul : titre 21, 20 px avant la carte résultat, 18 px après, 10 px entre les blocs. */
+.outil-page { gap: 10px; }
+.outil-page .en-tete h1 { font-size: 21px; }
+/* Le bouton retour fait 44 px (zone tactile) contre 36 : 4 px de marge au lieu de 10 gardent la carte à 20 px du bas du bouton de l'original. */
+.outil-page > .bandeau { margin-top: 4px; margin-bottom: 8px; }
+/* Hauteur de ligne des textes Flutter (≈ 1,2) dans les cartes de calcul. */
+.outil-page .outil-carte-douce, .outil-page .outil-groupe, .outil-puces, .outil-feuille-cotes { line-height: 1.2; }
+
+/* Carte RÉSULTAT */
+.bandeau { display: grid; justify-items: center; gap: 8px; padding: 24px 22px; border-radius: 24px; background: var(--raised); text-align: center; }
+.bandeau-label { font-size: 10.5px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--text3); }
+.bandeau-valeur { font-size: 40px; font-weight: 800; line-height: 1.05; color: var(--text); }
+.bandeau-sous { font-size: 13px; font-weight: 500; line-height: 1.35; color: var(--text2); }
+
+/* Lignes à pas regroupées dans une carte, séparateur en retrait de 16 px (ToolGroup). */
+.outil-groupe { border-radius: 20px; background: var(--raised); overflow: hidden; }
+.outil-ligne { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; padding: 8px 16px; }
+.outil-ligne + .outil-ligne::before { content: ''; position: absolute; top: 0; left: 16px; right: 16px; height: 1px; background: var(--border); }
+.outil-ligne-nom { min-width: 0; font-size: 14.5px; font-weight: 500; color: var(--text); }
+
+/* StepperControl : boutons 30 px rayon 8, 14 px d'écart, valeur 16 gras. Zone tactile étendue à 44 px. */
+.outil-pas { display: flex; align-items: center; gap: 14px; flex: none; direction: ltr; }
+.outil-pas-btn { position: relative; width: 30px; height: 30px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 8px;
+  background: var(--raised2); color: var(--text); font-size: 18px; font-weight: 500; line-height: 1; }
+.outil-pas-btn::after { content: ''; position: absolute; inset: -7px; }
+.outil-pas-btn:active { transform: scale(.92); transition-duration: 90ms; }
+.outil-pas-val { position: relative; display: grid; place-items: center; min-height: 30px; padding: 0; border: 0; background: none; color: var(--text); font-size: 16px; font-weight: 700; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+button.outil-pas-val::after { content: ''; position: absolute; inset: -7px 0; }
+.outil-pas-btn:focus-visible, .outil-pas-val:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* SegToggle */
+.outil-seg { display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 3px; border-radius: 100px; background: var(--raised2); flex: none; }
+.outil-seg button { position: relative; padding: 7px 14px; border: 0; border-radius: 100px; background: transparent; color: var(--text2); font-size: 12px; font-weight: 600; white-space: nowrap;
+  transition: background-color 320ms var(--ease-out), color 320ms var(--ease-out); }
+.outil-seg button::after { content: ''; position: absolute; inset: -7px 0; }
+.outil-seg button.actif { background: var(--ember); color: var(--on-ember); }
+
+/* SoftCard */
+.outil-carte-douce { display: block; width: 100%; padding: 14px 16px; border: 0; border-radius: 22px; background: var(--raised); color: var(--text); text-align: left; }
+.outil-carte-titre { margin-bottom: 10px; font-size: 13px; font-weight: 600; color: var(--text2); }
+
+/* Puces de barre (_barWeightCard) */
+.outil-puces { display: flex; gap: 8px; }
+.outil-puces button { position: relative; flex: 1; min-width: 0; padding: 8px; border: 0; border-radius: 10px; background: var(--raised2); color: var(--text2);
+  font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.outil-puces.grandes button { padding: 10px; }
+.outil-puces button::after { content: ''; position: absolute; inset: -6px 0; }
+.outil-puces button.actif { background: var(--ember); color: var(--on-ember); }
+
+/* Carte « Par côté » */
+.outil-cote { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.outil-cote strong { font-size: 14px; font-weight: 600; color: var(--text); }
+.outil-cote span { font-size: 13px; font-weight: 500; color: var(--text2); }
+.outil-cote-vide { font-size: 13px; font-weight: 500; color: var(--text2); }
+.outil-possible { font-size: 12px; font-weight: 500; color: var(--brass); }
+
+/* Carte « 75 % de votre max » */
+.outil-pct { display: flex; align-items: center; gap: 12px; }
+.outil-pct-col { display: grid; gap: 3px; flex: 1; min-width: 0; }
+.outil-pct-nom { font-size: 13px; font-weight: 500; color: var(--text2); }
+.outil-pct-disques { font-size: 11.5px; font-weight: 500; color: var(--text3); }
+.outil-pct-val { font-size: 17px; font-weight: 800; color: var(--text); white-space: nowrap; }
+button.outil-pct:active { transform: scale(.98); transition-duration: 90ms; }
+
+/* Calories : pilules d'activité et trois cartes de macros */
+.outil-pilules { display: flex; flex-wrap: wrap; gap: 6px; }
+.outil-pilules button { position: relative; padding: 7px 12px; border: 0; border-radius: 100px; background: var(--raised2); color: var(--text2); font-size: 12px; font-weight: 600; }
+.outil-pilules button::after { content: ''; position: absolute; inset: -7px -3px; }
+.outil-pilules button.actif { background: var(--ember); color: var(--on-ember); }
+.outil-pilules button:active { transform: scale(.94); }
+.outil-macros { display: flex; gap: 10px; }
+.outil-macro { flex: 1; min-width: 0; padding: 12px; display: grid; justify-items: center; gap: 4px; text-align: center; }
+.outil-macro span { font-size: 10px; font-weight: 600; color: var(--text2); }
+.outil-macro strong { font-size: 16px; font-weight: 700; }
+
+/* Échauffement */
+.outil-echauf { padding: 8px 16px; }
+.outil-echauf-ligne { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; }
+.outil-echauf-ligne + .outil-echauf-ligne { border-top: 1px solid var(--border); }
+.outil-echauf-ligne span { font-size: 13px; font-weight: 500; color: var(--text2); }
+.outil-echauf-ligne strong { font-size: 15px; font-weight: 700; }
+
+/* Titres de section et notes */
+.outil-section { padding: 6px 4px 0; font-size: 10.5px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.outil-note { padding: 4px 4px 0; font-size: 12px; font-weight: 500; line-height: 1.5; color: var(--text2); white-space: pre-line; }
+
+/* Feuille des disques ouverte depuis le 1RM */
+.outil-feuille-charge { text-align: center; font-size: 30px; font-weight: 700; color: var(--ember); margin-top: -10px; }
+.outil-feuille-titre { margin: 4px 0 -6px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: var(--text3); }
+.outil-feuille-cotes .outil-cote:last-child { margin-bottom: 0; }
+
+/* Saisie d'une valeur (askNumber) */
+.outil-voile { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,.38); animation: voile 200ms ease-out both; }
+.outil-dialogue { width: min(340px, 100%); display: grid; gap: 16px; padding: 24px 22px 14px; border-radius: 28px; background: var(--raised); box-shadow: 0 18px 40px rgba(0,0,0,.4); }
+.outil-dialogue h2 { font-size: 19px; font-weight: 800; }
+.outil-dialogue-champ { width: 100%; padding: 18px 16px; border: 0; border-radius: 18px; background: var(--raised2); color: var(--text); font-size: 34px; font-weight: 800; line-height: 1.1; text-align: center; }
+.outil-dialogue-champ:focus { outline: 2px solid var(--accent); outline-offset: 0; }
+.outil-dialogue-actions { display: flex; justify-content: flex-end; gap: 4px; }
+.outil-dialogue-actions button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 100px; background: transparent; font-size: 15px; font-weight: 700; }
+.outil-dialogue-actions .secondaire { color: var(--text2); font-weight: 600; }
+.outil-dialogue-actions .principal { color: var(--accent); }
+
+@media (max-width: 360px) {
+  .bandeau-valeur { font-size: 34px; }
+  .outil-pas { gap: 8px; }
+}

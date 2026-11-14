@@ -1,0 +1,165 @@
+/* Reprise 1:1 de GymMane (lot v6 L07) : feuille « Nouvel exercice », fiche exercice (archives, média, colonnes, programme, objectif, courbe). 1 px Flutter = 1 px CSS. */
+
+/* ---------- Feuille « Nouvel exercice » (exercises_screen.dart, showCreateExerciseSheet) ---------- */
+.form-ex { display: block; padding-top: 6px; }
+.form-ex-nom .form-input { min-height: 48px; padding: 0 14px; border-radius: 14px; font-size: 16px; font-weight: 500; }
+.form-ex-nom.secousse0 { animation: ex-secousse0 380ms var(--ease-out); }
+.form-ex-nom.secousse1 { animation: ex-secousse1 380ms var(--ease-out); }
+@keyframes ex-secousse0 { 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+@keyframes ex-secousse1 { 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { .form-ex-nom.secousse0, .form-ex-nom.secousse1 { animation: none; } }
+.form-ex-erreur { display: flex; align-items: center; gap: 6px; margin: 8px 0 0 4px; font-size: 12.5px; font-weight: 600; color: var(--danger); }
+.ex-label { display: block; margin: 22px 0 10px; font-size: 10.5px; font-weight: 700; line-height: 1.15; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+
+.ex-modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ex-mode { min-height: 88px; padding: 14px 12px 12px; border-radius: 18px; background: var(--raised2); color: var(--text); display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 10px; text-align: left; transition: transform 260ms var(--ease-back), background-color 220ms var(--ease-out); }
+.ex-mode:active { transform: scale(.96); transition-duration: 90ms; }
+.ex-mode .ic { color: var(--text2); flex: none; }
+.ex-mode span { font-size: 12.5px; font-weight: 700; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.ex-mode[aria-checked="true"] { background: var(--text); color: var(--bg); }
+.ex-mode[aria-checked="true"] .ic { color: var(--bg); }
+
+/* Pastilles (Pill) : hauteur visible de GymMane, zone tactile portée à 44 px par ::before. */
+.ex-pilules { display: flex; flex-wrap: wrap; gap: 8px; }
+.ex-pilule { position: relative; flex: none; padding: 8px 14px; border-radius: 100px; background: var(--raised2); color: var(--text2); font-size: 13px; font-weight: 600; line-height: 1.15; transition: transform 260ms var(--ease-back), background-color 150ms; }
+.ex-pilule::before { content: ''; position: absolute; inset: -7px 0; }
+.ex-pilule:active { transform: scale(.94); transition-duration: 90ms; }
+.ex-pilule[aria-pressed="true"] { background: var(--ember); color: var(--on-ember); }
+.ex-pilule.grande { padding: 9px 16px; font-size: 13.5px; }
+.ex-pilule.petite { padding: 7px 14px; font-size: 12.5px; }
+.ex-pilule.petite::before { inset: -8px 0; }
+.ex-pilule.plus { padding: 8px 12px; background: transparent; color: var(--accent); }
+.form-ex-avance .ex-pilule.petite { font-size: 12px; }
+.ex-sous { margin-top: 10px; padding: 10px; border-radius: 18px; background: var(--raised2); display: flex; flex-wrap: wrap; gap: 8px; }
+.ex-sous .ex-pilule { background: var(--raised); }
+.ex-sous .ex-pilule[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+
+.form-ex .ligne-avance { width: 100%; margin-top: 22px; }
+.form-ex-avance .ex-label { margin: 18px 0 8px; }
+.form-ex-avance .form-input { min-height: 48px; padding: 14px; border-radius: 14px; font-size: 16px; font-weight: 500; line-height: 1.45; }
+.form-ex-avance textarea.form-input { resize: vertical; }
+.form-ex-ok { width: 100%; margin-top: 20px; }
+
+/* ---------- Fiche exercice (exercise_detail_screen.dart) ---------- */
+.fiche-ex .exo-media { position: relative; margin-bottom: 20px; }
+.art-media { width: 100%; height: 100%; object-fit: cover; display: block; }
+.exo-media .art-media { object-fit: contain; }
+.exo-media-actions { position: absolute; right: 10px; bottom: 10px; display: flex; gap: 8px; }
+.exo-media-btn { position: relative; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--bg) 82%, transparent); border: 1px solid var(--border); color: var(--text); }
+.exo-media-btn::after { content: ''; position: absolute; inset: -4px; }
+
+.exo-bandeau { display: flex; align-items: center; gap: 12px; padding: 12px 8px 12px 16px; margin-bottom: 16px; border-radius: 16px; background: var(--accent-soft); }
+.exo-bandeau > .ic { color: var(--accent); flex: none; }
+.exo-bandeau p { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; line-height: 1.35; }
+.exo-bandeau button { flex: none; min-height: 44px; padding: 0 10px; color: var(--accent); font-size: 13px; font-weight: 700; }
+
+/* Colonnes PRINCIPAL / SECONDAIRE ✎ / MATÉRIEL : largeur du contenu, au plus un tiers (Flexible de GymMane). */
+.exo-meta.exo-meta-l07 { display: flex; align-items: flex-start; gap: 20px; margin: 18px 0; }
+.exo-meta-l07 > * { flex: 0 1 auto; min-width: 0; max-width: calc((100% - 40px) / 3); }
+.exo-meta-l07 .kicker { margin-bottom: 5px; }
+.exo-meta-btn { position: relative; display: block; padding: 0; text-align: left; color: var(--text); background: none; border: 0; font: inherit; }
+.exo-meta-btn::after { content: ''; position: absolute; inset: -8px -6px; }
+.exo-meta-btn .kicker { display: flex; align-items: center; gap: 4px; }
+.exo-meta-btn .kicker .ic { color: var(--text3); flex: none; }
+
+.exo-ligne { width: 100%; display: flex; align-items: center; padding: 13px 16px; margin-bottom: 20px; border-radius: 20px; background: var(--raised); color: var(--text); text-align: left; transition: transform 260ms var(--ease-back); }
+.exo-ligne:active { transform: scale(.98); transition-duration: 90ms; }
+.exo-ligne > .ic:first-child { width: 22px; margin-right: 14px; color: var(--text2); flex: none; }
+.exo-ligne > .ic.on:first-child { color: var(--text); }
+.exo-ligne > span { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.exo-ligne strong { font-size: 14.5px; font-weight: 500; line-height: 1.15; }
+.exo-ligne small { font-size: 11.5px; font-weight: 500; color: var(--text2); line-height: 1.15; }
+.exo-ligne > .ic:last-child { color: var(--text3); flex: none; }
+
+.fiche-ex .record-carte, .fiche-ex > .vide-carte { margin-bottom: 20px; }
+
+/* Courbe de la carte record (TrendChart + ChartScale) */
+.courbe-record { display: flex; gap: 10px; height: 84px; margin-top: 4px; }
+.courbe-record svg { flex: 1; min-width: 0; width: 100%; height: 84px; display: block; overflow: visible; }
+.courbe-grille { stroke: var(--border); stroke-opacity: .5; stroke-width: 1; stroke-dasharray: 3 4; }
+.courbe-trait { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.courbe-halo { fill: var(--accent); fill-opacity: .22; }
+.courbe-point { fill: var(--raised); stroke: var(--accent); stroke-width: 2.5; }
+.courbe-echelle { position: relative; flex: none; padding-left: 1px; font-size: 10px; font-weight: 600; line-height: 1; color: var(--text3); white-space: nowrap; }
+.courbe-echelle i { visibility: hidden; font-style: normal; }
+.courbe-echelle span { position: absolute; right: 0; transform: translateY(-50%); }
+
+/* Objectif (_goalCard) */
+.objectif-vide { width: 100%; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 14px 16px; margin-bottom: 20px; border: 1px solid var(--border); border-radius: 16px; background: none; color: var(--text); text-align: left; }
+.objectif-vide > .ic:first-child { color: var(--text2); flex: none; }
+.objectif-vide span { flex: 1; font-size: 13.5px; font-weight: 600; }
+.objectif-vide > .ic:last-child { color: var(--text3); flex: none; }
+.objectif-carte { width: 100%; display: grid; padding: 18px; margin-bottom: 20px; border-radius: 20px; background: var(--raised); border: 1px solid transparent; color: var(--text); text-align: left; }
+.objectif-carte.fait { border-color: var(--ember); }
+.objectif-tete { display: flex; align-items: flex-end; gap: 10px; }
+.objectif-tete > span { flex: 1; min-width: 0; display: grid; gap: 8px; }
+.objectif-tete .kicker { font-size: 10.5px; letter-spacing: 1.4px; }
+.objectif-tete b { font-size: 26px; font-weight: 800; line-height: 1; }
+.objectif-tete small { font-size: 12.5px; font-weight: 600; color: var(--text2); }
+.objectif-carte.fait .objectif-tete small { color: var(--ember); }
+.objectif-barre { display: block; height: 6px; margin-top: 14px; border-radius: 3px; background: var(--raised2); overflow: hidden; }
+.objectif-barre i { display: block; height: 100%; background: var(--accent); }
+.objectif-carte.fait .objectif-barre i { background: var(--ember); }
+.objectif-quand { margin-top: 10px; font-size: 11.5px; font-weight: 500; color: var(--text3); }
+.objectif-quand.retard { color: var(--ember); }
+.objectif-reglages { position: relative; }
+.objectif-reglages .option { justify-content: space-between; }
+.pas-a-pas { display: flex !important; flex: none !important; align-items: center; gap: 10px; }
+.pas-a-pas b { min-width: 64px; text-align: center; font-size: 14px; font-weight: 700; }
+.pas-a-pas .objectif-valeur { min-width: 64px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--text); text-align: center; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; font-variant-numeric: tabular-nums; }
+.objectif-echeance { padding: 0 8px 0 0; gap: 0; }
+.objectif-date { flex: 1; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 8px 10px 16px; color: var(--text); text-align: left; }
+.objectif-date strong { font-size: 14.5px; font-weight: 600; }
+.objectif-date b { font-size: 14px; font-weight: 700; }
+.objectif-date b.vide { color: var(--text3); }
+.objectif-sans { width: 44px; height: 44px; display: grid; place-items: center; color: var(--text3); flex: none; }
+.objectif-input { position: absolute; right: 16px; bottom: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* Prochaine fois (_nextCard) : ligne avec la valeur à droite. */
+.prochaine-carte.prochaine-l07 { display: flex; align-items: center; gap: 12px; padding: 14px 16px; margin-bottom: 20px; border-radius: 16px; background: var(--raised); box-shadow: inset 0 0 0 1px var(--border); }
+.prochaine-l07.monte { box-shadow: inset 0 0 0 1px var(--ember); }
+.prochaine-l07 > .ic { color: var(--text2); flex: none; }
+.prochaine-l07.monte > .ic { color: var(--ember); }
+.prochaine-l07 > span { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.prochaine-l07 .prochaine-titre, .prochaine-l07.monte .prochaine-titre { font-size: 10.5px; font-weight: 700; line-height: 1.15; letter-spacing: 1.4px; text-transform: uppercase; color: var(--text3); }
+.prochaine-l07 > strong { flex: none; max-width: 55%; font-size: 20px; font-weight: 800; line-height: 1.15; text-align: right; overflow-wrap: anywhere; }
+.prochaine-l07.monte > strong { color: var(--ember); }
+
+/* La fiche enchaîne ses blocs avec les marges de GymMane (pas l'écart de grille de .ecran). */
+.ecran.fiche-ex { gap: 0; }
+.fiche-ex .exo-meta-l07 { margin: 18px 0; }
+.fiche-ex > .section { margin-top: 0; }
+.fiche-ex > .ligne-note + .section { margin-top: 24px; }
+
+/* Réglages de cet exercice (exercise_detail_screen.dart : _section 18 px, _group rayon 20, lignes 16 × 12, séparateur décalé de 16). */
+.exr-titre { font-size: 18px; font-weight: 700; color: var(--text); margin: 28px 0 12px; }
+.exr-groupe { border-radius: 20px; background: var(--raised); overflow: hidden; }
+.exr-ligne { width: 100%; min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text); text-align: left; position: relative; }
+.exr-ligne + .exr-ligne::before { content: ''; position: absolute; top: 0; left: 16px; right: 0; height: 1px; background: var(--border); opacity: .55; }
+.exr-ligne > .ic:first-child { width: 22px; margin-right: 2px; color: var(--text2); flex: none; }
+.exr-ligne > .ic.on:first-child { color: var(--text); }
+.exr-texte { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.exr-texte strong { font-size: 14.5px; font-weight: 500; }
+.exr-texte small, .exr-aide { font-size: 11.5px; font-weight: 500; color: var(--text2); line-height: 1.3; text-align: left; }
+.exr-texte small.on, .exr-aide.on { color: var(--accent); }
+.exr-aide { padding: 0; min-height: 0; justify-self: start; }
+.exr-aide.on { min-height: 24px; }
+.exr-valeur { font-size: 13px; font-weight: 600; color: var(--text2); flex: none; }
+.exr-valeur.on { color: var(--accent); }
+.exr-fleche { color: var(--text3); flex: none; }
+.exr-pas { display: flex; align-items: center; gap: 3px; flex: none; }
+.exr-pas button { width: 44px; height: 44px; border-radius: 10px; background: var(--raised2); font-size: 17px; font-weight: 700; display: grid; place-items: center; color: var(--text); }
+.exr-pas output { min-width: 44px; text-align: center; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.exr-note { font-size: 12.5px; color: var(--text2); line-height: 1.45; text-align: center; margin-top: 12px; }
+.exr-champs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.exr-champs label { display: grid; gap: 6px; min-width: 0; }
+.exr-champs .cellule { width: 100%; min-height: 44px; font-size: 16px; }
+.exr-remplir { margin-top: 10px; gap: 8px; }
+.exr-poids { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.exr-danger { color: var(--danger); }
+.exr-pas button.exr-pas-valeur { width: auto; min-width: 44px; padding: 0 4px; background: transparent; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.exr-poids .exr-ajout { display: inline-flex; align-items: center; gap: 4px; background: var(--accent-soft); color: var(--accent); }
+
+/* L24 : pastilles de la pile de poids, zone tactile 44 px (la pastille garde sa taille). */
+.exr-poids .puce { position: relative; }
+.exr-poids .puce::after { content: ''; position: absolute; inset: -4px; }
